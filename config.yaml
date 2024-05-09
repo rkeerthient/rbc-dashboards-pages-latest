@@ -1,0 +1,26 @@
+buildConfiguration:
+  buildCommand: npm run build
+  installDependenciesStep:
+    command: npm install
+    requiredFiles:
+      - package.json
+      - package-lock.json
+      - .npmrc
+livePreviewConfiguration:
+  setupCommand: ":"
+siteStream:
+  id: site-entity
+  entityId: "265892098069567106"
+  localization:
+    locales:
+      - en
+    primary: false
+  fields:
+    - name
+    - c_taskGroups
+    - c_dashboardPagesURLText
+    - c_dashboardCompletionLabel
+    - c_dashboardCompletionDescription
+    - c_dashboardHeroDescription
+authorization:
+  policyName: pages-auth-policy
