@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as React from "react";
-import LexicalMarkdownEditor from "../LexicalRichText/LexicalMarkdownEditor";
-import { useMyContext } from "../../Context/MyContext";
+ import { useMyContext } from "../../Context/MyContext";
 
 interface Option {
   displayName: string;
@@ -551,18 +550,7 @@ const TextBoxContainer = ({
                     </div>
                   )}
 
-                  {property.typeId === "richText" && (
-                    <LexicalMarkdownEditor
-                      editable={true}
-                      serializedAST={block.richTextValues}
-                      isContentEdited={(value: boolean) => {
-                        setIsContentEdited(value);
-                      }}
-                      setChangedData={(richText: string) =>
-                        handleRichtextChange(index, richText)
-                      }
-                    />
-                  )}
+                   
                 </div>
               ))}
             </div>

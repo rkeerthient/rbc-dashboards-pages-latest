@@ -1,10 +1,9 @@
 import * as React from "react";
 import { useState } from "react";
 import TextBoxContainer from "./DashboardComps/FieldComponents.tsx/TextBoxContainer";
-import LexicalMarkdownEditor from "./DashboardComps/LexicalRichText/LexicalMarkdownEditor";
 
 interface StructTypeFieldProps {
-  initialValue?: Root[] | undefined;
+  initialValue?: Root | undefined;
   structType: string[] | string;
   fieldId: string;
 }
@@ -40,6 +39,7 @@ const StructTypeField = ({
 }: StructTypeFieldProps) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [initValues, setInitValues] = useState(initialValue);
+  console.log(structType);
 
   const booleanData = [
     {
@@ -83,37 +83,27 @@ const StructTypeField = ({
           onClick={handleClick}
         >
           {initValues ? (
-            initValues.map((subItem: any, subIndex: any) => (
-              <div
-                key={subIndex}
-                className="flex flex-col text-[#374151] border-l pl-4"
-              >
-                {structType.property.map((item: any, index: any) => {
-                  return (
-                    <div key={index}>
-                      <div className="font-bold">{item.displayName}</div>
-                      <div>
-                        {item.typeId === "richText" ? (
-                          <LexicalMarkdownEditor
-                            serializedAST={subItem[item.name]}
-                          />
-                        ) : item.typeId === "boolean" ? (
-                          booleanData.find(
-                            (option) => option.textValue === subItem[item.name]
+            <div className="flex flex-col text-[#374151] border-l pl-4">
+              {structType.property.map((item: any, index: any) => {
+                return (
+                  <div key={index}>
+                    <div className="font-bold">{item.displayName}</div>
+                    <div>
+                      {item.typeId === "boolean"
+                        ? booleanData.find(
+                            (option) =>
+                              option.textValue === initValues[item.name]
                           )?.displayName
-                        ) : item.typeId === "list" ? (
-                          subItem[item.name].map((item: string) => (
-                            <div>{item}</div>
-                          ))
-                        ) : (
-                          subItem[item.name]
-                        )}
-                      </div>
+                        : item.typeId === "list"
+                          ? initValues[item.name].map((item: string) => (
+                              <div>{item}</div>
+                            ))
+                          : initValues[item.name]}
                     </div>
-                  );
-                })}
-              </div>
-            ))
+                  </div>
+                );
+              })}
+            </div>
           ) : (
             <div>Click to add</div>
           )}

@@ -18,13 +18,8 @@ const links: Link[] = [
 ];
 
 const Header = ({ _site }: any) => {
-  const linkDoms = links.map((link) => (
-    <div key={link.label}>
-      <a href={link.url} target="_blank" rel="noreferrer">
-        {link.label}
-      </a>
-    </div>
-  ));
+ 
+ 
 
   return (
     <>
@@ -32,7 +27,7 @@ const Header = ({ _site }: any) => {
         <nav className=" flex items-center justify-between">
           {_site.c_deskHeader && (
             <Image image={_site.c_deskHeader} className="w-full"></Image>
-          )}{" "}
+          )} 
         </nav>
       </div>
     </>

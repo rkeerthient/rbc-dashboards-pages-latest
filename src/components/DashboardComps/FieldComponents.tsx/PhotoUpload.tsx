@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { useDropzone } from "react-dropzone-esm";
 type PhotoUploadProps = {
   value: (newUrls: string | string[]) => void;
   isOpen: (value: boolean) => void;

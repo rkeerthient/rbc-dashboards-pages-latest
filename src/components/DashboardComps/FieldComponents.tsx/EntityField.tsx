@@ -1,8 +1,7 @@
 import { Transition, Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
-import LexicalMarkdownEditor from "../LexicalRichText/LexicalMarkdownEditor";
-import Ce_blog from "../../../types/blog";
+ import Ce_blog from "../../../types/blog";
 import PhotoGalleryField from "./PhotoGalleryField";
 import { useMyContext } from "../../Context/MyContext";
 import * as React from "react";
@@ -290,16 +289,7 @@ const EntityField = ({ initialValue }: EntityFieldProps) => {
                           </div>
                         </div>
                         <div className="w-4/5 flex justify-between">
-                          <LexicalMarkdownEditor
-                            serializedAST={""}
-                            editable={true}
-                            setChangedData={(richText: string) => {
-                              setNewBlog({
-                                ...newBlog,
-                                c_body: richText,
-                              });
-                            }}
-                          ></LexicalMarkdownEditor>
+                          
                         </div>
                       </div>
                     </div>

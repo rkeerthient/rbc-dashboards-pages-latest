@@ -36,12 +36,35 @@ import * as React from "react";
 export const config: TemplateConfig = {
   stream: {
     $id: "my-stream-prof-dashboard",
-    // Specifies the exact data that each generated document will contain. This data is passed in
-    // directly as props to the default exported function.
-    fields: ["slug", "id", "name", "uid", "meta"],
+    fields: [
+      "slug",
+      "id",
+      "name",
+      "uid",
+      "meta",
+      "address",
+      "mainPhone",
+      "c_role",
+      "hours",
+      "c_contentCarousel.services.id",
+      "c_contentCarousel.services.name",
+      "c_contentCarousel.events.id",
+      "c_contentCarousel.events.name",
+      "c_contentGrid.financialProfessionals.id",
+      "c_contentGrid.financialProfessionals.name",
+      "c_insights.blogs.id",
+      "c_insights.blogs.name",
+      "c_hero.image",
+      "c_hero.email",
+      "c_advisorBio.headshot",
+      "c_advisorBio.bio",
+      "c_advisorBio.email",
+      "c_locator.description",
+      "c_locator.email",
+    ],
     filter: {
       entityTypes: ["financialProfessional"],
-      entityIds: ["32311549"],
+      entityIds: ["32311549-test"],
     },
     localization: {
       locales: ["en"],
@@ -52,12 +75,7 @@ export const config: TemplateConfig = {
 export const getPath: GetPath<TemplateProps> = ({ document }) => {
   return document.slug;
 };
-/**
- * This allows the user to define a function which will take in their template
- * data and procude a HeadConfig object. When the site is generated, the HeadConfig
- * will be used to generate the inner contents of the HTML document's <head> tag.
- * This can include the title, meta tags, script tags, etc.
- */
+
 export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
   document,
 }): HeadConfig => {
@@ -81,15 +99,7 @@ declare global {
     YEXT_AUTH: { visitor: { externalId: string } };
   }
 }
-/**
- * This is the main template. It can have any name as long as it's the default export.
- * The props passed in here are the direct stream document defined by `config`.
- *
- * There are a bunch of custom components being used from the src/components folder. These are
- * an example of how you could create your own. You can set up your folder structure for custom
- * components any way you'd like as long as it lives in the src folder (though you should not put
- * them in the src/templates folder as this is specific for true template files).
- */
+
 const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   const analyticsData = [
     {
@@ -172,6 +182,9 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   ];
   const [styleSheetRef, setStyleSheetRef] = useState<string>("");
   const [currentTab, setCurrentTab] = useState<string>(tabs[0]);
+
+  console.log(JSON.stringify(document.c_hero));
+
   function classNames(...classes: any) {
     return classes.filter(Boolean).join(" ");
   }
@@ -184,15 +197,14 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
 
   return (
     <Main>
-      <div>{document.name}</div>
-      {/* <PageLayout _site={document._site} document={document}>
+      <PageLayout _site={document._site} document={document}>
         <div className="space-y-4 bg-slate-200 ">
           <DBBanner
             styleSheetRef={styleSheetRef}
             name={document.name}
             _site={document._site}
-            headshot={document.headshot}
-            color={document.c_color}
+            headshot={document.c_advisorBio.headshot}
+            color={document.c_advisorBio.c_color}
           ></DBBanner>
           <div className="px-6">
             <div className="sm:hidden">
@@ -427,7 +439,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
             </div>
           )}
         </div>
-      </PageLayout> */}
+      </PageLayout>
     </Main>
   );
 };

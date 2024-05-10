@@ -1,12 +1,18 @@
 import { useState, ChangeEvent } from "react";
 import * as React from "react";
 import Actions from "../common/Actions";
+import { createNestedObject } from "../util/nestedObjectUtils";
 interface TextFieldProps {
   initialValue?: string;
   fieldId: string;
+  isComplex?: boolean;
 }
 
-const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
+const TextField = ({
+  initialValue,
+  fieldId,
+  isComplex = false,
+}: TextFieldProps) => {
   const [value, setValue] = useState<any>(initialValue);
   const [isEditable, setIsEditable] = useState(false);
   const isContentEdited = value !== initialValue;
@@ -46,7 +52,11 @@ const TextField = ({ initialValue, fieldId }: TextFieldProps) => {
           isContentEdited={isContentEdited}
           setIsEditable={(e) => setIsEditable(e)}
           setValue={(e) => setValue(e)}
-          saveBody={{ [fieldId as string]: value }}
+          saveBody={
+            isComplex
+              ? createNestedObject(fieldId, value, isComplex)
+              : { [fieldId as string]: value }
+          }
         />
       )}
     </div>

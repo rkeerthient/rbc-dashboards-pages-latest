@@ -34,134 +34,134 @@ const PageLayout = ({ _site, children, document }: Props) => {
     ? window.YEXT_AUTH.visitor.externalId
     : "";
 
-  useEffect(() => {
-    setIsLoading(true);
-    if (document) {
-      const {
-        name,
-        mainPhone,
-        emails,
-        c_template,
-        c_color,
-        c_fonts,
-        c_preferredFirstName,
-        c_jobTitle,
-        c_clientFocuses,
-        c_aboutAdvisorShortDescription,
-        c_expertiseCommentsRTv2,
-        c_hobbiesAndInterests,
-        c_teamDescriptionRTv2,
-        c_languagesV2,
-        c_educationDisplay,
-        c_heroBanner,
-        c_associatedBlogs,
-        c_associatedClientStories,
-        c_associatedFAQs,
-        c_associatedInsights,
-        c_associatedSolutions,
-        photoGallery,
-        hours,
-        address,
-        geocodedCoordinate,
-        c_designations,
-        _site,
-        c_organizationsDisplay,
-        c_awardsDashboard,
-        c_teamName,
-        c_teamMembers,
-        c_serviceAreas,
-        c_fAQs,
-        yearsOfExperience,
-        c_UpcomingEvents,
-      } = document;
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   if (document) {
+  //     const {
+  //       name,
+  //       mainPhone,
+  //       emails,
+  //       c_template,
+  //       c_color,
+  //       c_fonts,
+  //       c_preferredFirstName,
+  //       c_jobTitle,
+  //       c_clientFocuses,
+  //       c_aboutAdvisorShortDescription,
+  //       c_expertiseCommentsRTv2,
+  //       c_hobbiesAndInterests,
+  //       c_teamDescriptionRTv2,
+  //       c_languagesV2,
+  //       c_educationDisplay,
+  //       c_heroBanner,
+  //       c_associatedBlogs,
+  //       c_associatedClientStories,
+  //       c_associatedFAQs,
+  //       c_associatedInsights,
+  //       c_associatedSolutions,
+  //       photoGallery,
+  //       hours,
+  //       address,
+  //       geocodedCoordinate,
+  //       c_designations,
+  //       _site,
+  //       c_organizationsDisplay,
+  //       c_awardsDashboard,
+  //       c_teamName,
+  //       c_teamMembers,
+  //       c_serviceAreas,
+  //       c_fAQs,
+  //       yearsOfExperience,
+  //       c_UpcomingEvents,
+  //     } = document;
 
-      setData((prevData) => ({
-        ...prevData,
-        ...(c_UpcomingEvents && { c_UpcomingEvents }),
-        ...(name && { name }),
-        ...(mainPhone && { mainPhone }),
-        ...(emails && { emails }),
-        ...(c_template && { c_template }),
-        ...(c_color && { c_color }),
-        ...(c_fonts && { c_fonts }),
-        ...(c_preferredFirstName && { c_preferredFirstName }),
-        ...(c_jobTitle && { c_jobTitle }),
-        ...(c_clientFocuses && { c_clientFocuses }),
-        ...(c_aboutAdvisorShortDescription && {
-          c_aboutAdvisorShortDescription,
-        }),
-        ...(photoGallery && { photoGallery }),
-        ...(c_expertiseCommentsRTv2 && { c_expertiseCommentsRTv2 }),
-        ...(c_hobbiesAndInterests && { c_hobbiesAndInterests }),
-        ...(c_teamDescriptionRTv2 && { c_teamDescriptionRTv2 }),
-        ...(c_teamName && { c_teamName }),
-        ...(c_fAQs && { c_fAQs }),
-        ...(c_languagesV2 && { c_languagesV2 }),
-        ...(c_educationDisplay && { c_educationDisplay }),
-        ...(c_heroBanner && { c_heroBanner }),
-        ...(c_associatedBlogs && { c_associatedBlogs }),
-        ...(c_associatedClientStories && { c_associatedClientStories }),
-        ...(c_associatedFAQs && { c_associatedFAQs }),
-        ...(c_associatedInsights && { c_associatedInsights }),
-        ...(c_associatedSolutions && { c_associatedSolutions }),
-        ...(hours && { hours }),
-        ...(address && { address }),
-        ...(geocodedCoordinate && { geocodedCoordinate }),
-        ...(c_designations && { c_designations }),
-        ...(c_organizationsDisplay && { c_organizationsDisplay }),
-        ...(_site && { _site }),
-        ...(c_awardsDashboard && { c_awardsDashboard }),
-        ...(c_teamMembers && { c_teamMembers }),
-        ...(c_serviceAreas && { c_serviceAreas }),
-        ...(yearsOfExperience && { yearsOfExperience }),
-      }));
-    }
-    setIsLoading(false);
-  }, [document]);
+  //     setData((prevData) => ({
+  //       ...prevData,
+  //       ...(c_UpcomingEvents && { c_UpcomingEvents }),
+  //       ...(name && { name }),
+  //       ...(mainPhone && { mainPhone }),
+  //       ...(emails && { emails }),
+  //       ...(c_template && { c_template }),
+  //       ...(c_color && { c_color }),
+  //       ...(c_fonts && { c_fonts }),
+  //       ...(c_preferredFirstName && { c_preferredFirstName }),
+  //       ...(c_jobTitle && { c_jobTitle }),
+  //       ...(c_clientFocuses && { c_clientFocuses }),
+  //       ...(c_aboutAdvisorShortDescription && {
+  //         c_aboutAdvisorShortDescription,
+  //       }),
+  //       ...(photoGallery && { photoGallery }),
+  //       ...(c_expertiseCommentsRTv2 && { c_expertiseCommentsRTv2 }),
+  //       ...(c_hobbiesAndInterests && { c_hobbiesAndInterests }),
+  //       ...(c_teamDescriptionRTv2 && { c_teamDescriptionRTv2 }),
+  //       ...(c_teamName && { c_teamName }),
+  //       ...(c_fAQs && { c_fAQs }),
+  //       ...(c_languagesV2 && { c_languagesV2 }),
+  //       ...(c_educationDisplay && { c_educationDisplay }),
+  //       ...(c_heroBanner && { c_heroBanner }),
+  //       ...(c_associatedBlogs && { c_associatedBlogs }),
+  //       ...(c_associatedClientStories && { c_associatedClientStories }),
+  //       ...(c_associatedFAQs && { c_associatedFAQs }),
+  //       ...(c_associatedInsights && { c_associatedInsights }),
+  //       ...(c_associatedSolutions && { c_associatedSolutions }),
+  //       ...(hours && { hours }),
+  //       ...(address && { address }),
+  //       ...(geocodedCoordinate && { geocodedCoordinate }),
+  //       ...(c_designations && { c_designations }),
+  //       ...(c_organizationsDisplay && { c_organizationsDisplay }),
+  //       ...(_site && { _site }),
+  //       ...(c_awardsDashboard && { c_awardsDashboard }),
+  //       ...(c_teamMembers && { c_teamMembers }),
+  //       ...(c_serviceAreas && { c_serviceAreas }),
+  //       ...(yearsOfExperience && { yearsOfExperience }),
+  //     }));
+  //   }
+  //   setIsLoading(false);
+  // }, [document]);
 
-  useEffect(() => {
-    setIsLoading(true);
+  // useEffect(() => {
+  //   setIsLoading(true);
 
-    const getUserRole = async () => {
-      try {
-        if (userId) {
-          const response = await fetch(`/api/users/${userId}`);
-          const userResp = await response.json();
-          const userString: UserProfile = await userResp.response;
-          setUserRole(userString);
-        }
-      } catch (error: any) {
-        console.error(`Error fetching user data: ${JSON.stringify(error)}`);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  //   const getUserRole = async () => {
+  //     try {
+  //       if (userId) {
+  //         const response = await fetch(`/api/users/${userId}`);
+  //         const userResp = await response.json();
+  //         const userString: UserProfile = await userResp.response;
+  //         setUserRole(userString);
+  //       }
+  //     } catch (error: any) {
+  //       console.error(`Error fetching user data: ${JSON.stringify(error)}`);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-    getUserRole();
-  }, [userId]);
-  useEffect(() => {
-    const resultObject = _site.c_taskGroups.reduce((acc: any, item: any) => {
-      if (item.tasks) {
-        item.tasks.forEach((task: any) => {
-          if (task.field && task.name) {
-            acc[task.field] = task.name;
-          }
-        });
-      }
-      return acc;
-    }, {});
-    setResObject(resultObject);
-  }, []);
+  //   getUserRole();
+  // }, [userId]);
+  // useEffect(() => {
+  //   const resultObject = _site.c_taskGroups.reduce((acc: any, item: any) => {
+  //     if (item.tasks) {
+  //       item.tasks.forEach((task: any) => {
+  //         if (task.field && task.name) {
+  //           acc[task.field] = task.name;
+  //         }
+  //       });
+  //     }
+  //     return acc;
+  //   }, {});
+  //   setResObject(resultObject);
+  // }, []);
   return (
     <div className="min-h-screen">
-      {JSON.stringify(notification) !== "{}" && (
+      {/* {JSON.stringify(notification) !== "{}" && (
         <Toast
           visibility={true}
           fieldKey={fieldKey}
           type={type}
           fieldName={resObject[fieldKey]}
         />
-      )}
+      )} */}
 
       <Header _site={_site} />
       {isLoading ? (

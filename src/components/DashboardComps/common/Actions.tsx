@@ -27,10 +27,10 @@ const Actions = ({
   const handleSave = async () => {
     try {
       const requestBody = encodeURIComponent(JSON.stringify(saveBody));
+      console.log(requestBody);
+
       const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${
-          userRole.acl[0].roleId
-        }${`&saveDirectly=${objKey === `c_heroBanner`}`}`
+        `/api/putFields/${`32311549-test`}?body=${requestBody}${`&saveDirectly=true`}`
       );
 
       const res = await response.json();

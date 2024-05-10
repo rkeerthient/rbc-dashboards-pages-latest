@@ -6,12 +6,14 @@ import PhotoUpload from "./PhotoUpload";
 import { TrashIcon } from "@heroicons/react/20/solid";
 import Actions from "../common/Actions";
 import Assets from "./Assets";
+import { createNestedObject } from "../util/nestedObjectUtils";
 
 interface PhotoFieldProps {
   fieldId: string;
   initialValue: PhotoProps | null;
   isMulti?: boolean;
   setUrlData?: (urlData: string | undefined) => void;
+  isComplex?: boolean;
 }
 
 interface PhotoProps {
@@ -19,18 +21,19 @@ interface PhotoProps {
   url: string;
   width?: number;
 }
-
 const PhotoField = ({
   fieldId,
   initialValue,
   isMulti,
   setUrlData,
+  isComplex = false,
 }: PhotoFieldProps) => {
   const [open, setOpen] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
   const [value, setValue] = useState<PhotoProps["url"] | null>(
-    initialValue ? initialValue.url : null
+    initialValue ? initialValue.image.url : null
   );
+
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
   const handleClick = () => {
     setIsEditable(true);
@@ -178,7 +181,11 @@ const PhotoField = ({
           isContentEdited={isContentEdited}
           setIsEditable={(e) => setIsEditable(e)}
           setValue={(e) => setValue(e)}
-          saveBody={{ [fieldId as string]: { url: value } }}
+          saveBody={
+            isComplex
+              ? createNestedObject(fieldId, value, isComplex, true)
+              : { [fieldId as string]: { url: value } }
+          }
         />
       )}
     </>

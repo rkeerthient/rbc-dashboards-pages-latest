@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { HiOutlineInformationCircle } from "react-icons/hi";
- import UIPicker from "./UIPicker";
+import UIPicker from "./UIPicker";
 
 const Subtasks = ({ subItem, document }: any) => {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -14,9 +14,7 @@ const Subtasks = ({ subItem, document }: any) => {
           {subItem.newSectionHeading}
         </div>
       )}
-      {subItem.question && (
-        <div>{subItem.question}</div>
-      )}
+      {subItem.question && <div>{subItem.question}</div>}
       <div className="flex flex-row justify-between items-center">
         <div className="font-semibold text-[#5a6370] w-1/4">
           <div className="flex flex-col gap-1">
@@ -61,7 +59,11 @@ const Subtasks = ({ subItem, document }: any) => {
               maxText={subItem.sliderHighText}
               isSlider={subItem.slider}
               subItemField={subItem.field}
-              initialValue={document[subItem.field]}
+              initialValue={
+                subItem.field.includes(".")
+                  ? document[subItem.field.split(".")[0]]
+                  : document[subItem.field]
+              }
               readonly={subItem.readonly}
             />
           )}

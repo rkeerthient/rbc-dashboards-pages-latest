@@ -2,11 +2,10 @@ import * as React from "react";
 import { FiRefreshCw, FiCheck } from "react-icons/fi";
 import { GrFormClose } from "react-icons/gr";
 import { FcCancel } from "react-icons/fc";
-import { Image } from "../../types/financial_professionals";
-import { useState } from "react";
-import RTF from "../RTF";
-import { useMyContext } from "../Context/MyContext";
+ import { useState } from "react";
+ import { useMyContext } from "../Context/MyContext";
 import Portal from "./Portal";
+import { LexicalRichText } from "@yext/pages-components";
 export type Address = {
   line1: string;
   city: string;
@@ -20,13 +19,14 @@ type DBBanner = {
   address?: Address;
   openTime?: string;
   children?: React.ReactNode;
-  headshot: Image;
+  headshot: any;
   _site?: any;
   color: string;
   styleSheetRef: string;
 };
 
 const DBBanner = (props: DBBanner) => {
+   
   const { name, children, headshot, color = "#032169", styleSheetRef } = props;
   const [open, setOpen] = useState<boolean>(false);
   const { data } = useMyContext();
@@ -40,7 +40,7 @@ const DBBanner = (props: DBBanner) => {
         <div className="flex items-center flex-row  gap-4">
           <div>
             {headshot && (
-              <img src={headshot.url} className="w-full h-full"></img>
+              <img src={headshot.image.url} className="w-52 h-64"></img>
             )}
           </div>
           <div className="w-3/5 flex flex-col gap-4">
@@ -49,8 +49,8 @@ const DBBanner = (props: DBBanner) => {
             </div>
             <div>
               {props._site.c_dashboardHeroDescription && (
-                <RTF>{props._site.c_dashboardHeroDescription}</RTF>
-              )}
+                <LexicalRichText serializedAST={JSON.stringify(props._site.c_dashboardHeroDescription.json)}/>
+               )}
             </div>
             <div className="flex gap-4">
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs ">
@@ -58,12 +58,12 @@ const DBBanner = (props: DBBanner) => {
               </div>
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs">
                 <button onClick={() => setOpen((o) => !o)}>Preview page</button>
-                <Portal
+                {/* <Portal
                   open={open}
                   setOpen={setOpen}
                   data={data}
                   styleSheetRef={styleSheetRef}
-                ></Portal>
+                ></Portal> */}
               </div>
             </div>
           </div>
