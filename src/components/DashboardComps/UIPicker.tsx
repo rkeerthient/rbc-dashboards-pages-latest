@@ -219,6 +219,20 @@ const UIPicker = ({
                     isComplex={true}
                   />
                 );
+              case "laguages":
+                return (
+                  <TextBoxList
+                    fieldId={"languages"}
+                    initialValue={initialValue}
+                  />
+                );
+              case "yearsOfExperience":
+                return (
+                  <TextBoxList
+                    fieldId={"yearsOfExperience"}
+                    initialValue={initialValue}
+                  />
+                );
               default:
                 return null;
             }
