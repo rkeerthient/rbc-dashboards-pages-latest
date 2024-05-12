@@ -18,7 +18,6 @@ import { useMyContext } from "../Context/MyContext";
 import BlogsAddOrDelete from "./FieldComponents.tsx/BlogsAddOrDelete";
 import HoursField from "./HoursField";
 import AddressField from "./FieldComponents.tsx/AddressField";
-import ServicesAddOrDelete from "./ServicesAddOrDelete";
 import LinkedEntities from "./LinkedEntities";
 import TextBoxContainer from "./FieldComponents.tsx/TextBoxContainer";
 
@@ -45,52 +44,63 @@ const UIPicker = ({
   const [subFieldSchema, setSubFieldSchema] = useState<Root | undefined>();
   const [isLoading, setIsLoading] = useState(false);
   const { userRole } = useMyContext();
-  console.log(initialValue.c_insights);
 
-  // useEffect(() => {
-  //   let isMounted = true;
+  useEffect(() => {
+    let isMounted = true;
 
-  //   const getFieldConfig = async (fieldId: string) => {
-  //     setIsLoading(true);
-  //     try {
-  //       const response = await fetch(`/api/getFields/${fieldId}`);
+    const getFieldConfig = async (fieldId: string) => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(`/api/getFields/${fieldId}`);
 
-  //       if (!isMounted) {
-  //         return;
-  //       }
+        if (!isMounted) {
+          return;
+        }
 
-  //       const mainJson: Root = await response.json();
-  //       setMainFieldSchema(mainJson);
+        const mainJson: Root = await response.json();
+        setMainFieldSchema(mainJson);
 
-  //       if (
-  //         mainJson.response.type.listType &&
-  //         mainJson.response.type.listType.typeId.includes("c_")
-  //       ) {
-  //         const listTypeResponse = await fetch(
-  //           `/api/getFieldTypes/${mainJson.response.type.listType.typeId}`
-  //         );
-  //         if (!isMounted) {
-  //           return;
-  //         }
-  //         const subJson: Root = await listTypeResponse.json();
-  //         setSubFieldSchema(subJson);
-  //       }
-  //     } catch (error) {
-  //       console.error(
-  //         `Failed to fetch field configuration for ${fieldId}:`,
-  //         error
-  //       );
-  //     } finally {
-  //       if (isMounted) {
-  //         setIsLoading(false);
-  //       }
-  //     }
-  //   };
-  //   getFieldConfig(subItemField);
-  //   return () => {
-  //     isMounted = false;
-  //   };
-  // }, [subItemField]);
+        if (
+          mainJson.response.type.listType &&
+          mainJson.response.type.listType.typeId.includes("c_")
+        ) {
+          const listTypeResponse = await fetch(
+            `/api/getFieldTypes/${mainJson.response.type.listType.typeId}`
+          );
+          if (!isMounted) {
+            return;
+          }
+          const subJson: Root = await listTypeResponse.json();
+          setSubFieldSchema(subJson);
+        }
+      } catch (error) {
+        console.error(
+          `Failed to fetch field configuration for ${fieldId}:`,
+          error
+        );
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+    ![
+      "hours",
+      "name",
+      "mainPhone",
+      "address",
+      "c_contentGrid",
+      "c_insights",
+      "c_advisorBio",
+      "c_locator",
+      "c_hero",
+      "laguages",
+      "yearsOfExperience",
+    ].includes(subItemField) && getFieldConfig(subItemField);
+    return () => {
+      isMounted = false;
+    };
+  }, [subItemField]);
 
   return (
     <>
@@ -237,7 +247,7 @@ const UIPicker = ({
                 return null;
             }
           })()}
-          {/* {!isLoading &&
+          {!isLoading &&
             mainFieldSchema &&
             (() => {
               switch (mainFieldSchema.response.typeId) {
@@ -376,7 +386,7 @@ const UIPicker = ({
                 default:
                   return null;
               }
-            })()} */}
+            })()}
         </>
       }
     </>

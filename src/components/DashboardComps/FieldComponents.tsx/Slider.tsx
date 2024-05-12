@@ -30,7 +30,7 @@ const Slider = ({ value = 0, highLabel, lowLabel, fieldId }: SliderProps) => {
         })
       );
       const response = await fetch(
-        `/api/fields/4635269/putFields?body=${requestBody}`
+        `/api/fields/32311549-test/putFields?body=${requestBody}`
       );
     } catch (error) {
       console.error(

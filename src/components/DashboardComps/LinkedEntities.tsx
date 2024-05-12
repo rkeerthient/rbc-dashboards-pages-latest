@@ -42,13 +42,10 @@ const LinkedEntities = ({
   };
 
   const handleSave = async () => {
-    console.log(createBody(fieldId, entityValues));
-
     try {
       const requestBody = encodeURIComponent(
         JSON.stringify(createBody(fieldId, entityValues))
       );
-      console.log(JSON.stringify(requestBody));
 
       const response = await fetch(
         `/api/putFields/${`32311549-test`}?body=${requestBody}${`&saveDirectly=true`}`

@@ -37,7 +37,6 @@ const AddressField = ({ initialValue, fieldId }: AddressFieldProps) => {
   const [value, setValue] = useState<any>(filteredInitialValue);
   const [isEditable, setIsEditable] = useState(false);
   const isContentEdited = value !== initialValue;
-  console.log(JSON.stringify(value));
 
   const handleClick = () => {
     setIsEditable(true);
@@ -50,9 +49,6 @@ const AddressField = ({ initialValue, fieldId }: AddressFieldProps) => {
         [field]: event.target.value,
       });
     };
-  const handleFin = () => {
-    console.log(JSON.stringify(value));
-  };
 
   return (
     <div

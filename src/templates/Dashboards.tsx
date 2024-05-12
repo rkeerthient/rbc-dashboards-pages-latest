@@ -197,8 +197,6 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   const [styleSheetRef, setStyleSheetRef] = useState<string>("");
   const [currentTab, setCurrentTab] = useState<string>(tabs[0]);
 
-  console.log(JSON.stringify(document.c_hero));
-
   function classNames(...classes: any) {
     return classes.filter(Boolean).join(" ");
   }

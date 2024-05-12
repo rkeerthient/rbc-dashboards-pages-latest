@@ -44,7 +44,7 @@ const BlogsAddOrDelete = ({ initialValue, fieldId }: BlogsAddOrDeleteProps) => {
         })
       );
       const response = await fetch(
-        `/api/putFields/${`4635269`}?body=${requestBody}&userRole=${
+        `/api/putFields/${`32311549-test`}?body=${requestBody}&userRole=${
           userRole.acl[0].roleId
         }`
       );
@@ -126,8 +126,6 @@ const BlogsAddOrDelete = ({ initialValue, fieldId }: BlogsAddOrDeleteProps) => {
   };
 
   const updateList = async (entity: any) => {
-    console.log(JSON.stringify(entity));
-
     setShowTextbox(false);
     setEntityValues((prevValues) => [
       ...prevValues,
