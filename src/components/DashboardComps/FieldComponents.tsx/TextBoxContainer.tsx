@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as React from "react";
- import { useMyContext } from "../../Context/MyContext";
+import { useMyContext } from "../../Context/MyContext";
 
 interface Option {
   displayName: string;
@@ -55,7 +55,7 @@ interface Block {
   textValues: Record<string, string>;
   richTextValues: string | null;
   optionValue: string;
-  dateValues: (Date | null)[];
+  dateValues: Record<string, Date | null>;
   options: string[] | null;
   booleanValue: boolean | null;
   multiPickOptions: string[] | null;
@@ -98,7 +98,7 @@ const TextBoxContainer = ({
     const initialBlocks = (initialValue || []).map((item: any) => {
       let initialTextValues: Record<string, string> = {};
       let initialRichTextValues: string | null = null;
-      let initialDateValues: (Date | null)[] = [];
+      let initialDateValues: Record<string, Date | null> = {};
       let initialOptionValues: string[] = [];
       let initialBooleanValue: boolean | null = false;
       let initialMultiPickValues: string[] = [];
@@ -108,10 +108,10 @@ const TextBoxContainer = ({
           initialTextValues[property.name] = (item || {})[property.name] || "";
         }
         if (property.typeId === "date") {
-          initialDateValues.push(
-            (item[property.name] && new Date(item[property.name])) || null
-          );
+          initialDateValues[property.name] =
+            new Date((item || {})[property.name]) || "";
         }
+
         if (property.typeId === "option") {
           initialOptionValues.push(
             (item[property.name] && item[property.name]) || ""
@@ -156,6 +156,7 @@ const TextBoxContainer = ({
         multiPickOptions: initialMultiPickValues,
       };
     });
+
     setInitBlocks(initialBlocks);
     setBlocks(initialBlocks);
   }, [initialValue, properties]);
@@ -193,14 +194,11 @@ const TextBoxContainer = ({
 
   const addNewBlock = () => {
     const initialTextValues: Record<string, string> = {};
+    const initialDateValues: Record<string, Date | null> = {};
     properties.forEach((property: Property) => {
       initialTextValues[property.name] = "";
+      initialDateValues[property.name] = null;
     });
-
-    const initialDateValues: (Date | null)[] = Array(
-      properties.filter((property: Property) => property.typeId === "date")
-        .length
-    ).fill(null);
     const initialBooleanValue: boolean | null = false;
     const initialRichTextValues: string | null = "";
     const initialOptions: string[] | null = properties
@@ -279,14 +277,9 @@ const TextBoxContainer = ({
     setIsDataChanged(!deepEqual(initialData, updatedBlocks));
   };
 
-  const handleDateChange = (
-    index: number,
-    dateIndex: number,
-    date: Date | null
-  ) => {
+  const handleDateChange = (index: number, property: Property, date: Date) => {
     const updatedBlocks = [...blocks];
-
-    updatedBlocks[index].dateValues[dateIndex] = date;
+    updatedBlocks[index].dateValues[property.name] = date;
     setBlocks(updatedBlocks);
     setIsDataChanged(!deepEqual(initialData, updatedBlocks));
   };
@@ -317,24 +310,28 @@ const TextBoxContainer = ({
               : block.optionValue;
             break;
           case "date":
-            jsonBlock[property.name] = block.dateValues[0] || null;
+            jsonBlock[property.name] = block.dateValues[property.name];
             break;
           default:
             break;
         }
       });
+
       jsonArray.push(jsonBlock);
     });
 
     const formattedJsonArray = jsonArray.map((item) => {
       const formattedItem: Record<string, any> = { ...item };
-      if (formattedItem.date instanceof Date) {
-        formattedItem.date = formatDateTime(formattedItem.date);
-      }
+
+      Object.keys(formattedItem).forEach((key) => {
+        if (formattedItem[key] instanceof Date) {
+          formattedItem[key] = formatDateTime(formattedItem[key]);
+        }
+      });
       return formattedItem;
     });
 
-    const allKeys: string[] = formattedJsonArray.reduce(
+    formattedJsonArray.reduce(
       (keys, item) => keys.concat(Object.keys(item)),
       [] as string[]
     );
@@ -532,25 +529,26 @@ const TextBoxContainer = ({
                     </>
                   )}
 
-                  {property.typeId === "date" && (
-                    <div>
-                      {block.dateValues.map((dateValue, dateIndex) => (
-                        <DatePicker
-                          key={dateIndex}
-                          className="border w-fit p-1"
-                          selected={dateValue}
-                          onChange={(date: Date) =>
-                            handleDateChange(index, dateIndex, date)
-                          }
-                          dateFormat="dd/MM/yyyy"
-                          showYearDropdown
-                          scrollableYearDropdown
-                        />
-                      ))}
-                    </div>
-                  )}
-
-                   
+                  {property.typeId === "date" &&
+                    (() => {
+                      const date = new Date(block.dateValues?.[property.name]);
+                      if (!isNaN(date.getTime())) {
+                        return (
+                          <DatePicker
+                            className="border w-fit p-1"
+                            selected={block.dateValues[property.name]}
+                            onChange={(date: Date) =>
+                              handleDateChange(index, property, date)
+                            }
+                            dateFormat="dd/MM/yyyy"
+                            showYearDropdown
+                            scrollableYearDropdown
+                          />
+                        );
+                      } else {
+                        return <div>Error: Invalid date string</div>;
+                      }
+                    })()}
                 </div>
               ))}
             </div>

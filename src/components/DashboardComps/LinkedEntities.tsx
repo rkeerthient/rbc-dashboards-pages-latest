@@ -128,8 +128,6 @@ const LinkedEntities = ({
   };
 
   const updateList = async (entity: any) => {
-    console.log(JSON.stringify(entity));
-
     setShowTextbox(false);
     setEntityValues((prevValues) => [
       ...prevValues,

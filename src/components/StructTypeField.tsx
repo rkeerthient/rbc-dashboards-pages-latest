@@ -111,6 +111,7 @@ const StructTypeField = ({
               >
                 {structType.property.map((prop, propIndex) => {
                   const value = item[prop.name];
+
                   return (
                     <div key={propIndex}>
                       <div className="font-bold">{prop.displayName}</div>
@@ -121,7 +122,7 @@ const StructTypeField = ({
                             )?.displayName
                           : prop.typeId === "list" && Array.isArray(value)
                             ? value.join(", ")
-                            : value || "No value"}
+                            : value || item[prop.displayName]}
                       </div>
                     </div>
                   );

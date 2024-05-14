@@ -22,5 +22,6 @@ siteStream:
     - c_dashboardCompletionLabel
     - c_dashboardCompletionDescription
     - c_dashboardHeroDescription
+    - c_testDashboards
 authorization:
   policyName: pages-auth-policy
