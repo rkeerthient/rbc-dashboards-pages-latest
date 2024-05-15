@@ -25,3 +25,6 @@ siteStream:
     - c_testDashboards
 authorization:
   policyName: pages-auth-policy
+  # Authenticates your site via each linked authentication policy
+authentication:
+  policyName: Password Policy
