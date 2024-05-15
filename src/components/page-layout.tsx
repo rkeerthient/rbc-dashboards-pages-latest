@@ -22,17 +22,15 @@ const PageLayout = ({ _site, children, document }: Props) => {
   const { fieldKey, type } = notification;
 
   /* 
-  update {"content":"Value updated for c_preferredFirstName","type":"Update"}
-  suggestion {"content":"Suggestion Created for c_preferredFirstName","type":"Suggestion"}
-  Admin user - 2676513
-  Suggestions user - 2954661906076480599
+   Admin user - 3427115575132210579
+  Suggestions user - 1568883608704101997
 */
 
   const userId = isLocal()
-    ? "5224868295212939979"
+    ? "3427115575132210579"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
-    ? window.YEXT_AUTH.visitor.externalId
-    : "";
+      ? window.YEXT_AUTH.visitor.externalId
+      : "";
 
   // useEffect(() => {
   //   setIsLoading(true);
@@ -119,49 +117,51 @@ const PageLayout = ({ _site, children, document }: Props) => {
   //   setIsLoading(false);
   // }, [document]);
 
-  // useEffect(() => {
-  //   setIsLoading(true);
+  useEffect(() => {
+    setIsLoading(true);
 
-  //   const getUserRole = async () => {
-  //     try {
-  //       if (userId) {
-  //         const response = await fetch(`/api/users/${userId}`);
-  //         const userResp = await response.json();
-  //         const userString: UserProfile = await userResp.response;
-  //         setUserRole(userString);
-  //       }
-  //     } catch (error: any) {
-  //       console.error(`Error fetching user data: ${JSON.stringify(error)}`);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
+    const getUserRole = async () => {
+      try {
+        if (userId) {
+          const response = await fetch(`/api/users/${userId}`);
+          const userResp = await response.json();
+          const userString: UserProfile = await userResp.response;
+          setUserRole(userString);
+        }
+      } catch (error: any) {
+        console.error(`Error fetching user data: ${JSON.stringify(error)}`);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  //   getUserRole();
-  // }, [userId]);
-  // useEffect(() => {
-  //   const resultObject = _site.c_taskGroups.reduce((acc: any, item: any) => {
-  //     if (item.tasks) {
-  //       item.tasks.forEach((task: any) => {
-  //         if (task.field && task.name) {
-  //           acc[task.field] = task.name;
-  //         }
-  //       });
-  //     }
-  //     return acc;
-  //   }, {});
-  //   setResObject(resultObject);
-  // }, []);
+    getUserRole();
+  }, [userId]);
+
+  useEffect(() => {
+    const resultObject = _site.c_taskGroups.reduce((acc: any, item: any) => {
+      if (item.tasks) {
+        item.tasks.forEach((task: any) => {
+          if (task.field && task.name) {
+            acc[task.field] = task.name;
+          }
+        });
+      }
+      return acc;
+    }, {});
+    setResObject(resultObject);
+  }, []);
+
   return (
     <div className="min-h-screen">
-      {/* {JSON.stringify(notification) !== "{}" && (
+      {JSON.stringify(notification) !== "{}" && (
         <Toast
           visibility={true}
           fieldKey={fieldKey}
           type={type}
           fieldName={resObject[fieldKey]}
         />
-      )} */}
+      )}
 
       <Header _site={_site} />
       {isLoading ? (

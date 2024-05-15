@@ -90,12 +90,18 @@ const UIPicker = ({
       "mainPhone",
       "address",
       "c_contentGrid",
-      "c_insights",
-      "c_advisorBio",
+      "c_advisorBio.bio",
       "c_locator",
-      "c_hero",
       "laguages",
       "yearsOfExperience",
+      "c_hero.email",
+      "c_contentCarousel.events",
+      "c_advisorBio.headshot",
+      "c_contentCarousel.services",
+      "c_advisorBio.email",
+      "c_insights.blogs",
+      "c_hero.backgroundImage",
+      "emails",
     ].includes(subItemField) && getFieldConfig(subItemField);
     return () => {
       isMounted = false;
@@ -123,6 +129,10 @@ const UIPicker = ({
               case "name":
                 return (
                   <TextField initialValue={initialValue} fieldId={"name"} />
+                );
+              case "emails":
+                return (
+                  <TextBoxList initialValue={initialValue} fieldId={"emails"} />
                 );
               case "mainPhone":
                 return (

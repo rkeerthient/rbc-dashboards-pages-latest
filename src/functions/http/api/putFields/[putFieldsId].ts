@@ -5,14 +5,12 @@ const putFields = async (
   const { pathParams, queryParams } = request;
 
   const { putFieldsId } = pathParams;
-  const { saveDirectly } = queryParams;
   const api_key = YEXT_PUBLIC_DEV_API_KEY as string;
   const { body, format, userRole } = queryParams;
   let getEntitiesResponse;
   let operationType = "";
-  const saveDirectlyBool = saveDirectly === "true";
 
-  userRole === "19718" && !saveDirectlyBool
+  userRole !== "1"
     ? (getEntitiesResponse = await fetch(
         `https://api.yextapis.com/v2/accounts/me/suggestions?api_key=${api_key}&v=20230601${
           format ? `&format=${format}` : ""

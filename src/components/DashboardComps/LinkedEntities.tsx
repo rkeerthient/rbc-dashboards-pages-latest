@@ -42,13 +42,15 @@ const LinkedEntities = ({
   };
 
   const handleSave = async () => {
+    const _userRole = userRole.acl?.[0]?.roleId ?? "1";
+
     try {
       const requestBody = encodeURIComponent(
         JSON.stringify(createBody(fieldId, entityValues))
       );
 
       const response = await fetch(
-        `/api/putFields/${`32311549-test`}?body=${requestBody}${`&saveDirectly=true`}`
+        `/api/putFields/${`32311549-test`}?body=${requestBody}${`&userRole=${_userRole}`}`
       );
       const res = await response.json();
       if (!res.meta.errors.length) {

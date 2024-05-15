@@ -91,13 +91,15 @@ const TextBoxList = ({ initialValue, fieldId }: TextFieldProps) => {
           onClick={handleClick}
           className="hover:cursor-pointer hover:bg-containerBG  flex flex-col "
         >
-          {value &&
+          {value && value.length >= 1 ? (
             value.map((item: any, index: any) => (
               <div key={index} className="flex flex-col text-[#374151]">
                 <div>{item}</div>
               </div>
-            ))}
-          {(!initialValue || initialValue.length === 0) && "Click to add"}
+            ))
+          ) : (
+            <div>Click to Add!</div>
+          )}
         </div>
       )}
       {isEditable && (
