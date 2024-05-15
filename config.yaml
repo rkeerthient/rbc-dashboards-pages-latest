@@ -24,4 +24,4 @@ siteStream:
     - c_dashboardHeroDescription
     - c_testDashboards
  authentication:
-  policyName: yextauthpolicy
+  policyName: pages-auth-policy
