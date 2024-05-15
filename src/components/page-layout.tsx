@@ -31,6 +31,7 @@ const PageLayout = ({ _site, children, document }: Props) => {
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
       ? window.YEXT_AUTH.visitor.externalId
       : "";
+  console.log(JSON.stringify(userId));
 
   // useEffect(() => {
   //   setIsLoading(true);
@@ -121,6 +122,8 @@ const PageLayout = ({ _site, children, document }: Props) => {
     setIsLoading(true);
 
     const getUserRole = async () => {
+      console.log(`emyrtrf`);
+
       try {
         if (userId) {
           const response = await fetch(`/api/users/${userId}`);
