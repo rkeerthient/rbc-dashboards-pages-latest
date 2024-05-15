@@ -23,8 +23,5 @@ siteStream:
     - c_dashboardCompletionDescription
     - c_dashboardHeroDescription
     - c_testDashboards
-authorization:
+ authentication:
   policyName: pages-auth-policy
-  # Authenticates your site via each linked authentication policy
-authentication:
-  policyName: Password Policy
