@@ -27,96 +27,97 @@ const PageLayout = ({ _site, children, document }: Props) => {
 */
 
   const userId = isLocal()
-    ? "3427115575132210579"
+    ? "1568883608704101997"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
       ? window.YEXT_AUTH.visitor.externalId
       : "";
-  console.log(JSON.stringify(userId));
 
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   if (document) {
-  //     const {
-  //       name,
-  //       mainPhone,
-  //       emails,
-  //       c_template,
-  //       c_color,
-  //       c_fonts,
-  //       c_preferredFirstName,
-  //       c_jobTitle,
-  //       c_clientFocuses,
-  //       c_aboutAdvisorShortDescription,
-  //       c_expertiseCommentsRTv2,
-  //       c_hobbiesAndInterests,
-  //       c_teamDescriptionRTv2,
-  //       c_languagesV2,
-  //       c_educationDisplay,
-  //       c_heroBanner,
-  //       c_associatedBlogs,
-  //       c_associatedClientStories,
-  //       c_associatedFAQs,
-  //       c_associatedInsights,
-  //       c_associatedSolutions,
-  //       photoGallery,
-  //       hours,
-  //       address,
-  //       geocodedCoordinate,
-  //       c_designations,
-  //       _site,
-  //       c_organizationsDisplay,
-  //       c_awardsDashboard,
-  //       c_teamName,
-  //       c_teamMembers,
-  //       c_serviceAreas,
-  //       c_fAQs,
-  //       yearsOfExperience,
-  //       c_UpcomingEvents,
-  //     } = document;
+  useEffect(() => {
+    if (document) {
+      setIsLoading(true);
 
-  //     setData((prevData) => ({
-  //       ...prevData,
-  //       ...(c_UpcomingEvents && { c_UpcomingEvents }),
-  //       ...(name && { name }),
-  //       ...(mainPhone && { mainPhone }),
-  //       ...(emails && { emails }),
-  //       ...(c_template && { c_template }),
-  //       ...(c_color && { c_color }),
-  //       ...(c_fonts && { c_fonts }),
-  //       ...(c_preferredFirstName && { c_preferredFirstName }),
-  //       ...(c_jobTitle && { c_jobTitle }),
-  //       ...(c_clientFocuses && { c_clientFocuses }),
-  //       ...(c_aboutAdvisorShortDescription && {
-  //         c_aboutAdvisorShortDescription,
-  //       }),
-  //       ...(photoGallery && { photoGallery }),
-  //       ...(c_expertiseCommentsRTv2 && { c_expertiseCommentsRTv2 }),
-  //       ...(c_hobbiesAndInterests && { c_hobbiesAndInterests }),
-  //       ...(c_teamDescriptionRTv2 && { c_teamDescriptionRTv2 }),
-  //       ...(c_teamName && { c_teamName }),
-  //       ...(c_fAQs && { c_fAQs }),
-  //       ...(c_languagesV2 && { c_languagesV2 }),
-  //       ...(c_educationDisplay && { c_educationDisplay }),
-  //       ...(c_heroBanner && { c_heroBanner }),
-  //       ...(c_associatedBlogs && { c_associatedBlogs }),
-  //       ...(c_associatedClientStories && { c_associatedClientStories }),
-  //       ...(c_associatedFAQs && { c_associatedFAQs }),
-  //       ...(c_associatedInsights && { c_associatedInsights }),
-  //       ...(c_associatedSolutions && { c_associatedSolutions }),
-  //       ...(hours && { hours }),
-  //       ...(address && { address }),
-  //       ...(geocodedCoordinate && { geocodedCoordinate }),
-  //       ...(c_designations && { c_designations }),
-  //       ...(c_organizationsDisplay && { c_organizationsDisplay }),
-  //       ...(_site && { _site }),
-  //       ...(c_awardsDashboard && { c_awardsDashboard }),
-  //       ...(c_teamMembers && { c_teamMembers }),
-  //       ...(c_serviceAreas && { c_serviceAreas }),
-  //       ...(yearsOfExperience && { yearsOfExperience }),
-  //     }));
-  //   }
-  //   setIsLoading(false);
-  // }, [document]);
+      const {
+        name,
+        mainPhone,
+        emails,
+        c_template,
+        c_color,
+        c_fonts,
+        c_preferredFirstName,
+        c_jobTitle,
+        c_clientFocuses,
+        c_aboutAdvisorShortDescription,
+        c_expertiseCommentsRTv2,
+        c_hobbiesAndInterests,
+        c_teamDescriptionRTv2,
+        c_languagesV2,
+        c_educationDisplay,
+        c_heroBanner,
+        c_associatedBlogs,
+        c_associatedClientStories,
+        c_associatedFAQs,
+        c_associatedInsights,
+        c_associatedSolutions,
+        photoGallery,
+        hours,
+        address,
+        geocodedCoordinate,
+        c_designations,
+        _site,
+        c_organizationsDisplay,
+        c_awardsDashboard,
+        c_teamName,
+        c_teamMembers,
+        c_serviceAreas,
+        c_fAQs,
+        yearsOfExperience,
+        c_UpcomingEvents,
+      } = document;
+
+      const updatedData = {
+        ...(name && { name }),
+        ...(mainPhone && { mainPhone }),
+        ...(emails && { emails }),
+        ...(c_template && { c_template }),
+        ...(c_color && { c_color }),
+        ...(c_fonts && { c_fonts }),
+        ...(c_preferredFirstName && { c_preferredFirstName }),
+        ...(c_jobTitle && { c_jobTitle }),
+        ...(c_clientFocuses && { c_clientFocuses }),
+        ...(c_aboutAdvisorShortDescription && {
+          c_aboutAdvisorShortDescription,
+        }),
+        ...(c_expertiseCommentsRTv2 && { c_expertiseCommentsRTv2 }),
+        ...(c_hobbiesAndInterests && { c_hobbiesAndInterests }),
+        ...(c_teamDescriptionRTv2 && { c_teamDescriptionRTv2 }),
+        ...(c_teamName && { c_teamName }),
+        ...(c_fAQs && { c_fAQs }),
+        ...(c_languagesV2 && { c_languagesV2 }),
+        ...(c_educationDisplay && { c_educationDisplay }),
+        ...(c_heroBanner && { c_heroBanner }),
+        ...(c_associatedBlogs && { c_associatedBlogs }),
+        ...(c_associatedClientStories && { c_associatedClientStories }),
+        ...(c_associatedFAQs && { c_associatedFAQs }),
+        ...(c_associatedInsights && { c_associatedInsights }),
+        ...(c_associatedSolutions && { c_associatedSolutions }),
+        ...(photoGallery && { photoGallery }),
+        ...(hours && { hours }),
+        ...(address && { address }),
+        ...(geocodedCoordinate && { geocodedCoordinate }),
+        ...(c_designations && { c_designations }),
+        ...(c_organizationsDisplay && { c_organizationsDisplay }),
+        ...(_site && { _site }),
+        ...(c_awardsDashboard && { c_awardsDashboard }),
+        ...(c_teamMembers && { c_teamMembers }),
+        ...(c_serviceAreas && { c_serviceAreas }),
+        ...(yearsOfExperience && { yearsOfExperience }),
+        ...(c_UpcomingEvents && { c_UpcomingEvents }),
+      };
+
+      setData((prevData) => ({ ...prevData, ...updatedData }));
+      setIsLoading(false);
+    }
+  }, [document]);
 
   useEffect(() => {
     setIsLoading(true);

@@ -19,27 +19,14 @@ import BlogsAddOrDelete from "./FieldComponents.tsx/BlogsAddOrDelete";
 import HoursField from "./HoursField";
 import AddressField from "./FieldComponents.tsx/AddressField";
 import LinkedEntities from "./LinkedEntities";
-import TextBoxContainer from "./FieldComponents.tsx/TextBoxContainer";
 
 interface UIPickerProps {
   fieldName: string;
   subItemField: string;
   initialValue?: string;
-  isSlider?: boolean;
-  minText?: string;
-  maxText?: string;
-  readonly: boolean;
 }
 
-const UIPicker = ({
-  fieldName,
-  subItemField,
-  initialValue,
-  isSlider = false,
-  minText,
-  maxText,
-  readonly,
-}: UIPickerProps) => {
+const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
   const [mainFieldSchema, setMainFieldSchema] = useState<Root | undefined>();
   const [subFieldSchema, setSubFieldSchema] = useState<Root | undefined>();
   const [isLoading, setIsLoading] = useState(false);

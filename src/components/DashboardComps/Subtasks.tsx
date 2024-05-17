@@ -9,12 +9,6 @@ const Subtasks = ({ subItem, document }: any) => {
 
   return (
     <div>
-      {subItem.newSectionHeading && (
-        <div className="bg-[#3a4856] text-sm p-3 font-semibold text-white">
-          {subItem.newSectionHeading}
-        </div>
-      )}
-      {subItem.question && <div>{subItem.question}</div>}
       <div className="flex flex-row justify-between items-center">
         <div className="font-semibold text-[#5a6370] w-1/4">
           <div className="flex flex-col gap-1">
@@ -35,12 +29,6 @@ const Subtasks = ({ subItem, document }: any) => {
                   )}
                 </>
               )}
-              <div>
-                {subItem.name}{" "}
-                {subItem.readonly && (
-                  <span className="text-xs">(readonly fields)</span>
-                )}
-              </div>
             </div>
             <div className="text-xs text-[#c6ccd1]">{subItem.field}</div>
           </div>
@@ -55,16 +43,12 @@ const Subtasks = ({ subItem, document }: any) => {
           ) : (
             <UIPicker
               fieldName={subItem.name}
-              minText={subItem.sliderLowText}
-              maxText={subItem.sliderHighText}
-              isSlider={subItem.slider}
               subItemField={subItem.field}
               initialValue={
                 subItem.field.includes(".")
                   ? document[subItem.field.split(".")[0]]
                   : document[subItem.field]
               }
-              readonly={subItem.readonly}
             />
           )}
         </div>
