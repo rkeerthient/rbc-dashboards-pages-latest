@@ -79,7 +79,7 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
       "c_contentGrid",
       "c_advisorBio.bio",
       "c_locator",
-      "laguages",
+      "languages",
       "yearsOfExperience",
       "c_hero.email",
       "c_contentCarousel.events",
@@ -226,7 +226,7 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
                     isComplex={true}
                   />
                 );
-              case "laguages":
+              case "languages":
                 return (
                   <TextBoxList
                     fieldId={"languages"}

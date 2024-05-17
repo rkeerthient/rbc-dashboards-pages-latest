@@ -66,6 +66,7 @@ export const config: TemplateConfig = {
       "c_designations.name",
       "c_awards.nameOfAwardOrHonor",
       "c_awards.yearsReceived",
+      "emails",
     ],
     filter: {
       entityTypes: ["financialProfessional"],
