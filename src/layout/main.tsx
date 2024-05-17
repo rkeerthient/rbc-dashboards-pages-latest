@@ -2,8 +2,8 @@ import { TemplateRenderProps } from "@yext/pages/*";
 import * as React from "react";
 import { TemplateDataProvider } from "../common/useTemplateData";
 import { MyContextProvider } from "../components/Context/MyContext";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import PreviewComp from "../components/DashboardComps/PreviewComp";
+import { Provider } from "react-redux";
+import { store } from "../redux/store";
 
 declare global {
   interface Window {
@@ -27,7 +27,9 @@ const Main = (props: MainProps) => {
 const MainInternal = (props: MainProps) => {
   const { children } = props;
   return (
-    <TemplateDataProvider value={props.data}>{children}</TemplateDataProvider>
+    <Provider store={store}>
+      <TemplateDataProvider value={props.data}>{children}</TemplateDataProvider>
+    </Provider>
   );
 };
 

@@ -7,20 +7,51 @@ import { useEffect, useState } from "react";
 import { useMyContext } from "./Context/MyContext";
 import { UserProfile } from "../types/user_profile";
 import Toast from "./Toast";
+import { useDispatch } from "react-redux";
+import { completionStatusReducer } from "../redux/dashboardDataSlice";
 
 type Props = {
   _site?: any;
   children?: any;
   document?: any;
+  fields?: string[];
 };
 
-const PageLayout = ({ _site, children, document }: Props) => {
+const PageLayout = ({ _site, children, document, fields }: Props) => {
+  const dispatch = useDispatch();
   const runtime = getRuntime();
   const { setUserRole, setData, notification } = useMyContext();
   const [resObject, setResObject] = useState<object>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { fieldKey, type } = notification;
 
+  useEffect(() => {
+    if (fields) {
+      let noOfFieldsWithDataCount = 0;
+      const fieldsWithNoData: string[] = [];
+
+      fields.forEach((field) => {
+        if (document[field] !== undefined) {
+          noOfFieldsWithDataCount++;
+        } else {
+          fieldsWithNoData.push(field);
+        }
+      });
+      console.log(
+        noOfFieldsWithDataCount,
+        fieldsWithNoData,
+        (noOfFieldsWithDataCount / fields.length) * 100
+      );
+
+      dispatch(
+        completionStatusReducer({
+          NoOfFieldsWithDataCount: noOfFieldsWithDataCount,
+          FieldsWithNoData: fieldsWithNoData,
+          completionPercentage: (noOfFieldsWithDataCount / fields.length) * 100,
+        })
+      );
+    }
+  }, [fields]);
   /* 
    Admin user - 3427115575132210579
   Suggestions user - 1568883608704101997

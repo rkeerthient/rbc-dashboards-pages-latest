@@ -1,13 +1,3 @@
-/**
- * This is an example of how to create a template that makes use of streams data.
- * The stream data originates from Yext's Knowledge Graph. When a template in
- * concert with a stream is built by the Yext Sites system, a static html page
- * is generated for every corresponding (based on the filter) stream document.
- *
- * Another way to think about it is that a page will be generated using this
- * template for every eligible entity in your Knowledge Graph.
- */
-
 import {
   GetHeadConfig,
   GetPath,
@@ -29,10 +19,9 @@ import { Image } from "@yext/pages-components";
 import { Main } from "../layout/main";
 import Suggestions from "../components/DashboardComps/Suggestions";
 import * as React from "react";
+import { C_taskGroups, Tasks } from "../types/site";
+import RemainingFields from "../components/RemainingFields";
 
-/**
- * Required when Knowledge Graph data is used for a template.
- */
 export const config: TemplateConfig = {
   stream: {
     $id: "my-stream-prof-dashboard",
@@ -211,7 +200,21 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
 
   return (
     <Main>
-      <PageLayout _site={document._site} document={document}>
+      <PageLayout
+        fields={document._site.c_taskGroups.reduce(
+          (acc: string, obj: C_taskGroups) => {
+            return [
+              ...acc,
+              ...obj.tasks
+                .filter((task: Tasks) => task.shouldScrore)
+                .map((task: Tasks) => task.field),
+            ];
+          },
+          []
+        )}
+        _site={document._site}
+        document={document}
+      >
         <div className="space-y-4 bg-slate-200 ">
           <DBBanner
             styleSheetRef={styleSheetRef}
@@ -277,15 +280,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
                   </div>
                   <SampleChart></SampleChart>
                 </div>
-                <div className="flex flex-col gap-4 border p-5  bg-white">
-                  <div className="font-bold text-gray-900">
-                    Remaining Incomplete Fields
-                  </div>
-                  <div className="text-gray-900">
-                    Fill out the required fields listed below to complete your
-                    profile
-                  </div>
-                </div>
+                <RemainingFields site={document._site} />
               </div>
             </div>
           ) : currentTab === "Analytics" ? (

@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
+import mySlice from "./dashboardDataSlice";
 
 export const store = configureStore({
   reducer: {
-    todos: undefined,
+    dashboardSlice: mySlice,
   },
 });
 

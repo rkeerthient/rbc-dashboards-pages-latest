@@ -1,6 +1,10 @@
 import * as React from "react";
 import { C_taskGroups, Tasks } from "../../types/dashboard_entity";
-import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import Subtasks from "./Subtasks";
 

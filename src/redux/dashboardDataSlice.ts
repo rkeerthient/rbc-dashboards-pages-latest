@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Coordinate } from "@yext/pages-components";
 import { ComplexImage, Hours } from "@yext/types";
 import {
@@ -52,10 +52,17 @@ interface NotificationDetails {
   type: string;
 }
 
-interface MyState {
+interface CompletionStatus {
+  NoOfFieldsWithDataCount: number;
+  FieldsWithNoData: string[];
+  completionPercentage: number;
+}
+
+export interface MyState {
   userRole: UserProfile;
   data: MyContextData;
   notification: NotificationDetails;
+  completionStatus: CompletionStatus;
 }
 
 const initialState: MyState = {
@@ -91,8 +98,8 @@ const initialState: MyState = {
     c_fAQs: [],
     photoGallery: [],
     c_UpcomingEvents: [],
-    hours: {},
-    address: {},
+    hours: {} as Hours,
+    address: {} as Address,
     geocodedCoordinate: {
       latitude: 0,
       longitude: 0,
@@ -110,24 +117,42 @@ const initialState: MyState = {
     fieldKey: "",
     type: "",
   },
+  completionStatus: {
+    NoOfFieldsWithDataCount: 0,
+    FieldsWithNoData: [],
+    completionPercentage: 0,
+  },
 };
 
 const mySlice = createSlice({
   name: "mySlice",
   initialState,
   reducers: {
-    userRoleReducer: (state, action) => {
+    userRoleReducer: (state, action: PayloadAction<UserProfile>) => {
       state.userRole = action.payload;
     },
-    dataReducer: (state, action) => {
+    dataReducer: (state, action: PayloadAction<MyContextData>) => {
       state.data = action.payload;
     },
-    notificationsReducer: (state, action) => {
+    notificationsReducer: (
+      state,
+      action: PayloadAction<NotificationDetails>
+    ) => {
       state.notification = action.payload;
+    },
+    completionStatusReducer: (
+      state,
+      action: PayloadAction<CompletionStatus>
+    ) => {
+      state.completionStatus = action.payload;
     },
   },
 });
 
-export const { userRoleReducer, dataReducer, notificationsReducer } =
-  mySlice.actions;
+export const {
+  userRoleReducer,
+  dataReducer,
+  notificationsReducer,
+  completionStatusReducer,
+} = mySlice.actions;
 export default mySlice.reducer;
