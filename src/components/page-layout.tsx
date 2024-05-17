@@ -37,11 +37,6 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
           fieldsWithNoData.push(field);
         }
       });
-      console.log(
-        noOfFieldsWithDataCount,
-        fieldsWithNoData,
-        (noOfFieldsWithDataCount / fields.length) * 100
-      );
 
       dispatch(
         completionStatusReducer({
@@ -154,8 +149,6 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
     setIsLoading(true);
 
     const getUserRole = async () => {
-      console.log(`emyrtrf`);
-
       try {
         if (userId) {
           const response = await fetch(`/api/users/${userId}`);
