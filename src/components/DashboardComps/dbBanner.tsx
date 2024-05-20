@@ -2,10 +2,15 @@ import * as React from "react";
 import { FiRefreshCw, FiCheck } from "react-icons/fi";
 import { GrFormClose } from "react-icons/gr";
 import { FcCancel } from "react-icons/fc";
- import { useState } from "react";
- import { useMyContext } from "../Context/MyContext";
+import { useEffect, useState } from "react";
+import { useMyContext } from "../Context/MyContext";
 import Portal from "./Portal";
 import { LexicalRichText } from "@yext/pages-components";
+import { SuggestionsRoot } from "./Suggestions";
+import { RootState } from "../../redux/store";
+import { useSelector } from "react-redux";
+import { AnimatePresence, motion } from "framer-motion";
+import { Bars } from "react-loading-icons";
 export type Address = {
   line1: string;
   city: string;
@@ -26,10 +31,43 @@ type DBBanner = {
 };
 
 const DBBanner = (props: DBBanner) => {
-   
+  const dashboardNumbers = (state: RootState) =>
+    state.dashboardSlice.dashboardNumbers;
+  const _dashboardNumbers = useSelector(dashboardNumbers);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const { name, children, headshot, color = "#032169", styleSheetRef } = props;
   const [open, setOpen] = useState<boolean>(false);
   const { data } = useMyContext();
+
+  useEffect(() => {
+    const entityId = `32311549-test`;
+    let suggestionStatusCount: any = {};
+    setIsLoaded(false);
+    const getSuggestions = async () => {
+      try {
+        const _res = await fetch(`/api/getSuggestions/${entityId}`);
+        const mainJson: any = await _res.json();
+        const suggestions: SuggestionsRoot[] =
+          await mainJson.response.suggestions;
+
+        suggestions.forEach((suggestion) => {
+          const status = suggestion.status;
+          if (!suggestionStatusCount[status]) {
+            suggestionStatusCount[status] = 0;
+          }
+          suggestionStatusCount[status]++;
+        });
+      } catch (error) {
+        console.error(
+          `Failed to fetch field configuration for ${entityId}:`,
+          error
+        );
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+    getSuggestions();
+  }, []);
 
   return (
     <>
@@ -49,8 +87,12 @@ const DBBanner = (props: DBBanner) => {
             </div>
             <div>
               {props._site.c_dashboardHeroDescription && (
-                <LexicalRichText serializedAST={JSON.stringify(props._site.c_dashboardHeroDescription.json)}/>
-               )}
+                <LexicalRichText
+                  serializedAST={JSON.stringify(
+                    props._site.c_dashboardHeroDescription.json
+                  )}
+                />
+              )}
             </div>
             <div className="flex gap-4">
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs ">
@@ -67,8 +109,10 @@ const DBBanner = (props: DBBanner) => {
               </div>
             </div>
           </div>
-          <div className="bg-white text-center text-gray-800 m-auto flex justify-center items-center w-2/5 py-8 mx-auto">
-            <div className="flex flex-col gap-4 w-full px-4">
+          <AnimatePresence>
+            {" "}
+            <div className="bg-white text-center text-gray-800 m-auto flex justify-center items-center w-2/5 py-8 mx-auto">
+              {/* <div className="flex flex-col gap-4 w-full px-4">
               <div className="text-xl font-semibold">Approval Requests </div>
               <div>Last 60 Days</div>
               <div className="w-full grid grid-cols-4 justify-between">
@@ -96,8 +140,22 @@ const DBBanner = (props: DBBanner) => {
               <div className="bg-gray-700 px-4 py-2 mx-auto rounded-md text-gray-50 text-sm   w-fit">
                 View All Approval Requests
               </div>
+            </div> */}
+              <motion.div
+                layout
+                className="w-full flex flex-col items-center"
+                exit={{ y: "-100vh" }}
+                transition={{ duration: 0.3 }}
+              >
+                {isLoaded && (
+                  <div className="flex items-center gap-2 text-lg text-[#0a3366]">
+                    <Bars className="h-5 w-5" fill="#0a3366" speed={0.5} />
+                    <p>Generating Answer...</p>
+                  </div>
+                )}
+              </motion.div>
             </div>
-          </div>
+          </AnimatePresence>
         </div>
         {children}
       </div>

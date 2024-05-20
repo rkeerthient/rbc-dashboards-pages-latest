@@ -5,7 +5,7 @@ import { FiCheck, FiRefreshCw } from "react-icons/fi";
 import { GrFormClose } from "react-icons/gr";
 import { EnumData } from "../EnumData";
 import RTF from "../RTF";
-export interface Root {
+export interface SuggestionsRoot {
   uid: string;
   accountId: string;
   createdDate: string;
@@ -83,7 +83,8 @@ const Suggestions = () => {
       );
       const mainJson: any = await response.json();
 
-      const suggestions: Root[] = await mainJson.response.suggestions;
+      const suggestions: SuggestionsRoot[] =
+        await mainJson.response.suggestions;
       setPageToken(
         mainJson.response.nextPageToken.length >= 1
           ? mainJson.response.nextPageToken
