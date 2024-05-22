@@ -57,7 +57,7 @@ const SampleChart = () => {
                   var fontSize = (height / 160).toFixed(2);
                   ctx.font = fontSize + "em sans-serif";
                   ctx.textBaseline = "top";
-                  var text = `${completionStatus.completionPercentage}%`,
+                  var text = `${completionStatus.completionPercentage.toFixed(0)}%`,
                     textX = Math.round(
                       (width - ctx.measureText(text).width) / 2
                     ),
