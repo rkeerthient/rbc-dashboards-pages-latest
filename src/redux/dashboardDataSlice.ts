@@ -149,5 +149,6 @@ export const {
   dataReducer,
   notificationsReducer,
   completionStatusReducer,
+  dashboardNumbersReducer,
 } = mySlice.actions;
 export default mySlice.reducer;

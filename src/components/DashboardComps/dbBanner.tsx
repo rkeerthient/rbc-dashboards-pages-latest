@@ -8,9 +8,8 @@ import Portal from "./Portal";
 import { LexicalRichText } from "@yext/pages-components";
 import { SuggestionsRoot } from "./Suggestions";
 import { RootState } from "../../redux/store";
-import { useSelector } from "react-redux";
-import { AnimatePresence, motion } from "framer-motion";
-import { Bars } from "react-loading-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { dashboardNumbersReducer } from "../../redux/dashboardDataSlice";
 export type Address = {
   line1: string;
   city: string;
@@ -34,6 +33,7 @@ const DBBanner = (props: DBBanner) => {
   const dashboardNumbers = (state: RootState) =>
     state.dashboardSlice.dashboardNumbers;
   const _dashboardNumbers = useSelector(dashboardNumbers);
+  const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const { name, children, headshot, color = "#032169", styleSheetRef } = props;
   const [open, setOpen] = useState<boolean>(false);
@@ -57,6 +57,13 @@ const DBBanner = (props: DBBanner) => {
           }
           suggestionStatusCount[status]++;
         });
+        let currData = {
+          pending: suggestionStatusCount.PENDING || 0,
+          approved: suggestionStatusCount.APPROVED || 0,
+          rejected: suggestionStatusCount.REJECTED || 0,
+          cancelled: suggestionStatusCount.CANCELLED || 0,
+        };
+        dispatch(dashboardNumbersReducer(currData));
       } catch (error) {
         console.error(
           `Failed to fetch field configuration for ${entityId}:`,
@@ -109,53 +116,64 @@ const DBBanner = (props: DBBanner) => {
               </div>
             </div>
           </div>
-          <AnimatePresence>
-            {" "}
-            <div className="bg-white text-center text-gray-800 m-auto flex justify-center items-center w-2/5 py-8 mx-auto">
-              {/* <div className="flex flex-col gap-4 w-full px-4">
+
+          <div className="bg-white text-center text-gray-800 m-auto flex justify-center items-center w-2/5 py-8 mx-auto">
+            <div className="flex flex-col gap-4 w-full px-4">
               <div className="text-xl font-semibold">Approval Requests </div>
-              <div>Last 60 Days</div>
-              <div className="w-full grid grid-cols-4 justify-between">
-                <div className="flex flex-col gap-2 items-center justify-center">
-                  <div className="text-xl">0</div>
-                  <div className="text-sm">Pending</div>
-                  <FiRefreshCw className="h-3 w-3 text-orange-500" />
+              {!isLoaded ? (
+                <div className="animate-pulse flex flex-col gap-4 w-full px-4">
+                  <div className="w-full grid grid-cols-4 justify-between">
+                    <div className="flex flex-col gap-2 items-center justify-center">
+                      <div className="h-2 w-2 bg-slate-700 rounded"></div>
+                      <div className="h-2 w-14 bg-slate-700 rounded"> </div>
+                      <FiRefreshCw className="h-3 w-3 text-orange-500" />
+                    </div>
+                    <div className="flex flex-col gap-2 items-center justify-center">
+                      <div className="h-2 w-2 bg-slate-700 rounded"> </div>
+                      <div className="h-2 w-14 bg-slate-700 rounded"> </div>
+                      <FiCheck className="h-3 w-3 text-green-500" />
+                    </div>
+                    <div className="flex flex-col gap-2 items-center justify-center">
+                      <div className="h-2 w-2 bg-slate-700 rounded"> </div>
+                      <div className="h-2 w-14 bg-slate-700 rounded"> </div>
+                      <GrFormClose className="h-3 w-3 text-red-500" />
+                    </div>
+                    <div className="flex flex-col gap-2 items-center justify-center">
+                      <div className="h-2 w-2 bg-slate-700 rounded"> </div>
+                      <div className="h-2 w-14 bg-slate-700 rounded"> </div>
+                      <FcCancel className="h-3 w-3 text-gray-800" />
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-2 items-center justify-center">
-                  <div className="text-xl">4</div>
-                  <div className="text-sm">Approved</div>
-                  <FiCheck className="h-3 w-3 text-green-500" />
+              ) : (
+                <div className="w-full grid grid-cols-4 justify-between">
+                  <div className="flex flex-col gap-2 items-center justify-center">
+                    <div className="text-xl">{_dashboardNumbers.pending}</div>
+                    <div className="text-sm">Pending</div>
+                    <FiRefreshCw className="h-3 w-3 text-orange-500" />
+                  </div>
+                  <div className="flex flex-col gap-2 items-center justify-center">
+                    <div className="text-xl">{_dashboardNumbers.approved}</div>
+                    <div className="text-sm">Approved</div>
+                    <FiCheck className="h-3 w-3 text-green-500" />
+                  </div>
+                  <div className="flex flex-col gap-2 items-center justify-center">
+                    <div className="text-xl">{_dashboardNumbers.rejected}</div>
+                    <div className="text-sm">Rejected</div>
+                    <GrFormClose className="h-3 w-3 text-red-500" />
+                  </div>
+                  <div className="flex flex-col gap-2 items-center justify-center">
+                    <div className="text-xl">{_dashboardNumbers.cancelled}</div>
+                    <div className="text-sm">Cancelled</div>
+                    <FcCancel className="h-3 w-3 text-gray-800" />
+                  </div>
                 </div>
-                <div className="flex flex-col gap-2 items-center justify-center">
-                  <div className="text-xl">0</div>
-                  <div className="text-sm">Rejected</div>
-                  <GrFormClose className="h-3 w-3 text-red-500" />
-                </div>
-                <div className="flex flex-col gap-2 items-center justify-center">
-                  <div className="text-xl">1</div>
-                  <div className="text-sm">Cancelled</div>
-                  <FcCancel className="h-3 w-3 text-gray-800" />
-                </div>
-              </div>
+              )}
               <div className="bg-gray-700 px-4 py-2 mx-auto rounded-md text-gray-50 text-sm   w-fit">
                 View All Approval Requests
               </div>
-            </div> */}
-              <motion.div
-                layout
-                className="w-full flex flex-col items-center"
-                exit={{ y: "-100vh" }}
-                transition={{ duration: 0.3 }}
-              >
-                {isLoaded && (
-                  <div className="flex items-center gap-2 text-lg text-[#0a3366]">
-                    <Bars className="h-5 w-5" fill="#0a3366" speed={0.5} />
-                    <p>Generating Answer...</p>
-                  </div>
-                )}
-              </motion.div>
             </div>
-          </AnimatePresence>
+          </div>
         </div>
         {children}
       </div>

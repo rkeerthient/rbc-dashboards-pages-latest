@@ -203,7 +203,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
     <Main>
       <PageLayout
         fields={document._site.c_taskGroups.reduce(
-          (acc: string, obj: C_taskGroups) => {
+          (acc: string, obj: any) => {
             return [
               ...acc,
               ...obj.tasks
