@@ -116,17 +116,18 @@ const mySlice = createSlice({
   name: "mySlice",
   initialState,
   reducers: {
-    setUserRole: (state, action) => {
+    setUserRoleReducer: (state, action) => {
       state.userRole = action.payload;
     },
-    setData: (state, action) => {
+    setDataReducer: (state, action) => {
       state.data = action.payload;
     },
-    setNotification: (state, action) => {
+    setNotificationReducer: (state, action) => {
       state.notification = action.payload;
     },
   },
 });
 
-export const { setUserRole, setData, setNotification } = mySlice.actions;
+export const { setUserRoleReducer, setDataReducer, setNotificationReducer } =
+  mySlice.actions;
 export default mySlice.reducer;

@@ -37,6 +37,9 @@ interface MyContextData {
   emails: string[];
 }
 
+interface NotificationType {
+  type: "updated" | "created" | "undefined";
+}
 interface NotificationDetails {
   fieldKey: string;
   type: string;
@@ -64,6 +67,10 @@ export interface MyState {
 }
 
 const initialState: MyState = {
+  notification: {
+    fieldKey: "",
+    type: "",
+  },
   userRole: {
     id: "",
     firstName: "",
@@ -96,10 +103,7 @@ const initialState: MyState = {
     c_awards: [],
     emails: [],
   },
-  notification: {
-    fieldKey: "",
-    type: "",
-  },
+
   completionStatus: {
     NoOfFieldsWithDataCount: 0,
     FieldsWithNoData: [],
@@ -121,6 +125,8 @@ const mySlice = createSlice({
       state.userRole = action.payload;
     },
     dataReducer: (state, action: PayloadAction<MyContextData>) => {
+      console.log(JSON.stringify(action.payload));
+
       state.data = action.payload;
     },
     notificationsReducer: (

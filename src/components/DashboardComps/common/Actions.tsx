@@ -1,5 +1,11 @@
 import * as React from "react";
 import { useMyContext } from "../../Context/MyContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import {
+  dataReducer,
+  notificationsReducer,
+} from "../../../redux/dashboardDataSlice";
 type Action_Props = {
   initialValue: any;
   isContentEdited: boolean;
@@ -14,20 +20,25 @@ const Actions = ({
   setValue,
   saveBody,
 }: Action_Props) => {
+  const dispatch = useDispatch();
+
+  const _dataReducer = (state: RootState) => state.dashboardSlice.data;
+  const dataStatus = useSelector(_dataReducer);
+
   const { userRole, setData, setNotification } = useMyContext();
-  
   const updateValue = (propertyName: string, newValue: any) => {
-    setData((prevData) => ({
-      ...prevData,
-      [propertyName]: newValue,
-    }));
+    dispatch(
+      dataReducer({
+        ...dataStatus,
+        [propertyName]: newValue,
+      })
+    );
   };
-  let objKey = Object.keys(saveBody)[0];
 
   const handleSave = async () => {
     try {
       const requestBody = encodeURIComponent(JSON.stringify(saveBody));
-      const _userRole = userRole.acl?.[0]?.roleId ?? "1";
+      const _userRole = userRole?.acl?.[0]?.roleId ?? "1";
       const response = await fetch(
         `/api/putFields/${`32311549-test`}?body=${requestBody}${`&userRole=${_userRole}`}`
       );
@@ -35,14 +46,18 @@ const Actions = ({
       const res = await response.json();
       if (!res.meta.errors.length) {
         res.operationType === "Update"
-          ? setNotification({
-              fieldKey: `${Object.keys(saveBody)[0]}`,
-              type: `Update`,
-            })
-          : setNotification({
-              fieldKey: `${Object.keys(saveBody)[0]}`,
-              type: `Suggestion`,
-            });
+          ? dispatch(
+              notificationsReducer({
+                fieldKey: `${Object.keys(saveBody)[0]}`,
+                type: `Update`,
+              })
+            )
+          : dispatch(
+              notificationsReducer({
+                fieldKey: `${Object.keys(saveBody)[0]}`,
+                type: `Suggestion`,
+              })
+            );
         updateValue(
           Object.keys(saveBody)[0],
           saveBody[Object.keys(saveBody)[0]]
