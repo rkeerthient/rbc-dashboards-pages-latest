@@ -8,7 +8,10 @@ import { useMyContext } from "./Context/MyContext";
 import { UserProfile } from "../types/user_profile";
 import Toast from "./Toast";
 import { useDispatch } from "react-redux";
-import { completionStatusReducer } from "../redux/dashboardDataSlice";
+import {
+  completionStatusReducer,
+  userRoleReducer,
+} from "../redux/dashboardDataSlice";
 
 type Props = {
   _site?: any;
@@ -127,7 +130,8 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
           const response = await fetch(`/api/users/${userId}`);
           const userResp = await response.json();
           const userString: UserProfile = await userResp.response;
-          setUserRole(userString);
+          console.log(JSON.stringify(userString));
+          dispatch(userRoleReducer(userString));
         }
       } catch (error: any) {
         console.error(`Error fetching user data: ${JSON.stringify(error)}`);
