@@ -2,6 +2,12 @@ import { TrashIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import * as React from "react";
 import { useMyContext } from "../Context/MyContext";
+import {
+  dataReducer,
+  notificationsReducer,
+} from "../../redux/dashboardDataSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 interface LinkedEntitiesProps {
   initialValue?: any[];
   fieldId: string;
@@ -13,6 +19,7 @@ const LinkedEntities = ({
   fieldId,
   linkedEntityType,
 }: LinkedEntitiesProps) => {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isEditable, setIsEditable] = useState(false);
   const [showTextbox, setShowTextbox] = useState<boolean>(false);
@@ -21,7 +28,13 @@ const LinkedEntities = ({
   const [value, setValue] = useState<string>("");
   const [responseValues, setResponseValues] = useState<any[]>([]);
   const [isContentEdited, setIsContentEdited] = useState(false);
-  const { userRole, setData, setNotification } = useMyContext();
+  const { userRole } = useMyContext();
+  const dataStatus = useSelector(
+    (state: RootState) => state.dashboardSlice.data
+  );
+  const userStatus = useSelector(
+    (state: RootState) => state.dashboardSlice.userRole
+  );
   const [filterIds, setFilterIds] = useState<string[]>(
     entityValues ? entityValues.map((item) => item.id) : []
   );
@@ -33,16 +46,17 @@ const LinkedEntities = ({
     setShowTextbox(false);
     setEntityValues(entityValues.filter((_, index) => index !== _index));
   };
-
   const updateValue = (propertyName: string, newValue: any) => {
-    setData((prevData) => ({
-      ...prevData,
-      [propertyName]: newValue,
-    }));
+    dispatch(
+      dataReducer({
+        ...dataStatus,
+        [propertyName]: newValue,
+      })
+    );
   };
 
   const handleSave = async () => {
-    const _userRole = userRole.acl?.[0]?.roleId ?? "1";
+    const _userRole = userRole?.acl?.[0]?.roleId ?? "1";
 
     try {
       const requestBody = encodeURIComponent(
@@ -55,14 +69,18 @@ const LinkedEntities = ({
       const res = await response.json();
       if (!res.meta.errors.length) {
         res.operationType === "Update"
-          ? setNotification({
-              fieldKey: `${fieldId}`,
-              type: `Update`,
-            })
-          : setNotification({
-              fieldKey: `${fieldId}`,
-              type: `Suggestion`,
-            });
+          ? dispatch(
+              notificationsReducer({
+                fieldKey: `${fieldId}`,
+                type: `Update`,
+              })
+            )
+          : dispatch(
+              notificationsReducer({
+                fieldKey: `${fieldId}`,
+                type: `Suggestion`,
+              })
+            );
         updateValue(fieldId, entityValues);
       }
     } catch (error) {

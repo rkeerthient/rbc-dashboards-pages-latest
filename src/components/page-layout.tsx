@@ -4,12 +4,12 @@ import Footer from "./footer";
 import { isLocal } from "../utils/isLocal";
 import { getRuntime } from "@yext/pages/util";
 import { useEffect, useState } from "react";
-import { useMyContext } from "./Context/MyContext";
 import { UserProfile } from "../types/user_profile";
 import Toast from "./Toast";
 import { useDispatch, useSelector } from "react-redux";
 import {
   completionStatusReducer,
+  dataReducer,
   userRoleReducer,
 } from "../redux/dashboardDataSlice";
 import { RootState } from "../redux/store";
@@ -28,7 +28,7 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
   const notificationReducer = (state: RootState) =>
     state.dashboardSlice.notification;
   const notificationSelector = useSelector(notificationReducer);
-  const { setData, notification } = useMyContext();
+
   const [resObject, setResObject] = useState<object>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -120,7 +120,7 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
         ...(emails && { emails }),
       };
 
-      setData((prevData) => ({ ...prevData, ...updatedData }));
+      dispatch(dataReducer(updatedData));
       setIsLoading(false);
     }
   }, [document]);

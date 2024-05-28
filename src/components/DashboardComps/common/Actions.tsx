@@ -25,7 +25,8 @@ const Actions = ({
   const _dataReducer = (state: RootState) => state.dashboardSlice.data;
   const dataStatus = useSelector(_dataReducer);
 
-  const { userRole, setData, setNotification } = useMyContext();
+  const { userRole } = useMyContext();
+
   const updateValue = (propertyName: string, newValue: any) => {
     dispatch(
       dataReducer({

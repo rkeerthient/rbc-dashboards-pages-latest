@@ -76,16 +76,16 @@ const initialState: MyState = {
   },
   data: {
     name: "",
-    address: {},
+    address: {} as Address,
     mainPhone: "",
     c_role: "",
-    hours: {},
+    hours: {} as Hours,
     c_contentCarousel: [],
     c_contentGrid: [],
     c_insights: [],
-    c_hero: {},
+    c_hero: {} as C_hero,
     c_advisorBio: "",
-    c_locator: {},
+    c_locator: {} as C_locator,
     languages: [],
     yearsOfExperience: "",
     c_volunteeringDisplay: [],
@@ -121,7 +121,7 @@ const mySlice = createSlice({
       state.userRole = action.payload;
     },
     dataReducer: (state, action: PayloadAction<MyContextData>) => {
-      state.data = action.payload;
+      state.data = { ...state.data, ...action.payload };
     },
     notificationsReducer: (
       state,
