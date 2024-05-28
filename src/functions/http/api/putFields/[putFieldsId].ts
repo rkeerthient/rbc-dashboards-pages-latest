@@ -9,6 +9,11 @@ const putFields = async (
   const { body, format, userRole } = queryParams;
   let getEntitiesResponse;
   let operationType = "";
+  console.log(
+    `https://api.yextapis.com/v2/accounts/me/entities/${putFieldsId}?api_key=${api_key}&v=20230601${
+      format ? `&format=${format}` : ""
+    }`
+  );
 
   userRole !== "1"
     ? (getEntitiesResponse = await fetch(

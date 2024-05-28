@@ -36,10 +36,6 @@ interface MyContextData {
   c_awards: C_awards[];
   emails: string[];
 }
-
-interface NotificationType {
-  type: "updated" | "created" | "undefined";
-}
 interface NotificationDetails {
   fieldKey: string;
   type: string;
@@ -125,8 +121,6 @@ const mySlice = createSlice({
       state.userRole = action.payload;
     },
     dataReducer: (state, action: PayloadAction<MyContextData>) => {
-      console.log(JSON.stringify(action.payload));
-
       state.data = action.payload;
     },
     notificationsReducer: (
@@ -149,7 +143,6 @@ const mySlice = createSlice({
     },
   },
 });
-
 export const {
   userRoleReducer,
   dataReducer,

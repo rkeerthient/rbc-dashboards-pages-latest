@@ -7,11 +7,12 @@ import { useEffect, useState } from "react";
 import { useMyContext } from "./Context/MyContext";
 import { UserProfile } from "../types/user_profile";
 import Toast from "./Toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   completionStatusReducer,
   userRoleReducer,
 } from "../redux/dashboardDataSlice";
+import { RootState } from "../redux/store";
 
 type Props = {
   _site?: any;
@@ -23,10 +24,13 @@ type Props = {
 const PageLayout = ({ _site, children, document, fields }: Props) => {
   const dispatch = useDispatch();
   const runtime = getRuntime();
-  const { setUserRole, setData, notification } = useMyContext();
+
+  const notificationReducer = (state: RootState) =>
+    state.dashboardSlice.notification;
+  const notificationSelector = useSelector(notificationReducer);
+  const { setData, notification } = useMyContext();
   const [resObject, setResObject] = useState<object>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { fieldKey, type } = notification;
 
   useEffect(() => {
     if (fields) {
@@ -56,7 +60,7 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
 */
 
   const userId = isLocal()
-    ? "1568883608704101997"
+    ? "3427115575132210579"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
       ? window.YEXT_AUTH.visitor.externalId
       : "";
@@ -123,14 +127,12 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
 
   useEffect(() => {
     setIsLoading(true);
-
     const getUserRole = async () => {
       try {
         if (userId) {
           const response = await fetch(`/api/users/${userId}`);
           const userResp = await response.json();
           const userString: UserProfile = await userResp.response;
-          console.log(JSON.stringify(userString));
           dispatch(userRoleReducer(userString));
         }
       } catch (error: any) {
@@ -139,7 +141,6 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
         setIsLoading(false);
       }
     };
-
     getUserRole();
   }, [userId]);
 
@@ -156,15 +157,17 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
     }, {});
     setResObject(resultObject);
   }, []);
-
+  useEffect(() => {
+    console.log(JSON.stringify(notificationSelector));
+  }, []);
   return (
     <div className="min-h-screen">
-      {JSON.stringify(notification) !== "{}" && (
+      {JSON.stringify(notificationSelector) !== '{"fieldKey":"","type":""}' && (
         <Toast
           visibility={true}
-          fieldKey={fieldKey}
-          type={type}
-          fieldName={resObject[fieldKey]}
+          fieldKey={notificationSelector.fieldKey}
+          type={notificationSelector.type}
+          fieldName={resObject[notificationSelector.fieldKey]}
         />
       )}
 
