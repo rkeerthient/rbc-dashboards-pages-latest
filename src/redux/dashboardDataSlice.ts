@@ -42,6 +42,7 @@ interface NotificationDetails {
 }
 
 interface CompletionStatus {
+  fields: string[];
   NoOfFieldsWithDataCount: number;
   FieldsWithNoData: string[];
   completionPercentage: number;
@@ -101,6 +102,7 @@ const initialState: MyState = {
   },
 
   completionStatus: {
+    fields: [],
     NoOfFieldsWithDataCount: 0,
     FieldsWithNoData: [],
     completionPercentage: 0,

@@ -2,6 +2,7 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import {
+  completionStatusReducer,
   dataReducer,
   notificationsReducer,
 } from "../../../redux/dashboardDataSlice";
@@ -26,6 +27,9 @@ const Actions = ({
   );
   const userStatus = useSelector(
     (state: RootState) => state.dashboardSlice.userRole
+  );
+  const completionStatus = useSelector(
+    (state: RootState) => state.dashboardSlice.completionStatus
   );
 
   const updateValue = (propertyName: string, newValue: any) => {
@@ -64,6 +68,26 @@ const Actions = ({
           Object.keys(saveBody)[0],
           saveBody[Object.keys(saveBody)[0]]
         );
+
+        // let noOfFieldsWithDataCount = 0;
+        // const fieldsWithNoData: string[] = [];
+
+        // fields.forEach((field) => {
+        //   if (document[field] !== undefined) {
+        //     noOfFieldsWithDataCount++;
+        //   } else {
+        //     fieldsWithNoData.push(field);
+        //   }
+        // });
+
+        // dispatch(
+        //   completionStatusReducer({
+        //     NoOfFieldsWithDataCount: noOfFieldsWithDataCount,
+        //     FieldsWithNoData: fieldsWithNoData,
+        //     completionPercentage:
+        //       (noOfFieldsWithDataCount / fields.length) * 100,
+        //   })
+        // );
       }
     } catch (error) {
       console.error(

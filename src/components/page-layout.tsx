@@ -47,6 +47,7 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
 
       dispatch(
         completionStatusReducer({
+          fields: fields,
           NoOfFieldsWithDataCount: noOfFieldsWithDataCount,
           FieldsWithNoData: fieldsWithNoData,
           completionPercentage: (noOfFieldsWithDataCount / fields.length) * 100,

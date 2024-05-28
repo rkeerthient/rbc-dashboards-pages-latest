@@ -9,10 +9,14 @@ import { RootState } from "../redux/store";
 
 Chart.register(CategoryScale);
 
-const SampleChart = () => {
-  const completionStatusReducer = (state: RootState) =>
-    state.dashboardSlice.completionStatus;
-  const completionStatus = useSelector(completionStatusReducer);
+type Props = {
+  document?: any;
+  fields?: string[];
+};
+const SampleChart = ({ document, fields }: Props) => {
+  const completionStatus = useSelector(
+    (state: RootState) => state.dashboardSlice.completionStatus
+  );
 
   return (
     <>

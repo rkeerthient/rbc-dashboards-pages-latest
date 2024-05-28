@@ -202,17 +202,14 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
   return (
     <Main>
       <PageLayout
-        fields={document._site.c_taskGroups.reduce(
-          (acc: string, obj: any) => {
-            return [
-              ...acc,
-              ...obj.tasks
-                .filter((task: Tasks) => task.shouldScrore)
-                .map((task: Tasks) => task.field),
-            ];
-          },
-          []
-        )}
+        fields={document._site.c_taskGroups.reduce((acc: string, obj: any) => {
+          return [
+            ...acc,
+            ...obj.tasks
+              .filter((task: Tasks) => task.shouldScrore)
+              .map((task: Tasks) => task.field),
+          ];
+        }, [])}
         _site={document._site}
         document={document}
       >
@@ -279,7 +276,19 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
                   <div className="text-gray-900">
                     {document._site.c_dashboardCompletionDescription}
                   </div>
-                  <SampleChart></SampleChart>
+                  <SampleChart
+                    fields={document._site.c_taskGroups.reduce(
+                      (acc: string, obj: any) => {
+                        return [
+                          ...acc,
+                          ...obj.tasks
+                            .filter((task: Tasks) => task.shouldScrore)
+                            .map((task: Tasks) => task.field),
+                        ];
+                      },
+                      []
+                    )}
+                  ></SampleChart>
                 </div>
                 <RemainingFields site={document._site} />
               </div>
