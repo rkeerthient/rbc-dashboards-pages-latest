@@ -157,9 +157,6 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
     }, {});
     setResObject(resultObject);
   }, []);
-  useEffect(() => {
-    console.log(JSON.stringify(notificationSelector));
-  }, []);
   return (
     <div className="min-h-screen">
       {JSON.stringify(notificationSelector) !== '{"fieldKey":"","type":""}' && (

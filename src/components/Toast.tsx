@@ -39,9 +39,6 @@ const Toast = ({ visibility, fieldKey, type, fieldName }: ToastProps) => {
       }, 100);
     }
   }, [progress]);
-  useEffect(() => {
-    console.log(`entered ${visibility}, ${fieldKey}, ${type}, ${fieldName}`);
-  }, []);
   return (
     <>
       {visible && (
