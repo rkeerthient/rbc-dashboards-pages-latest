@@ -14,11 +14,12 @@ import PhotoField from "./FieldComponents.tsx/PhotoField";
 import PhotoGalleryField from "./FieldComponents.tsx/PhotoGalleryField";
 import ColorPickerField from "./FieldComponents.tsx/ColorPickerField";
 import EntityAddOrDeleteField from "./FieldComponents.tsx/EntityAddOrDeleteField";
-import { useMyContext } from "../Context/MyContext";
 import BlogsAddOrDelete from "./FieldComponents.tsx/BlogsAddOrDelete";
 import HoursField from "./HoursField";
 import AddressField from "./FieldComponents.tsx/AddressField";
 import LinkedEntities from "./LinkedEntities";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 interface UIPickerProps {
   fieldName: string;
@@ -30,7 +31,9 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
   const [mainFieldSchema, setMainFieldSchema] = useState<Root | undefined>();
   const [subFieldSchema, setSubFieldSchema] = useState<Root | undefined>();
   const [isLoading, setIsLoading] = useState(false);
-  const { userRole } = useMyContext();
+  const userRole = useSelector(
+    (state: RootState) => state.dashboardSlice.userRole
+  );
 
   useEffect(() => {
     let isMounted = true;

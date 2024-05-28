@@ -2,7 +2,6 @@ import { Transition } from "@headlessui/react";
 import { CheckCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import * as React from "react";
 import { Fragment, useEffect, useState } from "react";
-import { useMyContext } from "./Context/MyContext";
 import { notificationsReducer } from "../redux/dashboardDataSlice";
 import { useDispatch } from "react-redux";
 
@@ -16,7 +15,6 @@ type ToastProps = {
 const Toast = ({ visibility, fieldKey, type, fieldName }: ToastProps) => {
   const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(100);
-  const { setNotification } = useMyContext();
   const dispatch = useDispatch();
   useEffect(() => {
     let interval: NodeJS.Timeout;

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useMyContext } from "../../Context/MyContext";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import {
@@ -22,10 +21,12 @@ const Actions = ({
 }: Action_Props) => {
   const dispatch = useDispatch();
 
-  const _dataReducer = (state: RootState) => state.dashboardSlice.data;
-  const dataStatus = useSelector(_dataReducer);
-
-  const { userRole } = useMyContext();
+  const dataStatus = useSelector(
+    (state: RootState) => state.dashboardSlice.data
+  );
+  const userStatus = useSelector(
+    (state: RootState) => state.dashboardSlice.userRole
+  );
 
   const updateValue = (propertyName: string, newValue: any) => {
     dispatch(
@@ -39,7 +40,7 @@ const Actions = ({
   const handleSave = async () => {
     try {
       const requestBody = encodeURIComponent(JSON.stringify(saveBody));
-      const _userRole = userRole?.acl?.[0]?.roleId ?? "1";
+      const _userRole = userStatus?.acl?.[0]?.roleId ?? "1";
       const response = await fetch(
         `/api/putFields/${`32311549-test`}?body=${requestBody}${`&userRole=${_userRole}`}`
       );

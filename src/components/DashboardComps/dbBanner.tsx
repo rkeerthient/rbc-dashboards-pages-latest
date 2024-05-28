@@ -3,7 +3,6 @@ import { FiRefreshCw, FiCheck } from "react-icons/fi";
 import { GrFormClose } from "react-icons/gr";
 import { FcCancel } from "react-icons/fc";
 import { useEffect, useState } from "react";
-import { useMyContext } from "../Context/MyContext";
 import Portal from "./Portal";
 import { LexicalRichText } from "@yext/pages-components";
 import { SuggestionsRoot } from "./Suggestions";
@@ -37,7 +36,6 @@ const DBBanner = (props: DBBanner) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const { name, children, headshot, color = "#032169", styleSheetRef } = props;
   const [open, setOpen] = useState<boolean>(false);
-  const { data } = useMyContext();
 
   useEffect(() => {
     const entityId = `32311549-test`;

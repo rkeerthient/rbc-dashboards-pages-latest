@@ -1,8 +1,7 @@
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import * as React from "react";
-import { useMyContext } from "../Context/MyContext";
-import {
+ import {
   dataReducer,
   notificationsReducer,
 } from "../../redux/dashboardDataSlice";
@@ -28,7 +27,6 @@ const LinkedEntities = ({
   const [value, setValue] = useState<string>("");
   const [responseValues, setResponseValues] = useState<any[]>([]);
   const [isContentEdited, setIsContentEdited] = useState(false);
-  const { userRole } = useMyContext();
   const dataStatus = useSelector(
     (state: RootState) => state.dashboardSlice.data
   );
@@ -56,7 +54,7 @@ const LinkedEntities = ({
   };
 
   const handleSave = async () => {
-    const _userRole = userRole?.acl?.[0]?.roleId ?? "1";
+    const _userRole = userStatus?.acl?.[0]?.roleId ?? "1";
 
     try {
       const requestBody = encodeURIComponent(
