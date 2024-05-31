@@ -69,7 +69,7 @@ const SampleChart = ({ document, fields }: Props) => {
                   var fontSize = (height / 160).toFixed(2);
                   ctx.font = fontSize + "em sans-serif";
                   ctx.textBaseline = "top";
-                  var text = textText,
+                  var text = `${textText}%`,
                     textX = Math.round(
                       (width - ctx.measureText(text).width) / 2
                     ),
