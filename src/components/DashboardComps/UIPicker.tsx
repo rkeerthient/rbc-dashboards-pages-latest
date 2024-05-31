@@ -31,8 +31,7 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
   const [mainFieldSchema, setMainFieldSchema] = useState<Root | undefined>();
   const [subFieldSchema, setSubFieldSchema] = useState<Root | undefined>();
   const [isLoading, setIsLoading] = useState(false);
-  console.log(JSON.stringify(initialValue));
-
+ 
   const userRole = useSelector(
     (state: RootState) => state.dashboardSlice.userRole
   );
