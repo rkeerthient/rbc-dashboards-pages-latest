@@ -4,11 +4,15 @@ import Footer from "./footer";
 import { isLocal } from "../utils/isLocal";
 import { getRuntime } from "@yext/pages/util";
 import { useEffect, useState } from "react";
-import { useMyContext } from "./Context/MyContext";
 import { UserProfile } from "../types/user_profile";
 import Toast from "./Toast";
-import { useDispatch } from "react-redux";
-import { completionStatusReducer } from "../redux/dashboardDataSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  completionStatusReducer,
+  dataReducer,
+  userRoleReducer,
+} from "../redux/dashboardDataSlice";
+import { RootState } from "../redux/store";
 
 type Props = {
   _site?: any;
@@ -20,10 +24,13 @@ type Props = {
 const PageLayout = ({ _site, children, document, fields }: Props) => {
   const dispatch = useDispatch();
   const runtime = getRuntime();
-  const { setUserRole, setData, notification } = useMyContext();
+
+  const notificationReducer = (state: RootState) =>
+    state.dashboardSlice.notification;
+  const notificationSelector = useSelector(notificationReducer);
+
   const [resObject, setResObject] = useState<object>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { fieldKey, type } = notification;
 
   useEffect(() => {
     if (fields) {
@@ -40,6 +47,7 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
 
       dispatch(
         completionStatusReducer({
+          fields: fields,
           NoOfFieldsWithDataCount: noOfFieldsWithDataCount,
           FieldsWithNoData: fieldsWithNoData,
           completionPercentage: (noOfFieldsWithDataCount / fields.length) * 100,
@@ -53,7 +61,7 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
 */
 
   const userId = isLocal()
-    ? "1568883608704101997"
+    ? "3427115575132210579"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
       ? window.YEXT_AUTH.visitor.externalId
       : "";
@@ -64,97 +72,69 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
 
       const {
         name,
-        mainPhone,
-        emails,
-        c_template,
-        c_color,
-        c_fonts,
-        c_preferredFirstName,
-        c_jobTitle,
-        c_clientFocuses,
-        c_aboutAdvisorShortDescription,
-        c_expertiseCommentsRTv2,
-        c_hobbiesAndInterests,
-        c_teamDescriptionRTv2,
-        c_languagesV2,
-        c_educationDisplay,
-        c_heroBanner,
-        c_associatedBlogs,
-        c_associatedClientStories,
-        c_associatedFAQs,
-        c_associatedInsights,
-        c_associatedSolutions,
-        photoGallery,
-        hours,
         address,
-        geocodedCoordinate,
-        c_designations,
-        _site,
-        c_organizationsDisplay,
-        c_awardsDashboard,
-        c_teamName,
-        c_teamMembers,
-        c_serviceAreas,
-        c_fAQs,
+        mainPhone,
+        c_role,
+        hours,
+        c_contentCarousel,
+        c_contentGrid,
+        c_insights,
+        c_hero,
+        c_advisorBio,
+        c_locator,
+        languages,
         yearsOfExperience,
-        c_UpcomingEvents,
+        c_volunteeringDisplay,
+        c_preferredName,
+        c_clientFocuses,
+        c_hobbiesAndInterests,
+        c_serviceAreas,
+        c_organizations,
+        c_education,
+        c_designations,
+        c_awards,
+        emails,
       } = document;
-
       const updatedData = {
         ...(name && { name }),
-        ...(mainPhone && { mainPhone }),
-        ...(emails && { emails }),
-        ...(c_template && { c_template }),
-        ...(c_color && { c_color }),
-        ...(c_fonts && { c_fonts }),
-        ...(c_preferredFirstName && { c_preferredFirstName }),
-        ...(c_jobTitle && { c_jobTitle }),
-        ...(c_clientFocuses && { c_clientFocuses }),
-        ...(c_aboutAdvisorShortDescription && {
-          c_aboutAdvisorShortDescription,
-        }),
-        ...(c_expertiseCommentsRTv2 && { c_expertiseCommentsRTv2 }),
-        ...(c_hobbiesAndInterests && { c_hobbiesAndInterests }),
-        ...(c_teamDescriptionRTv2 && { c_teamDescriptionRTv2 }),
-        ...(c_teamName && { c_teamName }),
-        ...(c_fAQs && { c_fAQs }),
-        ...(c_languagesV2 && { c_languagesV2 }),
-        ...(c_educationDisplay && { c_educationDisplay }),
-        ...(c_heroBanner && { c_heroBanner }),
-        ...(c_associatedBlogs && { c_associatedBlogs }),
-        ...(c_associatedClientStories && { c_associatedClientStories }),
-        ...(c_associatedFAQs && { c_associatedFAQs }),
-        ...(c_associatedInsights && { c_associatedInsights }),
-        ...(c_associatedSolutions && { c_associatedSolutions }),
-        ...(photoGallery && { photoGallery }),
-        ...(hours && { hours }),
         ...(address && { address }),
-        ...(geocodedCoordinate && { geocodedCoordinate }),
-        ...(c_designations && { c_designations }),
-        ...(c_organizationsDisplay && { c_organizationsDisplay }),
-        ...(_site && { _site }),
-        ...(c_awardsDashboard && { c_awardsDashboard }),
-        ...(c_teamMembers && { c_teamMembers }),
-        ...(c_serviceAreas && { c_serviceAreas }),
+        ...(mainPhone && { mainPhone }),
+        ...(c_role && { c_role }),
+        ...(hours && { hours }),
+        ...(c_contentCarousel && { c_contentCarousel }),
+        ...(c_contentGrid && { c_contentGrid }),
+        ...(c_insights && { c_insights }),
+        ...(c_hero && { c_hero }),
+        ...(c_advisorBio && { c_advisorBio }),
+        ...(c_locator && { c_locator }),
+        ...(languages && { languages }),
         ...(yearsOfExperience && { yearsOfExperience }),
-        ...(c_UpcomingEvents && { c_UpcomingEvents }),
+        ...(c_volunteeringDisplay && { c_volunteeringDisplay }),
+        ...(c_preferredName && { c_preferredName }),
+        ...(c_clientFocuses && { c_clientFocuses }),
+        ...(c_hobbiesAndInterests && { c_hobbiesAndInterests }),
+        ...(c_serviceAreas && { c_serviceAreas }),
+        ...(c_organizations && { c_organizations }),
+        ...(c_education && { c_education }),
+        ...(c_designations && { c_designations }),
+        ...(c_awards && { c_awards }),
+        ...(emails && { emails }),
       };
 
-      setData((prevData) => ({ ...prevData, ...updatedData }));
+      dispatch(dataReducer(updatedData));
       setIsLoading(false);
     }
   }, [document]);
 
   useEffect(() => {
     setIsLoading(true);
-
     const getUserRole = async () => {
       try {
         if (userId) {
           const response = await fetch(`/api/users/${userId}`);
           const userResp = await response.json();
           const userString: UserProfile = await userResp.response;
-          setUserRole(userString);
+          dispatch(userRoleReducer(userString));
         }
       } catch (error: any) {
         console.error(`Error fetching user data: ${JSON.stringify(error)}`);
@@ -162,7 +142,6 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
         setIsLoading(false);
       }
     };
-
     getUserRole();
   }, [userId]);
 
@@ -179,15 +158,14 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
     }, {});
     setResObject(resultObject);
   }, []);
-
   return (
     <div className="min-h-screen">
-      {JSON.stringify(notification) !== "{}" && (
+      {JSON.stringify(notificationSelector) !== '{"fieldKey":"","type":""}' && (
         <Toast
           visibility={true}
-          fieldKey={fieldKey}
-          type={type}
-          fieldName={resObject[fieldKey]}
+          fieldKey={notificationSelector.fieldKey}
+          type={notificationSelector.type}
+          fieldName={resObject[notificationSelector.fieldKey]}
         />
       )}
 

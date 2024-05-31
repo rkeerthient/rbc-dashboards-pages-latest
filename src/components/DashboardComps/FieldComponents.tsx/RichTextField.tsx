@@ -2,7 +2,6 @@ import * as React from "react";
 import { useState } from "react";
 import LexicalRichTextEditor from "../LexicalRichText/LexicalRichTextEditor";
 import LexicalMarkdownEditor from "../LexicalRichText/LexicalMarkdownEditor";
-import { useMyContext } from "../../Context/MyContext";
 import Actions from "../common/Actions";
 interface RichTextFieldProps {
   initialValue?: string | undefined;
@@ -12,7 +11,6 @@ const RichTextField = ({ initialValue, fieldId }: RichTextFieldProps) => {
   const [value, setValue] = useState<string | object | undefined>(initialValue);
   const [isEditable, setIsEditable] = useState(false);
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
-  const { userRole } = useMyContext();
   const handleClick = () => {
     setIsEditable(true);
   };

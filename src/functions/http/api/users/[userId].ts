@@ -1,7 +1,7 @@
 import { PagesHttpRequest, PagesHttpResponse } from "@yext/pages/*";
 const getUser = async (
-  request: SitesHttpRequest
-): Promise<SitesHttpResponse> => {
+  request: PagesHttpRequest
+): Promise<PagesHttpResponse> => {
   const { method, pathParams } = request;
 
   const { userId } = pathParams;

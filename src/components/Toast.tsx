@@ -2,7 +2,8 @@ import { Transition } from "@headlessui/react";
 import { CheckCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import * as React from "react";
 import { Fragment, useEffect, useState } from "react";
-import { useMyContext } from "./Context/MyContext";
+import { notificationsReducer } from "../redux/dashboardDataSlice";
+import { useDispatch } from "react-redux";
 
 type ToastProps = {
   visibility: boolean;
@@ -14,8 +15,7 @@ type ToastProps = {
 const Toast = ({ visibility, fieldKey, type, fieldName }: ToastProps) => {
   const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(100);
-  const { setNotification } = useMyContext();
- 
+  const dispatch = useDispatch();
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (visible) {
@@ -24,7 +24,8 @@ const Toast = ({ visibility, fieldKey, type, fieldName }: ToastProps) => {
       }, 100);
     }
     return () => {
-      setNotification({});
+      dispatch(notificationsReducer({ fieldKey: "", type: "" }));
+
       clearInterval(interval);
     };
   }, [visible]);
@@ -36,7 +37,6 @@ const Toast = ({ visibility, fieldKey, type, fieldName }: ToastProps) => {
       }, 100);
     }
   }, [progress]);
-
   return (
     <>
       {visible && (
@@ -105,3 +105,6 @@ const Toast = ({ visibility, fieldKey, type, fieldName }: ToastProps) => {
 };
 
 export default Toast;
+function dispatch() {
+  throw new Error("Function not implemented.");
+}

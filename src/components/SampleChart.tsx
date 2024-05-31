@@ -6,17 +6,29 @@ import { Doughnut, Pie } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 import { MyState } from "../redux/dashboardDataSlice";
 import { RootState } from "../redux/store";
+import { useEffect, useState } from "react";
 
 Chart.register(CategoryScale);
 
-const SampleChart = () => {
-  const completionStatusReducer = (state: RootState) =>
-    state.dashboardSlice.completionStatus;
-  const completionStatus = useSelector(completionStatusReducer);
+type Props = {
+  document?: any;
+  fields?: string[];
+};
+const SampleChart = ({ document, fields }: Props) => {
+  const completionStatus = useSelector(
+    (state: RootState) => state.dashboardSlice.completionStatus
+  );
+  const [textText, setTextText] = useState("");
+
+  useEffect(() => {
+    if (completionStatus) {
+      setTextText(completionStatus.completionPercentage.toFixed(0));
+    }
+  }, [completionStatus]);
 
   return (
     <>
-      {completionStatus && (
+      {completionStatus && textText && (
         <div className="chart-container  ">
           <Doughnut
             data={{
@@ -57,7 +69,7 @@ const SampleChart = () => {
                   var fontSize = (height / 160).toFixed(2);
                   ctx.font = fontSize + "em sans-serif";
                   ctx.textBaseline = "top";
-                  var text = `${completionStatus.completionPercentage}%`,
+                  var text = `${textText}%`,
                     textX = Math.round(
                       (width - ctx.measureText(text).width) / 2
                     ),

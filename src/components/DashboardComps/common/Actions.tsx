@@ -1,5 +1,11 @@
 import * as React from "react";
-import { useMyContext } from "../../Context/MyContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import {
+  completionStatusReducer,
+  dataReducer,
+  notificationsReducer,
+} from "../../../redux/dashboardDataSlice";
 type Action_Props = {
   initialValue: any;
   isContentEdited: boolean;
@@ -14,35 +20,65 @@ const Actions = ({
   setValue,
   saveBody,
 }: Action_Props) => {
-  const { userRole, setData, setNotification } = useMyContext();
+  const dispatch = useDispatch();
+
+  const dataStatus = useSelector(
+    (state: RootState) => state.dashboardSlice.data
+  );
+  const userStatus = useSelector(
+    (state: RootState) => state.dashboardSlice.userRole
+  );
+  const completionStatus = useSelector(
+    (state: RootState) => state.dashboardSlice.completionStatus
+  );
 
   const updateValue = (propertyName: string, newValue: any) => {
-    setData((prevData) => ({
-      ...prevData,
-      [propertyName]: newValue,
-    }));
+    if (completionStatus.FieldsWithNoData.includes(propertyName)) {
+      const newCompletionStatus = { ...completionStatus };
+
+      newCompletionStatus.FieldsWithNoData =
+        newCompletionStatus.FieldsWithNoData.filter(
+          (field) => field !== propertyName
+        );
+      newCompletionStatus.completionPercentage =
+        (newCompletionStatus.fields.length -
+          newCompletionStatus.FieldsWithNoData.length) *
+        100;
+
+      dispatch(completionStatusReducer(newCompletionStatus));
+    }
+    dispatch(
+      dataReducer({
+        ...dataStatus,
+        [propertyName]: newValue,
+      })
+    );
   };
-  let objKey = Object.keys(saveBody)[0];
 
   const handleSave = async () => {
     try {
       const requestBody = encodeURIComponent(JSON.stringify(saveBody));
-      const _userRole = userRole.acl?.[0]?.roleId ?? "1";
+      const _userRole = userStatus?.acl?.[0]?.roleId ?? "1";
       const response = await fetch(
         `/api/putFields/${`32311549-test`}?body=${requestBody}${`&userRole=${_userRole}`}`
       );
 
       const res = await response.json();
+
       if (!res.meta.errors.length) {
         res.operationType === "Update"
-          ? setNotification({
-              fieldKey: `${Object.keys(saveBody)[0]}`,
-              type: `Update`,
-            })
-          : setNotification({
-              fieldKey: `${Object.keys(saveBody)[0]}`,
-              type: `Suggestion`,
-            });
+          ? dispatch(
+              notificationsReducer({
+                fieldKey: `${Object.keys(saveBody)[0]}`,
+                type: `Update`,
+              })
+            )
+          : dispatch(
+              notificationsReducer({
+                fieldKey: `${Object.keys(saveBody)[0]}`,
+                type: `Suggestion`,
+              })
+            );
         updateValue(
           Object.keys(saveBody)[0],
           saveBody[Object.keys(saveBody)[0]]

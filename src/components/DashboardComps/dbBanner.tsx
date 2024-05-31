@@ -2,10 +2,13 @@ import * as React from "react";
 import { FiRefreshCw, FiCheck } from "react-icons/fi";
 import { GrFormClose } from "react-icons/gr";
 import { FcCancel } from "react-icons/fc";
- import { useState } from "react";
- import { useMyContext } from "../Context/MyContext";
+import { useEffect, useState } from "react";
 import Portal from "./Portal";
 import { LexicalRichText } from "@yext/pages-components";
+import { SuggestionsRoot } from "./Suggestions";
+import { RootState } from "../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { dashboardNumbersReducer } from "../../redux/dashboardDataSlice";
 export type Address = {
   line1: string;
   city: string;
@@ -26,16 +29,56 @@ type DBBanner = {
 };
 
 const DBBanner = (props: DBBanner) => {
-   
+  const dashboardNumbers = (state: RootState) =>
+    state.dashboardSlice.dashboardNumbers;
+  const _dashboardNumbers = useSelector(dashboardNumbers);
+  const dispatch = useDispatch();
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const { name, children, headshot, color = "#032169", styleSheetRef } = props;
   const [open, setOpen] = useState<boolean>(false);
-  const { data } = useMyContext();
+
+  useEffect(() => {
+    const entityId = `32311549-test`;
+    let suggestionStatusCount: any = {};
+    setIsLoaded(false);
+    const getSuggestions = async () => {
+      try {
+        const _res = await fetch(`/api/getSuggestions/${entityId}`);
+        const mainJson: any = await _res.json();
+        const suggestions: SuggestionsRoot[] =
+          await mainJson.response.suggestions;
+
+        suggestions.forEach((suggestion) => {
+          const status = suggestion.status;
+          if (!suggestionStatusCount[status]) {
+            suggestionStatusCount[status] = 0;
+          }
+          suggestionStatusCount[status]++;
+        });
+        let currData = {
+          pending: suggestionStatusCount.PENDING || 0,
+          approved: suggestionStatusCount.APPROVED || 0,
+          rejected: suggestionStatusCount.REJECTED || 0,
+          cancelled: suggestionStatusCount.CANCELLED || 0,
+        };
+        dispatch(dashboardNumbersReducer(currData));
+      } catch (error) {
+        console.error(
+          `Failed to fetch field configuration for ${entityId}:`,
+          error
+        );
+      } finally {
+        setIsLoaded(true);
+      }
+    };
+    getSuggestions();
+  }, []);
 
   return (
     <>
       <div
-        style={{ background: "#006ac3" }}
-        className="text-white p-4 flex items-center justify-center flex-row space-x-20 w-full"
+        style={{ background: "white" }}
+        className="  p-4 flex items-center justify-center flex-row space-x-20 w-full"
       >
         <div className="flex items-center flex-row  gap-4">
           <div>
@@ -49,8 +92,12 @@ const DBBanner = (props: DBBanner) => {
             </div>
             <div>
               {props._site.c_dashboardHeroDescription && (
-                <LexicalRichText serializedAST={JSON.stringify(props._site.c_dashboardHeroDescription.json)}/>
-               )}
+                <LexicalRichText
+                  serializedAST={JSON.stringify(
+                    props._site.c_dashboardHeroDescription.json
+                  )}
+                />
+              )}
             </div>
             <div className="flex gap-4">
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs ">
@@ -67,32 +114,59 @@ const DBBanner = (props: DBBanner) => {
               </div>
             </div>
           </div>
-          <div className="bg-white text-center text-gray-800 m-auto flex justify-center items-center w-2/5 py-8 mx-auto">
+
+          <div className="bg- shadow-lg text-center text-gray-800 m-auto flex justify-center items-center w-2/5 py-8 mx-auto">
             <div className="flex flex-col gap-4 w-full px-4">
               <div className="text-xl font-semibold">Approval Requests </div>
-              <div>Last 60 Days</div>
-              <div className="w-full grid grid-cols-4 justify-between">
-                <div className="flex flex-col gap-2 items-center justify-center">
-                  <div className="text-xl">0</div>
-                  <div className="text-sm">Pending</div>
-                  <FiRefreshCw className="h-3 w-3 text-orange-500" />
+              {!isLoaded ? (
+                <div className="animate-pulse flex flex-col gap-4 w-full px-4">
+                  <div className="w-full grid grid-cols-4 justify-between">
+                    <div className="flex flex-col gap-2 items-center justify-center">
+                      <div className="h-2 w-2 bg-slate-700 rounded"></div>
+                      <div className="h-2 w-14 bg-slate-700 rounded"> </div>
+                      <FiRefreshCw className="h-3 w-3 text-orange-500" />
+                    </div>
+                    <div className="flex flex-col gap-2 items-center justify-center">
+                      <div className="h-2 w-2 bg-slate-700 rounded"> </div>
+                      <div className="h-2 w-14 bg-slate-700 rounded"> </div>
+                      <FiCheck className="h-3 w-3 text-green-500" />
+                    </div>
+                    <div className="flex flex-col gap-2 items-center justify-center">
+                      <div className="h-2 w-2 bg-slate-700 rounded"> </div>
+                      <div className="h-2 w-14 bg-slate-700 rounded"> </div>
+                      <GrFormClose className="h-3 w-3 text-red-500" />
+                    </div>
+                    <div className="flex flex-col gap-2 items-center justify-center">
+                      <div className="h-2 w-2 bg-slate-700 rounded"> </div>
+                      <div className="h-2 w-14 bg-slate-700 rounded"> </div>
+                      <FcCancel className="h-3 w-3 text-gray-800" />
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-2 items-center justify-center">
-                  <div className="text-xl">4</div>
-                  <div className="text-sm">Approved</div>
-                  <FiCheck className="h-3 w-3 text-green-500" />
+              ) : (
+                <div className="w-full grid grid-cols-4 justify-between">
+                  <div className="flex flex-col gap-2 items-center justify-center">
+                    <div className="text-xl">{_dashboardNumbers.pending}</div>
+                    <div className="text-sm">Pending</div>
+                    <FiRefreshCw className="h-3 w-3 text-orange-500" />
+                  </div>
+                  <div className="flex flex-col gap-2 items-center justify-center">
+                    <div className="text-xl">{_dashboardNumbers.approved}</div>
+                    <div className="text-sm">Approved</div>
+                    <FiCheck className="h-3 w-3 text-green-500" />
+                  </div>
+                  <div className="flex flex-col gap-2 items-center justify-center">
+                    <div className="text-xl">{_dashboardNumbers.rejected}</div>
+                    <div className="text-sm">Rejected</div>
+                    <GrFormClose className="h-3 w-3 text-red-500" />
+                  </div>
+                  <div className="flex flex-col gap-2 items-center justify-center">
+                    <div className="text-xl">{_dashboardNumbers.cancelled}</div>
+                    <div className="text-sm">Cancelled</div>
+                    <FcCancel className="h-3 w-3 text-gray-800" />
+                  </div>
                 </div>
-                <div className="flex flex-col gap-2 items-center justify-center">
-                  <div className="text-xl">0</div>
-                  <div className="text-sm">Rejected</div>
-                  <GrFormClose className="h-3 w-3 text-red-500" />
-                </div>
-                <div className="flex flex-col gap-2 items-center justify-center">
-                  <div className="text-xl">1</div>
-                  <div className="text-sm">Cancelled</div>
-                  <FcCancel className="h-3 w-3 text-gray-800" />
-                </div>
-              </div>
+              )}
               <div className="bg-gray-700 px-4 py-2 mx-auto rounded-md text-gray-50 text-sm   w-fit">
                 View All Approval Requests
               </div>

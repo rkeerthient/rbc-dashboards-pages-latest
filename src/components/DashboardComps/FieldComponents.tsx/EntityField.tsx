@@ -1,9 +1,8 @@
 import { Transition, Dialog } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
- import Ce_blog from "../../../types/blog";
+import Ce_blog from "../../../types/blog";
 import PhotoGalleryField from "./PhotoGalleryField";
-import { useMyContext } from "../../Context/MyContext";
 import * as React from "react";
 interface EntityFieldProps {
   initialValue?: Ce_blog[];
@@ -16,16 +15,10 @@ const EntityField = ({ initialValue }: EntityFieldProps) => {
   const [isEditable, setIsEditable] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
   const [newBlog, setNewBlog] = useState<Ce_blog>({});
-  const { userRole, setData, setNotification } = useMyContext();
   const handleClick = () => {
     setIsEditable(true);
   };
-  const updateValue = (propertyName: string, newValue: any) => {
-    setData((prevData) => ({
-      ...prevData,
-      [propertyName]: newValue,
-    }));
-  };
+
   const handleSave = async () => {
     setIsLoading(true);
 
@@ -288,9 +281,7 @@ const EntityField = ({ initialValue }: EntityFieldProps) => {
                             </div>
                           </div>
                         </div>
-                        <div className="w-4/5 flex justify-between">
-                          
-                        </div>
+                        <div className="w-4/5 flex justify-between"></div>
                       </div>
                     </div>
                     <div className="flex mt-6 gap-3 justify-end">

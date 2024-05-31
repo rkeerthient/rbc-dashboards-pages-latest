@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as React from "react";
-import { useMyContext } from "../../Context/MyContext";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 interface Option {
   displayName: string;
@@ -82,7 +83,9 @@ const TextBoxContainer = ({
   const [showSaveButtons, setShowSaveButtons] = useState<boolean>(false);
   const [initBlocks, setInitBlocks] = useState<Block[]>([]);
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
-  const { userRole } = useMyContext();
+  const userStatus = useSelector(
+    (state: RootState) => state.dashboardSlice.userRole
+  );
   const booleanData = [
     {
       displayName: "Yes",
@@ -351,10 +354,12 @@ const TextBoxContainer = ({
           [fieldId as string]: formattedJsonArray,
         })
       );
+      const _userRole = userStatus?.acl?.[0]?.roleId ?? "1";
+
       const response = await fetch(
         `/api/putFields/${`32311549-test`}?body=${requestBody}${
           richFormat.length ? `&format=${richFormat}` : ""
-        }&userRole=${userRole}`
+        }&userRole=${_userRole}`
       );
     } catch (error) {
       console.error(

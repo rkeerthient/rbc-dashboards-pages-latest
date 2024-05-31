@@ -14,11 +14,12 @@ import PhotoField from "./FieldComponents.tsx/PhotoField";
 import PhotoGalleryField from "./FieldComponents.tsx/PhotoGalleryField";
 import ColorPickerField from "./FieldComponents.tsx/ColorPickerField";
 import EntityAddOrDeleteField from "./FieldComponents.tsx/EntityAddOrDeleteField";
-import { useMyContext } from "../Context/MyContext";
 import BlogsAddOrDelete from "./FieldComponents.tsx/BlogsAddOrDelete";
 import HoursField from "./HoursField";
 import AddressField from "./FieldComponents.tsx/AddressField";
 import LinkedEntities from "./LinkedEntities";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 interface UIPickerProps {
   fieldName: string;
@@ -30,7 +31,10 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
   const [mainFieldSchema, setMainFieldSchema] = useState<Root | undefined>();
   const [subFieldSchema, setSubFieldSchema] = useState<Root | undefined>();
   const [isLoading, setIsLoading] = useState(false);
-  const { userRole } = useMyContext();
+ 
+  const userRole = useSelector(
+    (state: RootState) => state.dashboardSlice.userRole
+  );
 
   useEffect(() => {
     let isMounted = true;
@@ -89,6 +93,7 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
       "c_insights.blogs",
       "c_hero.backgroundImage",
       "emails",
+      "c_pages_layouts",
     ].includes(subItemField) && getFieldConfig(subItemField);
     return () => {
       isMounted = false;
@@ -166,6 +171,14 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
                     initialValue={initialValue.blogs}
                     fieldId={"c_insights.blogs"}
                     linkedEntityType={"ce_blog"}
+                  />
+                );
+              case "c_pages_layouts":
+                return (
+                  <LinkedEntities
+                    initialValue={initialValue}
+                    fieldId={"c_pages_layouts"}
+                    linkedEntityType={"ce_pagesLayout"}
                   />
                 );
               case "c_advisorBio.headshot":
