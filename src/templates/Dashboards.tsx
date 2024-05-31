@@ -67,6 +67,8 @@ export const config: TemplateConfig = {
       "c_awards.nameOfAwardOrHonor",
       "c_awards.yearsReceived",
       "emails",
+      "c_pages_layouts.id",
+      "c_pages_layouts.name",
     ],
     filter: {
       entityTypes: ["financialProfessional"],
@@ -107,6 +109,8 @@ declare global {
 }
 
 const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
+  console.log(JSON.stringify(document.c_pages_layouts));
+
   const analyticsData = [
     {
       SearchTerm: "RBC Services",

@@ -19,8 +19,8 @@ const TasksSection = ({ tasks, document }: any) => {
                 {({ open }) => (
                   <>
                     <DisclosureButton
-                      style={{ backgroundColor: `#006ac3` }}
-                      className={`flex w-full justify-start px-4 py-2 text-left text-sm font-medium text-white`}
+                      style={{ backgroundColor: `white` }}
+                      className={`flex w-full justify-start px-4 py-2 text-left text-sm font-medium  `}
                     >
                       <div className="flex flex-col gap-2">
                         <div className="flex gap-4 text-xl">
@@ -28,7 +28,7 @@ const TasksSection = ({ tasks, document }: any) => {
                           <ChevronDownIcon
                             className={`${
                               open ? "rotate-180 transform" : ""
-                            } h-7 w-7 text-white`}
+                            } h-7 w-7  `}
                           />
                         </div>
                         <div className="text-sm">{item.description}</div>

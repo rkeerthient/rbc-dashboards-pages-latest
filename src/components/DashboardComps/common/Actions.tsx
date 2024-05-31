@@ -33,6 +33,20 @@ const Actions = ({
   );
 
   const updateValue = (propertyName: string, newValue: any) => {
+    if (completionStatus.FieldsWithNoData.includes(propertyName)) {
+      const newCompletionStatus = { ...completionStatus };
+
+      newCompletionStatus.FieldsWithNoData =
+        newCompletionStatus.FieldsWithNoData.filter(
+          (field) => field !== propertyName
+        );
+      newCompletionStatus.completionPercentage =
+        (newCompletionStatus.fields.length -
+          newCompletionStatus.FieldsWithNoData.length) *
+        100;
+
+      dispatch(completionStatusReducer(newCompletionStatus));
+    }
     dispatch(
       dataReducer({
         ...dataStatus,
@@ -50,6 +64,7 @@ const Actions = ({
       );
 
       const res = await response.json();
+
       if (!res.meta.errors.length) {
         res.operationType === "Update"
           ? dispatch(
@@ -68,26 +83,6 @@ const Actions = ({
           Object.keys(saveBody)[0],
           saveBody[Object.keys(saveBody)[0]]
         );
-
-        // let noOfFieldsWithDataCount = 0;
-        // const fieldsWithNoData: string[] = [];
-
-        // fields.forEach((field) => {
-        //   if (document[field] !== undefined) {
-        //     noOfFieldsWithDataCount++;
-        //   } else {
-        //     fieldsWithNoData.push(field);
-        //   }
-        // });
-
-        // dispatch(
-        //   completionStatusReducer({
-        //     NoOfFieldsWithDataCount: noOfFieldsWithDataCount,
-        //     FieldsWithNoData: fieldsWithNoData,
-        //     completionPercentage:
-        //       (noOfFieldsWithDataCount / fields.length) * 100,
-        //   })
-        // );
       }
     } catch (error) {
       console.error(

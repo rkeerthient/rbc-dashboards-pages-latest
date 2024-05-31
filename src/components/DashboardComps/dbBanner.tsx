@@ -77,8 +77,8 @@ const DBBanner = (props: DBBanner) => {
   return (
     <>
       <div
-        style={{ background: "#006ac3" }}
-        className="text-white p-4 flex items-center justify-center flex-row space-x-20 w-full"
+        style={{ background: "white" }}
+        className="  p-4 flex items-center justify-center flex-row space-x-20 w-full"
       >
         <div className="flex items-center flex-row  gap-4">
           <div>
@@ -115,7 +115,7 @@ const DBBanner = (props: DBBanner) => {
             </div>
           </div>
 
-          <div className="bg-white text-center text-gray-800 m-auto flex justify-center items-center w-2/5 py-8 mx-auto">
+          <div className="bg- shadow-lg text-center text-gray-800 m-auto flex justify-center items-center w-2/5 py-8 mx-auto">
             <div className="flex flex-col gap-4 w-full px-4">
               <div className="text-xl font-semibold">Approval Requests </div>
               {!isLoaded ? (

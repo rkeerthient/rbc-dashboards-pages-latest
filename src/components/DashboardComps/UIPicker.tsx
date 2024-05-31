@@ -31,6 +31,8 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
   const [mainFieldSchema, setMainFieldSchema] = useState<Root | undefined>();
   const [subFieldSchema, setSubFieldSchema] = useState<Root | undefined>();
   const [isLoading, setIsLoading] = useState(false);
+  console.log(JSON.stringify(initialValue));
+
   const userRole = useSelector(
     (state: RootState) => state.dashboardSlice.userRole
   );
@@ -92,6 +94,7 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
       "c_insights.blogs",
       "c_hero.backgroundImage",
       "emails",
+      "c_pages_layouts",
     ].includes(subItemField) && getFieldConfig(subItemField);
     return () => {
       isMounted = false;
@@ -169,6 +172,14 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
                     initialValue={initialValue.blogs}
                     fieldId={"c_insights.blogs"}
                     linkedEntityType={"ce_blog"}
+                  />
+                );
+              case "c_pages_layouts":
+                return (
+                  <LinkedEntities
+                    initialValue={initialValue}
+                    fieldId={"c_pages_layouts"}
+                    linkedEntityType={"ce_pagesLayout"}
                   />
                 );
               case "c_advisorBio.headshot":
