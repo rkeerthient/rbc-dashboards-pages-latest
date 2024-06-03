@@ -121,16 +121,36 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
     });
   };
 
+  const formatTime12hr = (time24:any) => {
+    let [hours, minutes] = time24.split(":");
+    hours = parseInt(hours, 10);
+    const suffix = hours >= 12 ? "PM" : "AM";
+    hours = ((hours + 11) % 12) + 1; // Convert to 12-hour format
+    return `${hours.toString().padStart(2, "0")}:${minutes} ${suffix}`;
+  };
+
+  const parseTime = (timeStr:any) => {
+    const time = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+    if (!time) return timeStr; // Return the original if no AM/PM part is found (24-hour format)
+
+    let [_, hours, minutes, period] = time;
+    hours = parseInt(hours, 10);
+
+    if (period.toUpperCase() === "PM" && hours !== 12) {
+      hours += 12;
+    } else if (period.toUpperCase() === "AM" && hours === 12) {
+      hours = 0;
+    }
+
+    return `${hours.toString().padStart(2, "0")}:${minutes}`;
+  };
+
   const handleIntervalChange = (day: string, type: string, value: string) => {
     setValue((prev) => {
       const newIntervals = prev[day].openIntervals.map((interval) => ({
         ...interval,
+        [type]: parseTime(value), // Ensure the time is stored in 24-hour format internally
       }));
-      if (type === "start") {
-        newIntervals[0].start = value;
-      } else {
-        newIntervals[0].end = value;
-      }
       return {
         ...prev,
         [day]: {
