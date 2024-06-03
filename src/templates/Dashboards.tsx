@@ -183,7 +183,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
     },
   ];
   const tabs = [
-    "About me",
+    "About Me",
     "My Team",
     "Analytics",
     "Suggestions",
@@ -273,7 +273,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
                   </div>
                 </div>
               </div>
-              {currentTab === "About me" ? (
+              {currentTab === "About Me" ? (
                 <div className="px-4 flex flex-row w-full gap-2">
                   <div className="w-3/5">
                     <TasksSection

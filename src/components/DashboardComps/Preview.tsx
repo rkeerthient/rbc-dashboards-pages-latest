@@ -225,14 +225,14 @@ const Preview = ({ data }: any) => {
                     </div>
                   </div>
                   <div className="flex flex-col gap-2 my-4 mb-8">
-                    <div className="text-xl font-semibold ">About me</div>
+                    <div className="text-xl font-semibold ">About Me</div>
                     <div className="">{c_aboutAdvisorShortDescription}</div>
                   </div>
                 </div>
               ) : (
                 <div className="w-full flex  flex-row gap-14 mt-4 centered-container">
                   <div className="w-full md:w-2/3 ">
-                    <div className="text-xl font-semibold ">About me</div>
+                    <div className="text-xl font-semibold ">About Me</div>
                     <div className="">{c_aboutAdvisorShortDescription}</div>
                     <div className="py-4 px-16 mx-auto my-auto hidden md:block  h-3/4 w-3/4">
                       {geocodedCoordinate && (
