@@ -26,6 +26,7 @@ type DBBanner = {
   _site?: any;
   color: string;
   styleSheetRef: string;
+  setCurrentTab: (item: string) => void;
 };
 
 const DBBanner = (props: DBBanner) => {
@@ -83,7 +84,7 @@ const DBBanner = (props: DBBanner) => {
         <div className="flex items-center flex-row  gap-4">
           <div>
             {headshot && (
-              <img src={headshot.image.url} className="w-52 h-64"></img>
+              <img src={headshot.image.url} className="w-72 h-auto"></img>
             )}
           </div>
           <div className="w-3/5 flex flex-col gap-4">
@@ -167,7 +168,10 @@ const DBBanner = (props: DBBanner) => {
                   </div>
                 </div>
               )}
-              <div className="bg-gray-700 px-4 py-2 mx-auto rounded-md text-gray-50 text-sm   w-fit">
+              <div
+                className="bg-gray-700 px-4 py-2 mx-auto rounded-md text-gray-50 text-sm w-fit hover:cursor-pointer"
+                onClick={() => props.setCurrentTab("tabs")}
+              >
                 View All Approval Requests
               </div>
             </div>

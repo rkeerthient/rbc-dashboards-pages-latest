@@ -6,12 +6,15 @@ import {
   dataReducer,
   notificationsReducer,
 } from "../../../redux/dashboardDataSlice";
+import { SelectedDays, days } from "../HoursField";
 type Action_Props = {
   initialValue: any;
   isContentEdited: boolean;
   setIsEditable: (isEditable: boolean) => void;
   setValue: (value: any) => void;
   saveBody: any;
+  options?: any;
+  hours?: boolean;
 };
 const Actions = ({
   initialValue,
@@ -19,6 +22,8 @@ const Actions = ({
   setIsEditable,
   setValue,
   saveBody,
+  options,
+  hours = false,
 }: Action_Props) => {
   const dispatch = useDispatch();
 
@@ -92,7 +97,30 @@ const Actions = ({
     }
     setIsEditable(false);
   };
-
+  const initialSelectedDays: SelectedDays = days.reduce(
+    (acc: any, day: any) => {
+      const dayData = initialValue[day.toLowerCase()] || { openIntervals: [] };
+      JSON.stringify(initialValue) === "{}" || initialValue === undefined
+        ? (acc[day] = {
+            selectedType: "Closed",
+            openIntervals: [],
+          })
+        : (acc[day] = {
+            selectedType: dayData.isClosed
+              ? "Closed"
+              : dayData.openIntervals.length > 1
+                ? "Split"
+                : dayData.openIntervals.length > 0 &&
+                    dayData.openIntervals[0].start === "00:00" &&
+                    dayData.openIntervals[0].end === "23:59"
+                  ? "24 Hours"
+                  : "Open",
+            openIntervals: dayData.openIntervals,
+          });
+      return acc;
+    },
+    {}
+  );
   const handleCancel = () => {
     setValue(initialValue);
     setIsEditable(false);

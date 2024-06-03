@@ -177,7 +177,7 @@ const PhotoField = ({
       </Transition.Root>
       {isEditable && (
         <Actions
-          initialValue={initialValue}
+          initialValue={value}
           isContentEdited={isContentEdited}
           setIsEditable={(e) => setIsEditable(e)}
           setValue={(e) => setValue(e)}

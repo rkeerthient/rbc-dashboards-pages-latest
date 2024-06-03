@@ -3,7 +3,7 @@ import { ChevronDownIcon, TrashIcon } from "@heroicons/react/24/outline";
 import * as React from "react";
 import { Fragment, useState } from "react";
 import Actions from "./common/Actions";
- interface HoursFieldProps {
+interface HoursFieldProps {
   initialValue: any | undefined;
   fieldId?: string;
 }
@@ -12,23 +12,22 @@ interface Interval {
   end: string;
 }
 
-interface SelectedDays {
+export interface SelectedDays {
   [day: string]: {
     selectedType: string;
     openIntervals: Interval[];
   };
 }
-
+export const days = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
-  const days = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
   const hoursType = ["Open", "Split", "24 Hours", "Closed"];
   const [isEditable, setIsEditable] = useState(false);
   const handleSplitAdd = (day: string) => {
@@ -95,12 +94,12 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
             selectedType: dayData.isClosed
               ? "Closed"
               : dayData.openIntervals.length > 1
-              ? "Split"
-              : dayData.openIntervals.length > 0 &&
-                dayData.openIntervals[0].start === "00:00" &&
-                dayData.openIntervals[0].end === "23:59"
-              ? "24 Hours"
-              : "Open",
+                ? "Split"
+                : dayData.openIntervals.length > 0 &&
+                    dayData.openIntervals[0].start === "00:00" &&
+                    dayData.openIntervals[0].end === "23:59"
+                  ? "24 Hours"
+                  : "Open",
             openIntervals: dayData.openIntervals,
           });
       return acc;
@@ -108,17 +107,6 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
     {}
   );
   const [value, setValue] = useState<SelectedDays>(initialSelectedDays);
-
-  // const areJSONsEqual = (json1: any, json2: any) => {
-  //   const normalizeJSON = (jsonString) =>
-  //     jsonString.toLowerCase().replace(/"closed"/g, '"isClosed"');
-
-  //   const normalizedJSON1 = normalizeJSON(JSON.stringify(json1));
-  //   const normalizedJSON2 = normalizeJSON(JSON.stringify(json2));
-
-  //   return normalizedJSON1 === normalizedJSON2;
-  // };
-  // const isContentEdited = areJSONsEqual(value, initialValue);
 
   const handleDayChange = (day: string, value: string) => {
     setValue((prev) => {
@@ -130,25 +118,6 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
         ...prev,
         [day]: { selectedType: value, openIntervals },
       };
-    });
-  };
-
-  const handleSave = () => {
-    const result: Record<
-      string,
-      { isClosed?: boolean; openIntervals?: Interval[] }
-    > = {};
-    days.forEach((day) => {
-      const selectedType = value[day].selectedType;
-      if (selectedType === "Closed") {
-        result[day.toLowerCase()] = {
-          isClosed: true,
-        };
-      } else {
-        result[day.toLowerCase()] = {
-          openIntervals: value[day].openIntervals,
-        };
-      }
     });
   };
 
@@ -285,8 +254,8 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
                         value[day].selectedType === "24 Hours"
                           ? "00:00"
                           : value[day].selectedType !== "Closed"
-                          ? value[day].openIntervals[0].start
-                          : ""
+                            ? value[day].openIntervals[0].start
+                            : ""
                       }
                       onChange={(e) =>
                         handleIntervalChange(day, "start", e.target.value)
@@ -305,8 +274,8 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
                         value[day].selectedType === "24 Hours"
                           ? "23:59"
                           : value[day].selectedType !== "Closed"
-                          ? value[day].openIntervals[0].end
-                          : ""
+                            ? value[day].openIntervals[0].end
+                            : ""
                       }
                       onChange={(e) =>
                         handleIntervalChange(day, "end", e.target.value)
@@ -318,7 +287,8 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
             </div>
           ))}
           <Actions
-            initialValue={initialValue}
+            hours={true}
+            initialValue={initialSelectedDays}
             isContentEdited={true}
             setIsEditable={(e) => setIsEditable(e)}
             setValue={(e) => setValue(e)}

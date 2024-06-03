@@ -41,6 +41,7 @@ export const config: TemplateConfig = {
       "c_contentCarousel.events.name",
       "c_contentGrid.financialProfessionals.id",
       "c_contentGrid.financialProfessionals.name",
+      "c_contentGrid.financialProfessionals.photoGallery",
       "c_insights.blogs.id",
       "c_insights.blogs.name",
       "c_hero.image",
@@ -231,6 +232,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
                 _site={document._site}
                 headshot={document.c_advisorBio.headshot}
                 color={document.c_advisorBio.c_color}
+                setCurrentTab={() => setCurrentTab("Suggestions")}
               ></DBBanner>
               <div className="px-6">
                 <div className="sm:hidden">
@@ -439,35 +441,37 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
                     life: for example, a design team developing a new product,
                     or a continuous proces
                   </div>
-                  {document.c_teamMembers && (
+                  {document.c_contentGrid.financialProfessionals && (
                     <div className="grid grid-cols-4 gap-4 border  p-8">
-                      {document.c_teamMembers.map((item: any, index: any) => (
-                        <div className=" border  !w-[250px] flex flex-col gap-2">
-                          <div>
-                            {item.photoGallery ? (
-                              <Image
-                                image={item.photoGallery[0]}
-                                className=""
-                              ></Image>
-                            ) : (
-                              <img
-                                src="https://www.shutterstock.com/image-vector/vector-design-avatar-dummy-sign-600nw-1290556063.jpg"
-                                alt=""
-                                className="h-[250px] w-[250px]"
-                              />
-                            )}
+                      {document.c_contentGrid.financialProfessionals.map(
+                        (item: any, index: any) => (
+                          <div className=" border !w-[250px] flex flex-col gap-2">
+                            <div>
+                              {item.photoGallery ? (
+                                <Image
+                                  image={item.photoGallery[0]}
+                                  className="h-[250px] w-[250px] !max-w-none"
+                                ></Image>
+                              ) : (
+                                <img
+                                  src="https://www.shutterstock.com/image-vector/vector-design-avatar-dummy-sign-600nw-1290556063.jpg"
+                                  alt=""
+                                  className="h-[250px] w-[250px] object-cover object-center aspect-square"
+                                />
+                              )}
+                            </div>
+                            <div className="text-[#003168] font-bold text-lg px-2">
+                              {item.name.split(" - ")[0]}
+                            </div>
+                            <a
+                              href={`/{item.slug}`}
+                              className="w-auto flex justify-between items-center text-center border bg-[#e2e8f0] text-black px-8 py-1 rounded-md mx-auto"
+                            >
+                              View Profile
+                            </a>
                           </div>
-                          <div className="text-[#003168] font-bold text-lg px-2">
-                            {item.name.split(" - ")[0]}
-                          </div>
-                          <a
-                            href={`/{item.slug}`}
-                            className="w-auto flex justify-between items-center text-center border bg-[#e2e8f0] text-black px-8 py-1 rounded-md mx-auto"
-                          >
-                            View Profile
-                          </a>
-                        </div>
-                      ))}
+                        )
+                      )}
                     </div>
                   )}
                 </div>

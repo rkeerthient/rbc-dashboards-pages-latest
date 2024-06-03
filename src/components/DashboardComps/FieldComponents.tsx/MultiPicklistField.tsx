@@ -23,6 +23,7 @@ const MultiPicklistField = ({
   const [isEditable, setIsEditable] = useState(false);
   const [isContentEdited, setIsContentEdited] = useState(false);
   const [initVals, setInitVals] = useState<Option[]>([]);
+
   useEffect(() => {
     const initialCheckboxes = options.map((checkbox) => ({
       ...checkbox,
@@ -101,7 +102,7 @@ const MultiPicklistField = ({
       )}
       {isEditable && (
         <Actions
-          initialValue={initialValue}
+          initialValue={value}
           isContentEdited={isContentEdited}
           setIsEditable={(e) => setIsEditable(e)}
           setValue={(e) => setValue(e)}
