@@ -63,7 +63,9 @@ const MultiPicklistField = ({
 
   return (
     <div
-      className={`w-full   ${isEditable ? `bg-containerBG` : `bg-transparent`}`}
+      className={`w-full px-4 py-3 ${
+        isEditable ? `bg-containerBG` : `bg-transparent`
+      }`}
     >
       {isEditable ? (
         <>

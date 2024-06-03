@@ -109,9 +109,9 @@ const AddressField = ({ initialValue, fieldId }: AddressFieldProps) => {
           </div>
         </>
       ) : (
-        <div onClick={handleClick} className="hover:cursor-pointer">
+        <div onClick={handleClick} className="hover:cursor-pointer ">
           {value ? (
-            <div className="flex flex-col py-6 px-4 ">
+            <div className="flex flex-col p-2">
               <div>{value.line1}</div>
               <div>
                 {value.city}, {value.region} {value.postalCode}

@@ -59,8 +59,8 @@ const TextBoxList = ({ initialValue, fieldId }: TextFieldProps) => {
 
   return (
     <div
-      className={`w-full px-4 py-3 text-[#374151] ${
-        isEditable ? "bg-containerBG" : "bg-transparent"
+      className={`w-full px-4 py-3 ${
+        isEditable ? `bg-containerBG` : `bg-transparent`
       }`}
     >
       {isEditable ? (
@@ -89,11 +89,11 @@ const TextBoxList = ({ initialValue, fieldId }: TextFieldProps) => {
       ) : (
         <div
           onClick={handleClick}
-          className="hover:cursor-pointer hover:bg-containerBG  flex flex-col "
+          className="hover:cursor-pointer hover:bg-containerBG  flex flex-col p-2"
         >
           {value && value.length >= 1 ? (
             value.map((item: any, index: any) => (
-              <div key={index} className="flex flex-col text-[#374151]">
+              <div key={index} className="flex flex-col ">
                 <div>{item}</div>
               </div>
             ))

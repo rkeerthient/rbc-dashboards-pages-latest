@@ -42,7 +42,7 @@ const TextField = ({
           />
         </>
       ) : (
-        <div onClick={handleClick} className="hover:cursor-pointer">
+        <div onClick={handleClick} className="hover:cursor-pointer p-2">
           {value || "Click to add"}
         </div>
       )}

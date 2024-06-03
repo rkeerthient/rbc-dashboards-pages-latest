@@ -142,7 +142,11 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
   };
 
   return (
-    <>
+    <div
+      className={`w-full px-4 py-3 ${
+        isEditable ? `bg-containerBG` : `bg-transparent`
+      }`}
+    >
       {isEditable ? (
         <div className="flex flex-col text-xs">
           {days.map((day, index) => (
@@ -287,7 +291,6 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
             </div>
           ))}
           <Actions
-            hours={true}
             initialValue={initialSelectedDays}
             isContentEdited={true}
             setIsEditable={(e) => setIsEditable(e)}
@@ -297,14 +300,14 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
         </div>
       ) : (
         <div
-          className="hover:cursor-pointer w-[60%]"
+          className="hover:cursor-pointer w-[60%] p-2 "
           onClick={() => setIsEditable(true)}
         >
           {JSON.stringify(initialValue) !== "{}" || initialValue !== undefined
             ? days.map((day, index) => (
-                <div className="flex gap-1 items-baseline" key={index}>
-                  <div className="font-semibold w-1/5">{day}</div>
-                  <div className="font-semibold w-1/5">
+                <div className="flex gap-4 items-baseline" key={index}>
+                  <div className="font-semibold w-1/5 mr-2">{day}</div>
+                  <div className="font-semibold w-1/5 ">
                     {value[day].selectedType}
                   </div>
 
@@ -319,21 +322,24 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
                         ))}
                       </span>
                     ) : (
-                      <>
-                        <div className="font-semibold w-1/5">
+                      <div className="flex gap-1 w-2/5">
+                        <div className="font-semibold ">
                           {value[day].openIntervals[0].start}
                         </div>
-                        <div className="font-semibold w-1/5">
+                        {value[day].openIntervals[0].start && (
+                          <div className="font-semibold ">-</div>
+                        )}
+                        <div className="font-semibold  ">
                           {value[day].openIntervals[0].end}
                         </div>
-                      </>
+                      </div>
                     ))}
                 </div>
               ))
             : `Click me!`}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
