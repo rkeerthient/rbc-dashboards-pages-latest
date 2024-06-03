@@ -227,6 +227,7 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
           >
             <div className="space-y-4 bg-slate-200 ">
               <DBBanner
+                slug={document.slug}
                 styleSheetRef={styleSheetRef}
                 name={document.name}
                 _site={document._site}

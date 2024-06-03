@@ -344,13 +344,13 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
                     ) : (
                       <div className="flex gap-1 w-2/5">
                         <div className="font-semibold ">
-                          {value[day].openIntervals[0].start}
+                          {formatTime12hr(value[day].openIntervals[0].start)}
                         </div>
                         {value[day].openIntervals[0].start && (
                           <div className="font-semibold ">-</div>
                         )}
                         <div className="font-semibold  ">
-                          {value[day].openIntervals[0].end}
+                          {formatTime12hr(value[day].openIntervals[0].end)}
                         </div>
                       </div>
                     ))}

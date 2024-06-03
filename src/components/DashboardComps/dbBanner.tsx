@@ -27,6 +27,7 @@ type DBBanner = {
   color: string;
   styleSheetRef: string;
   setCurrentTab: (item: string) => void;
+  slug: string;
 };
 
 const DBBanner = (props: DBBanner) => {
@@ -35,7 +36,14 @@ const DBBanner = (props: DBBanner) => {
   const _dashboardNumbers = useSelector(dashboardNumbers);
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const { name, children, headshot, color = "#032169", styleSheetRef } = props;
+  const {
+    name,
+    children,
+    headshot,
+    color = "#032169",
+    styleSheetRef,
+    slug,
+  } = props;
   const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -113,6 +121,13 @@ const DBBanner = (props: DBBanner) => {
                   styleSheetRef={styleSheetRef}
                 ></Portal> */}
               </div>
+              <a
+                href="https://www.yext.com/s/4189325/yextsites/145670/editor#templateId=financialProfessional&layoutId=advisorPage&entityId=32311549-test&view=EDIT"
+                className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs"
+                target="_blank"
+              >
+                Edit Page
+              </a>
             </div>
           </div>
 
