@@ -33,7 +33,6 @@ const PhotoField = ({
   const [value, setValue] = useState<PhotoProps["url"] | null>(
     initialValue ? initialValue.image.url : null
   );
-
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
   const handleClick = () => {
     setIsEditable(true);
@@ -177,13 +176,18 @@ const PhotoField = ({
       </Transition.Root>
       {isEditable && (
         <Actions
-          initialValue={value}
+          initialValue={initialValue ? initialValue.image.url : null}
           isContentEdited={isContentEdited}
           setIsEditable={(e) => setIsEditable(e)}
           setValue={(e) => setValue(e)}
           saveBody={
             isComplex
-              ? createNestedObject(fieldId, value, isComplex, true)
+              ? createNestedObject(
+                  fieldId,
+                  typeof value === "string" ? value : value?.[0],
+                  isComplex,
+                  true
+                )
               : { [fieldId as string]: { url: value } }
           }
         />

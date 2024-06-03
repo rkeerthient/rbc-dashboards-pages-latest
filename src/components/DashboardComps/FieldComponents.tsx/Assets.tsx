@@ -50,7 +50,7 @@ const Assets = ({ value, isOpen, isMulti = false }: AssetProps) => {
                     setCurrentImg((prev) => [...prev, item.img]);
                   } else {
                     setClicked([index]);
-                    setCurrentImg(item.img);
+                    setCurrentImg([item.img]);
                   }
                 }}
                 key={index}

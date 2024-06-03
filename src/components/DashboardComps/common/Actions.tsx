@@ -13,8 +13,6 @@ type Action_Props = {
   setIsEditable: (isEditable: boolean) => void;
   setValue: (value: any) => void;
   saveBody: any;
-  options?: any;
-  hours?: boolean;
 };
 const Actions = ({
   initialValue,
@@ -22,8 +20,6 @@ const Actions = ({
   setIsEditable,
   setValue,
   saveBody,
-  options,
-  hours = false,
 }: Action_Props) => {
   const dispatch = useDispatch();
 

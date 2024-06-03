@@ -1,6 +1,9 @@
+import { Transition, Dialog } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone-esm";
+import Assets from "./Assets";
 type PhotoUploadProps = {
   value: (newUrls: string | string[]) => void;
   isOpen: (value: boolean) => void;
@@ -8,6 +11,7 @@ type PhotoUploadProps = {
 };
 
 const PhotoUpload = ({ value, isOpen, multiple }: PhotoUploadProps) => {
+  const [showAsset, setShowAsset] = useState(false);
   const [files, setFiles] = useState<
     (File & { preview: string }) | (File & { preview: string })[]
   >([]);
@@ -108,7 +112,10 @@ const PhotoUpload = ({ value, isOpen, multiple }: PhotoUploadProps) => {
               <div className="bg-fieldBlurBorder text-sm px-4 border rounded-[3px] h-8 flex items-center">
                 Enter URLs
               </div>
-              <div className="bg-fieldBlurBorder text-sm px-4 border rounded-[3px] h-8 flex items-center">
+              <div
+                className="bg-fieldBlurBorder text-sm px-4 border rounded-[3px] h-8 flex items-center"
+                onClick={() => setShowAsset(true)}
+              >
                 Select Assets
               </div>
             </div>
@@ -170,11 +177,15 @@ const PhotoUpload = ({ value, isOpen, multiple }: PhotoUploadProps) => {
             </div>
           </div>
         )}
+        {!files.length && uploadedUrls && (
+          <div className="relative m-1 w-[150px] border flex justify-center items-center   max-h-full h-[150px]">
+            <img src={uploadedUrls[0]} />
+          </div>
+        )}
         <div className="flex justify-end gap-6">
           <div
             onClick={() => {
               value([]);
-
               setFiles([]);
               isOpen(false);
             }}
@@ -198,6 +209,56 @@ const PhotoUpload = ({ value, isOpen, multiple }: PhotoUploadProps) => {
           </div>
         </div>
       </div>
+      <Transition.Root show={showAsset} as={React.Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={setShowAsset}>
+          <Transition.Child
+            as={React.Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 z-10 w-full overflow-y-auto">
+            <div className="flex min-h-full items-end justify-center text-center sm:items-center ">
+              <Transition.Child
+                as={React.Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              >
+                <Dialog.Panel className="w-2/4 relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all ">
+                  <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
+                    <button
+                      type="button"
+                      className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      onClick={() => {
+                        setShowAsset(false);
+                      }}
+                    >
+                      <span className="sr-only">Close</span>
+                      <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                    </button>
+                  </div>
+                  <div className="sm:flex sm:items-start">
+                    <Assets
+                      value={(newUrls: any) => setUploadedUrl(newUrls)}
+                      isOpen={(val: boolean) => setShowAsset(val)}
+                    />
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition.Root>
     </div>
   );
 };
