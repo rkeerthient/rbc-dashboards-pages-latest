@@ -65,7 +65,7 @@ export interface Source {
 }
 const Suggestions = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [suggestionsData, setSuggestionsData] = useState<Root[]>([]);
+  const [suggestionsData, setSuggestionsData] = useState<SuggestionsRoot[]>([]);
   const [pageToken, setPageToken] = useState<string>("");
 
   useEffect(() => {
