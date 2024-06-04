@@ -98,7 +98,7 @@ const TextBoxList = ({ initialValue = [], fieldId }: TextFieldProps) => {
               </div>
             ))
           ) : (
-            <div>Click to Add!</div>
+            <div>Click to add</div>
           )}
         </div>
       )}

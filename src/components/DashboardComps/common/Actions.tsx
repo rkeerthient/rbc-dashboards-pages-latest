@@ -41,10 +41,18 @@ const Actions = ({
         newCompletionStatus.FieldsWithNoData.filter(
           (field) => field !== propertyName
         );
-      newCompletionStatus.completionPercentage =
-        (newCompletionStatus.fields.length -
-          newCompletionStatus.FieldsWithNoData.length) *
-        100;
+      newCompletionStatus.completionPercentage = Math.abs(
+        (newCompletionStatus.FieldsWithNoData.length /
+          newCompletionStatus.fields.length) *
+          100 -
+          100
+      );
+      console.log(JSON.stringify(newCompletionStatus));
+
+      console.log(
+        newCompletionStatus.fields.length,
+        newCompletionStatus.FieldsWithNoData.length
+      );
 
       dispatch(completionStatusReducer(newCompletionStatus));
     }

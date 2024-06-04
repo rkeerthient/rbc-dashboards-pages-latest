@@ -18,19 +18,15 @@ const SampleChart = ({ document, fields }: Props) => {
   const completionStatus = useSelector(
     (state: RootState) => state.dashboardSlice.completionStatus
   );
-  const [textText, setTextText] = useState("");
-
   useEffect(() => {
-    if (completionStatus) {
-      setTextText(completionStatus.completionPercentage.toFixed(0));
-    }
+    console.log(JSON.stringify(completionStatus));
   }, [completionStatus]);
-
   return (
     <>
-      {completionStatus && textText && (
+      {completionStatus && (
         <div className="chart-container  ">
           <Doughnut
+            redraw={true}
             data={{
               datasets: [
                 {
@@ -69,7 +65,7 @@ const SampleChart = ({ document, fields }: Props) => {
                   var fontSize = (height / 160).toFixed(2);
                   ctx.font = fontSize + "em sans-serif";
                   ctx.textBaseline = "top";
-                  var text = `${textText}%`,
+                  var text = `${Math.abs(Math.round(completionStatus.completionPercentage))}%`,
                     textX = Math.round(
                       (width - ctx.measureText(text).width) / 2
                     ),
