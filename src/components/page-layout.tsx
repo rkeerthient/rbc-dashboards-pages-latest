@@ -19,9 +19,16 @@ type Props = {
   children?: any;
   document?: any;
   fields?: string[];
+  setParentLoading: (loading: boolean) => void;
 };
 
-const PageLayout = ({ _site, children, document, fields }: Props) => {
+const PageLayout = ({
+  _site,
+  children,
+  document,
+  fields,
+  setParentLoading,
+}: Props) => {
   const dispatch = useDispatch();
   const runtime = getRuntime();
 
@@ -68,7 +75,7 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
 
   useEffect(() => {
     if (document) {
-      setIsLoading(true);
+      // setIsLoading(true);
 
       const {
         name,
@@ -122,7 +129,7 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
       };
 
       dispatch(dataReducer(updatedData));
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   }, [document]);
 
@@ -140,6 +147,7 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
         console.error(`Error fetching user data: ${JSON.stringify(error)}`);
       } finally {
         setIsLoading(false);
+        setParentLoading(false);
       }
     };
     getUserRole();
@@ -170,14 +178,7 @@ const PageLayout = ({ _site, children, document, fields }: Props) => {
       )}
 
       <Header _site={_site} />
-      {isLoading ? (
-        <div
-          className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-          role="status"
-        ></div>
-      ) : (
-        children
-      )}
+      {!isLoading && children}
       <Footer _site={_site}></Footer>
     </div>
   );

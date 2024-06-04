@@ -28,7 +28,6 @@ const Main = (props: MainProps) => {
 
 const MainInternal = (props: MainProps) => {
   const { children } = props;
-  const [currentEnt, setCurrEnt] = useState();
   return (
     <>
       <EntityPicker />

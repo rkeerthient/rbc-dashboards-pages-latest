@@ -5,13 +5,7 @@ import {
   MenuItems,
   Transition,
 } from "@headlessui/react";
-import {
-  ArchiveBoxXMarkIcon,
-  ChevronDownIcon,
-  PencilIcon,
-  Square2StackIcon,
-  TrashIcon,
-} from "@heroicons/react/16/solid";
+import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import * as React from "react";
 import { useEffect, useState } from "react";
 
@@ -38,7 +32,7 @@ export default function EntityPicker() {
         const selectedItem = entityPicker.find(
           (item) => item.entityId === entityId
         );
-        setSelected(selectedItem);
+        selectedItem && setSelected(selectedItem);
       }
     }
   }, []);
@@ -46,7 +40,7 @@ export default function EntityPicker() {
   return (
     <div className="fixed top-2 right-24 w-52 text-right">
       <Menu>
-        <MenuButton className="inline-flex items-center gap-2 bg-whitepy-1.5 px-3 text-sm/6 font-semibold text-black border  border-black focus:outline-none  ">
+        <MenuButton className="w-max inline-flex items-center gap-2 bg-white py-1.5 px-3 text-sm/6 font-semibold text-black border  border-black focus:outline-none  ">
           {selected?.name}
           <ChevronDownIcon className="size-4 fill-black/60" />
         </MenuButton>
@@ -68,7 +62,7 @@ export default function EntityPicker() {
                   onClick={() =>
                     (window.location.href = `https://durably-yielding-marmoset.pgsdemo.com/advisor/${item.entityId}`)
                   }
-                  className="group flex w-full items-center gap-2  y-1.5 px-3 data-[focus]:bg-black/10 "
+                  className="group flex w-full items-center gap-2  y-1.5 px-3 data-[focus]:bg-black/10"
                 >
                   {item.name}
                 </button>
