@@ -73,7 +73,7 @@ export const config: TemplateConfig = {
     ],
     filter: {
       entityTypes: ["financialProfessional"],
-      entityIds: ["32311549-test"],
+      entityIds: ["32311308"],
     },
     localization: {
       locales: ["en"],
