@@ -35,7 +35,7 @@ const DBBanner = (props: DBBanner) => {
   const _dashboardNumbers = useSelector(dashboardNumbers);
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const { name, children, headshot } = props;
+  const { name, children, headshot, slug } = props;
 
   useEffect(() => {
     const entityId = `32311308`;
@@ -110,12 +110,6 @@ const DBBanner = (props: DBBanner) => {
                 >
                   Preview page
                 </a>
-                {/* <Portal
-                  open={open}
-                  setOpen={setOpen}
-                  data={data}
-                  styleSheetRef={styleSheetRef}
-                ></Portal> */}
               </div>
               <a
                 href="https://www.yext.com/s/4189325/yextsites/145670/editor#templateId=financialProfessional&layoutId=advisorPage&entityId=32311308&view=EDIT"
@@ -124,6 +118,15 @@ const DBBanner = (props: DBBanner) => {
               >
                 Edit Page
               </a>
+              {slug.includes("32312981") && (
+                <a
+                  href="#"
+                  className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs"
+                  target="_blank"
+                >
+                  Publish
+                </a>
+              )}
             </div>
           </div>
 
