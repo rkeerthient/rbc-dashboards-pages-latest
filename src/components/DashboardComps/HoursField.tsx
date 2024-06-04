@@ -121,7 +121,7 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
     });
   };
 
-  const formatTime12hr = (time24:any) => {
+  const formatTime12hr = (time24: any) => {
     let [hours, minutes] = time24.split(":");
     hours = parseInt(hours, 10);
     const suffix = hours >= 12 ? "PM" : "AM";
@@ -129,7 +129,7 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
     return `${hours.toString().padStart(2, "0")}:${minutes} ${suffix}`;
   };
 
-  const parseTime = (timeStr:any) => {
+  const parseTime = (timeStr: any) => {
     const time = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
     if (!time) return timeStr; // Return the original if no AM/PM part is found (24-hour format)
 
@@ -233,7 +233,7 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
                     <div className="flex gap-2" key={i}>
                       <input
                         className="border w-1/2 p-1 bg-white"
-                        type="text"
+                        type="time"
                         placeholder="Start time"
                         value={interval.start}
                         onChange={(e) =>
@@ -242,7 +242,7 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
                       />
                       <input
                         className="border w-1/2 p-1 bg-white"
-                        type="text"
+                        type="time"
                         placeholder="End time"
                         value={interval.end}
                         onChange={(e) =>
@@ -269,7 +269,7 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
                   <div className="w-1/5 px-4 py-1">
                     <input
                       className="border w-full p-1 bg-white"
-                      type="text"
+                      type="time"
                       disabled={
                         value[day].selectedType === "Closed" ||
                         value[day].selectedType === "24 Hours"
@@ -288,7 +288,7 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
                   </div>
                   <div className="w-1/5 px-4 py-1">
                     <input
-                      type="text"
+                      type="time"
                       className="border w-full p-1 bg-white"
                       disabled={
                         value[day].selectedType === "Closed" ||
