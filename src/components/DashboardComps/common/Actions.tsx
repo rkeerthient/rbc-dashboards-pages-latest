@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import {
   completionStatusReducer,
+  dashboardNumbersReducer,
   dataReducer,
   notificationsReducer,
 } from "../../../redux/dashboardDataSlice";
 import { SelectedDays, days } from "../HoursField";
+import { SuggestionsRoot } from "../Suggestions";
 type Action_Props = {
   initialValue: any;
   isContentEdited: boolean;
@@ -56,7 +58,36 @@ const Actions = ({
       })
     );
   };
+  const getSuggestions = async () => {
+    const entityId = `32311308`;
+    let suggestionStatusCount: any = {};
+    try {
+      const _res = await fetch(`/api/getSuggestions/${entityId}`);
+      const mainJson: any = await _res.json();
+      const suggestions: SuggestionsRoot[] =
+        await mainJson.response.suggestions;
 
+      suggestions.forEach((suggestion) => {
+        const status = suggestion.status;
+        if (!suggestionStatusCount[status]) {
+          suggestionStatusCount[status] = 0;
+        }
+        suggestionStatusCount[status]++;
+      });
+      let currData = {
+        pending: suggestionStatusCount.PENDING || 0,
+        approved: suggestionStatusCount.APPROVED || 0,
+        rejected: suggestionStatusCount.REJECTED || 0,
+        cancelled: suggestionStatusCount.CANCELLED || 0,
+      };
+      dispatch(dashboardNumbersReducer(currData));
+    } catch (error) {
+      console.error(
+        `Failed to fetch field configuration for ${entityId}:`,
+        error
+      );
+    }
+  };
   const handleSave = async () => {
     try {
       const requestBody = encodeURIComponent(JSON.stringify(saveBody));
@@ -81,6 +112,7 @@ const Actions = ({
                 type: `Suggestion`,
               })
             );
+            // getSuggestions()
         updateValue(
           Object.keys(saveBody)[0],
           saveBody[Object.keys(saveBody)[0]]

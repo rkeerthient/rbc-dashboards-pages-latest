@@ -1,14 +1,13 @@
-import * as React from "react";
-import { FiRefreshCw, FiCheck } from "react-icons/fi";
-import { GrFormClose } from "react-icons/gr";
-import { FcCancel } from "react-icons/fc";
-import { useEffect, useState } from "react";
-import Portal from "./Portal";
 import { LexicalRichText } from "@yext/pages-components";
-import { SuggestionsRoot } from "./Suggestions";
-import { RootState } from "../../redux/store";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { FcCancel } from "react-icons/fc";
+import { FiCheck, FiRefreshCw } from "react-icons/fi";
+import { GrFormClose } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
 import { dashboardNumbersReducer } from "../../redux/dashboardDataSlice";
+import { RootState } from "../../redux/store";
+import { SuggestionsRoot } from "./Suggestions";
 export type Address = {
   line1: string;
   city: string;
@@ -36,15 +35,7 @@ const DBBanner = (props: DBBanner) => {
   const _dashboardNumbers = useSelector(dashboardNumbers);
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  const {
-    name,
-    children,
-    headshot,
-    color = "#032169",
-    styleSheetRef,
-    slug,
-  } = props;
-  const [open, setOpen] = useState<boolean>(false);
+  const { name, children, headshot } = props;
 
   useEffect(() => {
     const entityId = `32311308`;

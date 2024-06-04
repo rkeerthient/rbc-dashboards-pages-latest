@@ -302,7 +302,9 @@ function getFormattedSuggestionResponse(data: any): JSX.Element | string {
   } else if (typeof data === "string") {
     return (
       <div className="flex flex-col gap-2">
-        {data === data.toUpperCase() ? EnumData[data] : data}
+        {data === data.toUpperCase() && isNaN(Number(data.replace("+", "")))
+          ? EnumData[data]
+          : data}
       </div>
     );
   } else if (typeof data === "object" && data !== null) {
