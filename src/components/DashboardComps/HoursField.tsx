@@ -356,7 +356,7 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
                     ))}
                 </div>
               ))
-            : `Click me!`}
+            : `click to add`}
         </div>
       )}
     </div>

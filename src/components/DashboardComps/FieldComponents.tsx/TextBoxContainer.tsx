@@ -72,7 +72,7 @@ interface TextBoxContainerProps {
 
 const TextBoxContainer = ({
   properties,
-  initialValue,
+  initialValue = "",
   fieldId,
   setInitialValues,
   editMode,

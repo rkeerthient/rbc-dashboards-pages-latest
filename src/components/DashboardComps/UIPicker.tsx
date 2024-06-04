@@ -31,7 +31,7 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
   const [mainFieldSchema, setMainFieldSchema] = useState<Root | undefined>();
   const [subFieldSchema, setSubFieldSchema] = useState<Root | undefined>();
   const [isLoading, setIsLoading] = useState(false);
- 
+
   const userRole = useSelector(
     (state: RootState) => state.dashboardSlice.userRole
   );
@@ -120,16 +120,22 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
                 );
               case "name":
                 return (
-                  <TextField initialValue={initialValue} fieldId={"name"} />
+                  <TextField
+                    initialValue={initialValue || ""}
+                    fieldId={"name"}
+                  />
                 );
               case "emails":
                 return (
-                  <TextBoxList initialValue={initialValue} fieldId={"emails"} />
+                  <TextBoxList
+                    initialValue={initialValue || []}
+                    fieldId={"emails"}
+                  />
                 );
               case "mainPhone":
                 return (
                   <TextField
-                    initialValue={initialValue}
+                    initialValue={initialValue || ""}
                     fieldId={"mainPhone"}
                   />
                 );
@@ -137,14 +143,14 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
               case "address":
                 return (
                   <AddressField
-                    initialValue={initialValue}
+                    initialValue={initialValue || ""}
                     fieldId={"address"}
                   />
                 );
               case "c_contentCarousel.services":
                 return (
                   <LinkedEntities
-                    initialValue={initialValue.services}
+                    initialValue={initialValue?.services || []}
                     fieldId={"c_contentCarousel.services"}
                     linkedEntityType={"ce_service"}
                   />
@@ -152,7 +158,7 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
               case "c_contentCarousel.events":
                 return (
                   <LinkedEntities
-                    initialValue={initialValue.events}
+                    initialValue={initialValue?.events || []}
                     fieldId={"c_contentCarousel.events"}
                     linkedEntityType={"event"}
                   />
@@ -160,7 +166,7 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
               case "c_contentGrid.financialProfessionals":
                 return (
                   <LinkedEntities
-                    initialValue={initialValue.financialProfessionals}
+                    initialValue={initialValue?.financialProfessionals || []}
                     fieldId={"c_contentGrid.financialProfessionals"}
                     linkedEntityType={"financialProfessional"}
                   />
@@ -168,7 +174,7 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
               case "c_insights.blogs":
                 return (
                   <LinkedEntities
-                    initialValue={initialValue.blogs}
+                    initialValue={initialValue?.blogs || []}
                     fieldId={"c_insights.blogs"}
                     linkedEntityType={"ce_blog"}
                   />
@@ -176,7 +182,7 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
               case "c_pages_layouts":
                 return (
                   <LinkedEntities
-                    initialValue={initialValue}
+                    initialValue={initialValue || []}
                     fieldId={"c_pages_layouts"}
                     linkedEntityType={"ce_pagesLayout"}
                   />

@@ -1,7 +1,7 @@
 import { TrashIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import * as React from "react";
- import {
+import {
   dataReducer,
   notificationsReducer,
 } from "../../redux/dashboardDataSlice";

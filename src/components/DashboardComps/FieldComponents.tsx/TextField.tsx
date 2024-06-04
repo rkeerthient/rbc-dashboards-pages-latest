@@ -9,7 +9,7 @@ interface TextFieldProps {
 }
 
 const TextField = ({
-  initialValue,
+  initialValue = "",
   fieldId,
   isComplex = false,
 }: TextFieldProps) => {

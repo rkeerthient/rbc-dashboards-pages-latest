@@ -9,7 +9,7 @@ interface TextFieldProps {
   fieldId: string;
 }
 
-const TextBoxList = ({ initialValue, fieldId }: TextFieldProps) => {
+const TextBoxList = ({ initialValue = [], fieldId }: TextFieldProps) => {
   const [value, setValue] = useState<string[] | undefined>(initialValue);
   const [isEditable, setIsEditable] = useState(false);
   const [isContentEdited, setIsContentEdited] = useState(false);
@@ -89,7 +89,7 @@ const TextBoxList = ({ initialValue, fieldId }: TextFieldProps) => {
       ) : (
         <div
           onClick={handleClick}
-          className="hover:cursor-pointer hover:bg-containerBG  flex flex-col p-2"
+          className="hover:cursor-pointer hover:bg-containerBG  flex flex-col "
         >
           {value && value.length >= 1 ? (
             value.map((item: any, index: any) => (

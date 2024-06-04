@@ -50,12 +50,12 @@ export interface Option {
 }
 
 const StructTypeField = ({
-  initialValue,
+  initialValue = [],
   fieldId,
   structType,
 }: StructTypeFieldProps) => {
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [initValues, setInitValues] = useState<any[]>(initialValue || []);
+  const [isEditable, setIsEditable] = useState(false);
+  const [initValues, setInitValues] = useState<any[]>(initialValue);
 
   const booleanData = [
     {
@@ -69,15 +69,7 @@ const StructTypeField = ({
   ];
 
   const handleClick = () => {
-    setIsEditMode(true);
-  };
-
-  const handleSave = () => {
-    setIsEditMode(false);
-  };
-
-  const handleCancel = () => {
-    setIsEditMode(false);
+    setIsEditable(true);
   };
 
   const handleStructChange = (val: any[]) => {
@@ -85,12 +77,16 @@ const StructTypeField = ({
   };
 
   const handleEdit = (val: boolean) => {
-    setIsEditMode(val);
+    setIsEditable(val);
   };
 
   return (
-    <div className="flex flex-col gap-3">
-      {isEditMode ? (
+    <div
+      className={`w-full px-4 py-3 ${
+        isEditable ? `bg-containerBG` : `bg-transparent`
+      }`}
+    >
+      {isEditable ? (
         <TextBoxContainer
           fieldId={fieldId}
           properties={structType.property}
@@ -130,7 +126,7 @@ const StructTypeField = ({
               </div>
             ))
           ) : (
-            <>Click me!</>
+            <>click to add</>
           )}
         </div>
       )}
