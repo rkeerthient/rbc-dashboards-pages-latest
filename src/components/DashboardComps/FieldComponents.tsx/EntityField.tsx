@@ -26,7 +26,7 @@ const EntityField = ({ initialValue }: EntityFieldProps) => {
       const requestBody = encodeURIComponent(
         JSON.stringify({
           ...newBlog,
-          c_associatedBlogs: ["32311549-test"],
+          c_associatedBlogs: ["32311308"],
         })
       );
 

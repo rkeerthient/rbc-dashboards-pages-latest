@@ -64,7 +64,7 @@ const EntityAddOrDeleteField = ({
         })
       );
       const response = await fetch(
-        `/api/putFields/${`32311549-test`}?body=${requestBody}&userRole=${_userRole}`
+        `/api/putFields/${`32311308`}?body=${requestBody}&userRole=${_userRole}`
       );
 
       const res = await response.json();

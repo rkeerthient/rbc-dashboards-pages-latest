@@ -47,7 +47,7 @@ const DBBanner = (props: DBBanner) => {
   const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    const entityId = `32311549-test`;
+    const entityId = `32311308`;
     let suggestionStatusCount: any = {};
     setIsLoaded(false);
     const getSuggestions = async () => {
@@ -122,7 +122,7 @@ const DBBanner = (props: DBBanner) => {
                 ></Portal> */}
               </div>
               <a
-                href="https://www.yext.com/s/4189325/yextsites/145670/editor#templateId=financialProfessional&layoutId=advisorPage&entityId=32311549-test&view=EDIT"
+                href="https://www.yext.com/s/4189325/yextsites/145670/editor#templateId=financialProfessional&layoutId=advisorPage&entityId=32311308&view=EDIT"
                 className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs"
                 target="_blank"
               >

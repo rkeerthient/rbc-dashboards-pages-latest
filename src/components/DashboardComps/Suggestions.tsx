@@ -74,7 +74,7 @@ const Suggestions = () => {
 
   const getFieldConfig = async (pageToken?: string) => {
     setIsLoading(true);
-    const entityId = `32311549-test`;
+    const entityId = `32311308`;
     try {
       const response = await fetch(
         `/api/getSuggestions/${entityId}${

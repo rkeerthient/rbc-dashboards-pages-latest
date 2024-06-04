@@ -44,7 +44,7 @@ const BlogsAddOrDelete = ({ initialValue, fieldId }: BlogsAddOrDeleteProps) => {
         })
       );
       const response = await fetch(
-        `/api/putFields/${`32311549-test`}?body=${requestBody}&userRole=${
+        `/api/putFields/${`32311308`}?body=${requestBody}&userRole=${
           userRole.acl[0].roleId
         }`
       );
