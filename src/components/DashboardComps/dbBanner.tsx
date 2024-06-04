@@ -100,9 +100,9 @@ const DBBanner = (props: DBBanner) => {
               )}
             </div>
             <div className="flex gap-4">
-              <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs ">
+              {/* <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs ">
                 {props.name?.split("-")[0]}
-              </div>
+              </div> */}
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs">
                 <a
                   href="https://tightly-rough-tuna.pgsdemo.com/advisor/32311308"
@@ -118,7 +118,7 @@ const DBBanner = (props: DBBanner) => {
               >
                 Edit Page
               </a>
-              {slug.includes("32312981") && (
+              {!slug.includes("32311308") && (
                 <a
                   href="#"
                   className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs"
