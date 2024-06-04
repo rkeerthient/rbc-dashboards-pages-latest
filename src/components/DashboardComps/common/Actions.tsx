@@ -89,6 +89,8 @@ const Actions = ({
     }
   };
   const handleSave = async () => {
+    console.log(saveBody);
+
     try {
       const requestBody = encodeURIComponent(JSON.stringify(saveBody));
       const _userRole = userStatus?.acl?.[0]?.roleId ?? "1";
@@ -112,7 +114,7 @@ const Actions = ({
                 type: `Suggestion`,
               })
             );
-            // getSuggestions()
+        // getSuggestions()
         updateValue(
           Object.keys(saveBody)[0],
           saveBody[Object.keys(saveBody)[0]]

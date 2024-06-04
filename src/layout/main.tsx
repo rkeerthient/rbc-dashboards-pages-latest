@@ -31,7 +31,6 @@ const MainInternal = (props: MainProps) => {
   return (
     <>
       <EntityPicker />
-      <div className="my-12"></div>
       <Provider store={store}>
         <TemplateDataProvider value={props.data}>
           {children}

@@ -38,7 +38,7 @@ export default function EntityPicker() {
   }, []);
 
   return (
-    <div className="fixed top-2 right-24 w-52 text-right">
+    <div className="flex justify-end items-center pr-8 w-full text-right my-4">
       <Menu>
         <MenuButton className="w-max inline-flex items-center gap-2 bg-white py-1.5 px-3 text-sm/6 font-semibold text-black border  border-black focus:outline-none  ">
           {selected?.name}

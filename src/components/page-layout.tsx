@@ -68,7 +68,7 @@ const PageLayout = ({
 */
 
   const userId = isLocal()
-    ? "3427115575132210579"
+    ? "1568883608704101997"
     : runtime.name === "browser" && window?.YEXT_AUTH?.visitor?.externalId
       ? window.YEXT_AUTH.visitor.externalId
       : "";
