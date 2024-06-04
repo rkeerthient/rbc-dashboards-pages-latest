@@ -47,13 +47,6 @@ const Actions = ({
           100 -
           100
       );
-      console.log(JSON.stringify(newCompletionStatus));
-
-      console.log(
-        newCompletionStatus.fields.length,
-        newCompletionStatus.FieldsWithNoData.length
-      );
-
       dispatch(completionStatusReducer(newCompletionStatus));
     }
     dispatch(

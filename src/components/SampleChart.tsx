@@ -18,9 +18,6 @@ const SampleChart = ({ document, fields }: Props) => {
   const completionStatus = useSelector(
     (state: RootState) => state.dashboardSlice.completionStatus
   );
-  useEffect(() => {
-    console.log(JSON.stringify(completionStatus));
-  }, [completionStatus]);
   return (
     <>
       {completionStatus && (
