@@ -43,7 +43,12 @@ const TextField = ({
         </>
       ) : (
         <div onClick={handleClick} className="hover:cursor-pointer p-2">
-          {value || "Click to add"}
+          {fieldId === "mainPhone"
+            ? value
+                .replace("+1", "")
+                .replace(/\D+/g, "")
+                .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")
+            : value || "Click to add"}
         </div>
       )}
       {isEditable && (
