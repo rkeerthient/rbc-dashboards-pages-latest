@@ -113,7 +113,12 @@ const DBBanner = (props: DBBanner) => {
                 {props.name?.split("-")[0]}
               </div>
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs">
-                <button onClick={() => setOpen((o) => !o)}>Preview page</button>
+                <a
+                  href="https://tightly-rough-tuna.pgsdemo.com/advisor/32311308"
+                  target="_blank"
+                >
+                  Preview page
+                </a>
                 {/* <Portal
                   open={open}
                   setOpen={setOpen}

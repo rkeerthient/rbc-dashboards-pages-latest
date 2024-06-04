@@ -7,20 +7,20 @@ import {
   TemplateProps,
   TemplateRenderProps,
 } from "@yext/pages";
-import "../index.css";
+import { Image } from "@yext/pages-components";
+import * as React from "react";
 import { useEffect, useState } from "react";
 import BarChart from "../components/BarChart";
-import TasksSection from "../components/DashboardComps/TasksSection";
-import DonutChart from "../components/DonutChart";
-import SampleChart from "../components/SampleChart";
-import DBBanner from "../components/DashboardComps/dbBanner";
-import PageLayout from "../components/page-layout";
-import { Image } from "@yext/pages-components";
-import { Main } from "../layout/main";
 import Suggestions from "../components/DashboardComps/Suggestions";
-import * as React from "react";
-import { C_taskGroups, Tasks } from "../types/site";
+import TasksSection from "../components/DashboardComps/TasksSection";
+import DBBanner from "../components/DashboardComps/dbBanner";
+import DonutChart from "../components/DonutChart";
 import RemainingFields from "../components/RemainingFields";
+import SampleChart from "../components/SampleChart";
+import PageLayout from "../components/page-layout";
+import "../index.css";
+import { Main } from "../layout/main";
+import { Tasks } from "../types/site";
 
 export const config: TemplateConfig = {
   stream: {

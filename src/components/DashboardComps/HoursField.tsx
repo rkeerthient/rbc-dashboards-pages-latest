@@ -131,7 +131,7 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
 
   const parseTime = (timeStr: any) => {
     const time = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-    if (!time) return timeStr; // Return the original if no AM/PM part is found (24-hour format)
+    if (!time) return timeStr;
 
     let [_, hours, minutes, period] = time;
     hours = parseInt(hours, 10);
@@ -149,7 +149,7 @@ const HoursField = ({ initialValue, fieldId }: HoursFieldProps) => {
     setValue((prev) => {
       const newIntervals = prev[day].openIntervals.map((interval) => ({
         ...interval,
-        [type]: parseTime(value), // Ensure the time is stored in 24-hour format internally
+        [type]: parseTime(value),
       }));
       return {
         ...prev,
