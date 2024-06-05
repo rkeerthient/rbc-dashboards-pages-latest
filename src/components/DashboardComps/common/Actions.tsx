@@ -35,29 +35,40 @@ const Actions = ({
     (state: RootState) => state.dashboardSlice.completionStatus
   );
 
-  const updateValue = (propertyName: string, newValue: any) => {
-    if (completionStatus.FieldsWithNoData.includes(propertyName)) {
-      const newCompletionStatus = { ...completionStatus };
+  const updateValue = (
+    propertyName: string,
+    newValue: any,
+    updateType?: string
+  ) => {
+    console.log(updateType);
 
-      newCompletionStatus.FieldsWithNoData =
-        newCompletionStatus.FieldsWithNoData.filter(
-          (field) => field !== propertyName
+    if (updateType) {
+      if (completionStatus.FieldsWithNoData.includes(propertyName)) {
+        const newCompletionStatus = { ...completionStatus };
+
+        newCompletionStatus.FieldsWithNoData =
+          newCompletionStatus.FieldsWithNoData.filter(
+            (field) => field !== propertyName
+          );
+        newCompletionStatus.completionPercentage = Math.abs(
+          (newCompletionStatus.FieldsWithNoData.length /
+            newCompletionStatus.fields.length) *
+            100 -
+            100
         );
-      newCompletionStatus.completionPercentage = Math.abs(
-        (newCompletionStatus.FieldsWithNoData.length /
-          newCompletionStatus.fields.length) *
-          100 -
-          100
+        dispatch(completionStatusReducer(newCompletionStatus));
+      }
+      dispatch(
+        dataReducer({
+          ...dataStatus,
+          [propertyName]: newValue,
+        })
       );
-      dispatch(completionStatusReducer(newCompletionStatus));
+    } else {
+      getSuggestions();
     }
-    dispatch(
-      dataReducer({
-        ...dataStatus,
-        [propertyName]: newValue,
-      })
-    );
   };
+
   const getSuggestions = async () => {
     const entityId = `32311308`;
     let suggestionStatusCount: any = {};
@@ -114,10 +125,10 @@ const Actions = ({
                 type: `Suggestion`,
               })
             );
-        // getSuggestions()
         updateValue(
           Object.keys(saveBody)[0],
-          saveBody[Object.keys(saveBody)[0]]
+          saveBody[Object.keys(saveBody)[0]],
+          res.operationType
         );
       }
     } catch (error) {
