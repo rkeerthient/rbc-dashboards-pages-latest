@@ -46,7 +46,7 @@ const PhotoUpload = ({ value, isOpen, multiple }: PhotoUploadProps) => {
           formData.append("image", item);
 
           const response = await fetch(
-            "https://api.imgbb.com/1/upload?key=2c1ac152abecc6a309f85ae34df7fce3",
+            `https://api.imgbb.com/1/upload?key=${import.meta.env.YEXT_PUBLIC_IMGBB_KEY}`,
             {
               method: "POST",
               body: formData,
