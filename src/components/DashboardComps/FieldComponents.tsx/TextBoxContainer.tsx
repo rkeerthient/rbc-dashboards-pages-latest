@@ -1,11 +1,17 @@
-import { Listbox, Transition } from "@headlessui/react";
-import { ChevronDownIcon, TrashIcon } from "@heroicons/react/20/solid";
+import { Dialog, Listbox, Transition } from "@headlessui/react";
+import {
+  ChevronDownIcon,
+  PlusIcon,
+  TrashIcon,
+  XMarkIcon,
+} from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import NonImgAssets from "./NonImgAssets";
 
 interface Option {
   displayName: string;
@@ -77,15 +83,23 @@ const TextBoxContainer = ({
   setInitialValues,
   editMode,
 }: TextBoxContainerProps) => {
+  const [open, setOpen] = useState(false);
+  const [selectedBlockData, setSelectedBlockData] = useState<any>({});
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [initialData, setInitialData] = useState<any>(initialValue);
   const [isDataChanged, setIsDataChanged] = useState<boolean>(false);
   const [showSaveButtons, setShowSaveButtons] = useState<boolean>(false);
   const [initBlocks, setInitBlocks] = useState<Block[]>([]);
   const [isContentEdited, setIsContentEdited] = useState<boolean>(false);
+  const [selectedIndex, setSelectedIndex] = useState();
   const userStatus = useSelector(
     (state: RootState) => state.dashboardSlice.userRole
   );
+
+  useEffect(() => {
+    console.log(JSON.stringify(blocks));
+  }, [blocks]);
+
   const booleanData = [
     {
       displayName: "Yes",
@@ -288,6 +302,8 @@ const TextBoxContainer = ({
   };
 
   const saveChanges = async () => {
+    console.log(JSON.stringify(blocks));
+
     const jsonArray: any[] = [];
     blocks.forEach((block) => {
       const jsonBlock: Record<string, any> = {};
@@ -558,9 +574,23 @@ const TextBoxContainer = ({
               ))}
             </div>
             <TrashIcon
-              className="h-4 w-4 cursor-pointer"
+              className="h-4 w-4 mt-1 cursor-pointer"
               onClick={() => deleteBlock(index)}
             />
+            {fieldId === "c_designations" && (
+              <div className="w-6 h-6 bg-gray-300 flex items-center justify-center">
+                <PlusIcon
+                  className="w-4 h-4"
+                  onClick={() => {
+                    setSelectedIndex(index);
+                    setSelectedBlockData(blocks[index]);
+                    setOpen(true);
+                  }}
+                >
+                  Open
+                </PlusIcon>
+              </div>
+            )}
           </div>
         </div>
       ))}
@@ -574,11 +604,12 @@ const TextBoxContainer = ({
         <div className="flex gap-4">
           <button
             onClick={saveChanges}
-            className={`w-fit flex justify-center h-8 py-1 font-normal px-4 rounded-s text-xs border items-center ${
-              !isDataChanged
-                ? `border-fieldAndBorderBGGrayColor bg-disabled text-disabledColor pointer-events-none`
-                : `border-fieldAndBorderBGGrayColor bg-active text-white`
-            }`}
+            // className={`w-fit flex justify-center h-8 py-1 font-normal px-4 rounded-s text-xs border items-center ${
+            //   !isDataChanged
+            //     ? `border-fieldAndBorderBGGrayColor bg-disabled text-disabledColor pointer-events-none`
+            //     : `border-fieldAndBorderBGGrayColor bg-active text-white`
+            // }`}
+            className={`w-fit flex justify-center h-8 py-1 font-normal px-4 rounded-s text-xs border items-center ${`border-fieldAndBorderBGGrayColor bg-active text-white`}`}
           >
             Save changes
           </button>
@@ -590,6 +621,61 @@ const TextBoxContainer = ({
           </button>
         </div>
       </div>
+      <Transition.Root show={open} as={React.Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={setOpen}>
+          <Transition.Child
+            as={React.Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 z-10 w-full overflow-y-auto">
+            <div className="flex min-h-full items-end justify-center text-center sm:items-center ">
+              <Transition.Child
+                as={React.Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              >
+                <Dialog.Panel className="w-2/4 relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all ">
+                  <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
+                    <button
+                      type="button"
+                      className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      onClick={() => {
+                        setBlocks(initialValue);
+                        setOpen(false);
+                      }}
+                    >
+                      <span className="sr-only">Close</span>
+                      <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                    </button>
+                  </div>
+                  <div className="sm:flex sm:items-start">
+                    <NonImgAssets
+                      index={selectedIndex}
+                      fullData={blocks}
+                      currValue={selectedBlockData}
+                      fieldId="c_designations"
+                      value={(val: any) => setBlocks(val)}
+                      isOpen={(val: boolean) => setOpen(val)}
+                    />
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition.Root>
     </div>
   );
 };
