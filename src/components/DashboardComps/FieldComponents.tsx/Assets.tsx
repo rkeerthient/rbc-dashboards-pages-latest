@@ -5,9 +5,10 @@ type AssetProps = {
   value: (newUrls: string | string[]) => void;
   isOpen: (value: boolean) => void;
   isMulti?: boolean;
+  fieldType?: string;
 };
 
-const Assets = ({ value, isOpen, isMulti = false }: AssetProps) => {
+const Assets = ({ value, isOpen, isMulti = false, fieldType }: AssetProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [assetData, setAssetData] = useState([]);
   const [clicked, setClicked] = useState<number[]>([]);
