@@ -18,6 +18,9 @@ const LinkedEntities = ({
   fieldId,
   linkedEntityType,
 }: LinkedEntitiesProps) => {
+  const tersrtnSelector = useSelector(
+    (state: RootState) => state.dashboardSlice.currentId
+  );
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isEditable, setIsEditable] = useState(false);
@@ -62,7 +65,7 @@ const LinkedEntities = ({
       );
 
       const response = await fetch(
-        `/api/putFields/${import.meta.env.YEXT_PUBLIC_ENTITY_ID}?body=${requestBody}${`&userRole=${_userRole}`}`
+        `/api/putFields/${tersrtnSelector}?body=${requestBody}${`&userRole=${_userRole}`}`
       );
       const res = await response.json();
       if (!res.meta.errors.length) {

@@ -9,9 +9,7 @@ import {
 import * as React from "react";
 import {
   Address,
-  C_awardsDashboard,
   C_designations,
-  C_educationDisplay,
   ComplexImage,
   Coordinate,
   Hours,
@@ -34,7 +32,6 @@ interface MyContextData {
   c_hobbiesAndInterests: string[];
   c_teamDescriptionRTv2: any;
   c_languagesV2: string[];
-  c_educationDisplay: C_educationDisplay[];
   c_heroBanner: string;
   c_associatedBlogs: any[];
   c_associatedClientStories: any[];
@@ -49,7 +46,6 @@ interface MyContextData {
   _site: any;
   c_designations: C_designations[];
   c_organizationsDisplay: string[];
-  c_awardsDashboard: C_awardsDashboard[];
   c_teamName: string;
   c_teamMembers: any[];
   c_serviceAreas: any[];
@@ -85,7 +81,7 @@ interface MyContextProviderProps {
 export const MyContextProvider = ({ children }: MyContextProviderProps) => {
   const [userRole, setUserRole] = useState<UserProfile>();
   const [notification, setNotification] = useState<NotificationDetails>({});
-
+  const [currentId, setCurrentId] = useState("");
   const [data, setData] = useState<MyContextData>({
     name: "",
     mainPhone: "",
@@ -101,7 +97,6 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
     c_hobbiesAndInterests: [],
     c_teamDescriptionRTv2: undefined,
     c_languagesV2: [],
-    c_educationDisplay: [],
     c_heroBanner: "",
     c_associatedBlogs: [],
     c_associatedClientStories: [],
@@ -117,7 +112,6 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
     _site: {},
     c_organizationsDisplay: [],
     c_designations: [],
-    c_awardsDashboard: [],
     c_teamName: "",
     c_teamMembers: [],
     c_serviceAreas: [],
@@ -133,6 +127,8 @@ export const MyContextProvider = ({ children }: MyContextProviderProps) => {
         setData,
         notification,
         setNotification,
+        currentId,
+        setCurrentId,
       }}
     >
       {children}

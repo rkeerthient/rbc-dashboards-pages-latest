@@ -24,7 +24,9 @@ const Actions = ({
   saveBody,
 }: Action_Props) => {
   const dispatch = useDispatch();
-
+  const tersrtnSelector = useSelector(
+    (state: RootState) => state.dashboardSlice.currentId
+  );
   const dataStatus = useSelector(
     (state: RootState) => state.dashboardSlice.data
   );
@@ -70,7 +72,7 @@ const Actions = ({
   };
 
   const getSuggestions = async () => {
-    const entityId = `${import.meta.env.YEXT_PUBLIC_ENTITY_ID}`;
+    const entityId = `${tersrtnSelector}`;
     let suggestionStatusCount: any = {};
     try {
       const _res = await fetch(`/api/getSuggestions/${entityId}`);
@@ -106,7 +108,7 @@ const Actions = ({
       const requestBody = encodeURIComponent(JSON.stringify(saveBody));
       const _userRole = userStatus?.acl?.[0]?.roleId ?? "1";
       const response = await fetch(
-        `/api/putFields/${import.meta.env.YEXT_PUBLIC_ENTITY_ID}?body=${requestBody}${`&userRole=${_userRole}`}`
+        `/api/putFields/${tersrtnSelector}?body=${requestBody}${`&userRole=${_userRole}`}`
       );
 
       const res = await response.json();

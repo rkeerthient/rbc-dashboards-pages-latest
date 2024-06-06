@@ -57,6 +57,7 @@ export interface DashboardNumbers {
 }
 
 export interface MyState {
+  currentId: string;
   userRole: UserProfile;
   data: MyContextData;
   notification: NotificationDetails;
@@ -115,12 +116,16 @@ const initialState: MyState = {
     rejected: 0,
     cancelled: 0,
   },
+  currentId: "",
 };
 
 const mySlice = createSlice({
   name: "mySlice",
   initialState,
   reducers: {
+    currentIdReducer: (state, action: PayloadAction<string>) => {
+      state.currentId = action.payload;
+    },
     userRoleReducer: (state, action: PayloadAction<UserProfile>) => {
       state.userRole = action.payload;
     },
@@ -153,5 +158,6 @@ export const {
   notificationsReducer,
   completionStatusReducer,
   dashboardNumbersReducer,
+  currentIdReducer,
 } = mySlice.actions;
 export default mySlice.reducer;

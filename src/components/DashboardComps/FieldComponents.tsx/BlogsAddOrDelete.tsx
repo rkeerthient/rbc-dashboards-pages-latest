@@ -2,6 +2,8 @@ import { TrashIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import * as React from "react";
 import { useMyContext } from "../../Context/MyContext";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 interface BlogsAddOrDeleteProps {
   initialValue?: any[];
   fieldId: string;
@@ -23,7 +25,9 @@ const BlogsAddOrDelete = ({ initialValue, fieldId }: BlogsAddOrDeleteProps) => {
   const handleClick = () => {
     setIsEditable(true);
   };
-
+  const tersrtnSelector = useSelector(
+    (state: RootState) => state.dashboardSlice.currentId
+  );
   const handleDelete = (_index: any) => {
     setShowTextbox(false);
     setEntityValues(entityValues.filter((_, index) => index !== _index));
@@ -44,9 +48,7 @@ const BlogsAddOrDelete = ({ initialValue, fieldId }: BlogsAddOrDeleteProps) => {
         })
       );
       const response = await fetch(
-        `/api/putFields/${import.meta.env.YEXT_PUBLIC_ENTITY_ID}?body=${requestBody}&userRole=${
-          userRole.acl[0].roleId
-        }`
+        `/api/putFields/${tersrtnSelector}?body=${requestBody}&userRole=${userRole.acl[0].roleId}`
       );
       const res = await response.json();
       if (!res.meta.errors.length) {

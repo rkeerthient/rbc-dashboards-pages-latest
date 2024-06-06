@@ -33,7 +33,9 @@ const EntityAddOrDeleteField = ({
 
     setIsEditable(true);
   };
-
+  const tersrtnSelector = useSelector(
+    (state: RootState) => state.dashboardSlice.currentId
+  );
   const handleDelete = (_index: any) => {
     setShowTextbox(false);
     setEntityValues(entityValues.filter((_, index) => index !== _index));
@@ -64,7 +66,7 @@ const EntityAddOrDeleteField = ({
         })
       );
       const response = await fetch(
-        `/api/putFields/${import.meta.env.YEXT_PUBLIC_ENTITY_ID}?body=${requestBody}&userRole=${_userRole}`
+        `/api/putFields/${tersrtnSelector}?body=${requestBody}&userRole=${_userRole}`
       );
 
       const res = await response.json();

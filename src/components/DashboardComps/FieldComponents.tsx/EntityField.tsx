@@ -18,7 +18,9 @@ const EntityField = ({ initialValue }: EntityFieldProps) => {
   const handleClick = () => {
     setIsEditable(true);
   };
-
+  const tersrtnSelector = useSelector(
+    (state: RootState) => state.dashboardSlice.currentId
+  );
   const handleSave = async () => {
     setIsLoading(true);
 
@@ -26,7 +28,7 @@ const EntityField = ({ initialValue }: EntityFieldProps) => {
       const requestBody = encodeURIComponent(
         JSON.stringify({
           ...newBlog,
-          c_associatedBlogs: [import.meta.env.YEXT_PUBLIC_ENTITY_ID],
+          c_associatedBlogs: [tersrtnSelector],
         })
       );
 

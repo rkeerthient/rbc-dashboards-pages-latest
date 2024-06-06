@@ -9,10 +9,12 @@ import Toast from "./Toast";
 import { useDispatch, useSelector } from "react-redux";
 import {
   completionStatusReducer,
+  currentIdReducer,
   dataReducer,
   userRoleReducer,
 } from "../redux/dashboardDataSlice";
 import { RootState } from "../redux/store";
+import { useMyContext } from "./Context/MyContext";
 
 type Props = {
   _site?: any;
@@ -38,6 +40,9 @@ const PageLayout = ({
 
   const [resObject, setResObject] = useState<object>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  useEffect(() => {
+    dispatch(currentIdReducer(document.id));
+  }, []);
 
   useEffect(() => {
     if (fields) {

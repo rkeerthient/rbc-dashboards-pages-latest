@@ -5,6 +5,8 @@ import { FiCheck, FiRefreshCw } from "react-icons/fi";
 import { GrFormClose } from "react-icons/gr";
 import { EnumData } from "../EnumData";
 import RTF from "../RTF";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 export interface SuggestionsRoot {
   uid: string;
   accountId: string;
@@ -67,14 +69,16 @@ const Suggestions = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [suggestionsData, setSuggestionsData] = useState<SuggestionsRoot[]>([]);
   const [pageToken, setPageToken] = useState<string>("");
-
+  const tersrtnSelector = useSelector(
+    (state: RootState) => state.dashboardSlice.currentId
+  );
   useEffect(() => {
     getFieldConfig();
   }, []);
 
   const getFieldConfig = async (pageToken?: string) => {
     setIsLoading(true);
-    const entityId = `${import.meta.env.YEXT_PUBLIC_ENTITY_ID}`;
+    const entityId = `${tersrtnSelector}`;
     try {
       const response = await fetch(
         `/api/getSuggestions/${entityId}${

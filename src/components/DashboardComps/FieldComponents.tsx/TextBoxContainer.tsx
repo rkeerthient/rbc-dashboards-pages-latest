@@ -95,7 +95,9 @@ const TextBoxContainer = ({
   const userStatus = useSelector(
     (state: RootState) => state.dashboardSlice.userRole
   );
-
+  const tersrtnSelector = useSelector(
+    (state: RootState) => state.dashboardSlice.currentId
+  );
   useEffect(() => {
     console.log(JSON.stringify(blocks));
   }, [blocks]);
@@ -373,7 +375,7 @@ const TextBoxContainer = ({
       const _userRole = userStatus?.acl?.[0]?.roleId ?? "1";
 
       const response = await fetch(
-        `/api/putFields/${import.meta.env.YEXT_PUBLIC_ENTITY_ID}?body=${requestBody}${
+        `/api/putFields/${tersrtnSelector}?body=${requestBody}${
           richFormat.length ? `&format=${richFormat}` : ""
         }&userRole=${_userRole}`
       );

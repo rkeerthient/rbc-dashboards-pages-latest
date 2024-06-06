@@ -36,15 +36,16 @@ const DBBanner = (props: DBBanner) => {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const { name, children, headshot, slug } = props;
+  const tersrtnSelector = useSelector(
+    (state: RootState) => state.dashboardSlice.currentId
+  );
 
   useEffect(() => {
     let suggestionStatusCount: any = {};
     setIsLoaded(false);
     const getSuggestions = async () => {
       try {
-        const _res = await fetch(
-          `/api/getSuggestions/${import.meta.env.YEXT_PUBLIC_ENTITY_ID}`
-        );
+        const _res = await fetch(`/api/getSuggestions/${tersrtnSelector}`);
         const mainJson: any = await _res.json();
         const suggestions: SuggestionsRoot[] =
           await mainJson.response.suggestions;
@@ -65,7 +66,7 @@ const DBBanner = (props: DBBanner) => {
         dispatch(dashboardNumbersReducer(currData));
       } catch (error) {
         console.error(
-          `Failed to fetch field configuration for ${import.meta.env.YEXT_PUBLIC_ENTITY_ID}:`,
+          `Failed to fetch field configuration for ${tersrtnSelector}:`,
           error
         );
       } finally {
