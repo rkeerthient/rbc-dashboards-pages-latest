@@ -17,7 +17,7 @@ interface pickerProps {
 const entityPicker: pickerProps[] = [
   { name: "Aaron Kingston", entityId: "32311308" },
   { name: "A. Harrison Peatriss, Jr.", entityId: "32311549" },
-  { name: "Aaron Foster", entityId: "32312981" },
+  { name: "Amanda Foster", entityId: "32312981" },
   { name: "Aaron H. Weierbach", entityId: "32312754" },
 ];
 
