@@ -1,6 +1,9 @@
 import * as React from "react";
 import { useState } from "react";
 import TextBoxContainer from "./DashboardComps/FieldComponents.tsx/TextBoxContainer";
+import { PlusIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { Transition, Dialog } from "@headlessui/react";
+import NonImgAssets from "./DashboardComps/FieldComponents.tsx/NonImgAssets";
 
 interface StructTypeFieldProps {
   initialValue?: any[] | undefined; // Changed to any[] to handle an array of any structured objects
@@ -87,13 +90,15 @@ const StructTypeField = ({
       }`}
     >
       {isEditable ? (
-        <TextBoxContainer
-          fieldId={fieldId}
-          properties={structType.property}
-          initialValue={initialValue}
-          setInitialValues={handleStructChange}
-          editMode={handleEdit}
-        />
+        <>
+          <TextBoxContainer
+            fieldId={fieldId}
+            properties={structType.property}
+            initialValue={initialValue}
+            setInitialValues={handleStructChange}
+            editMode={handleEdit}
+          />
+        </>
       ) : (
         <div
           className="flex flex-col gap-2 hover:cursor-pointer"

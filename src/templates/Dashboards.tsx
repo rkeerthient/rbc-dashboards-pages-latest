@@ -63,6 +63,7 @@ export const config: TemplateConfig = {
       "c_education.school",
       "c_education.startDate",
       "c_education.endDate",
+      "c_designations.abbreviation",
       "c_designations.date",
       "c_designations.name",
       "c_awards.nameOfAwardOrHonor",
