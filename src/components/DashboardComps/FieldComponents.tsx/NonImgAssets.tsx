@@ -65,10 +65,7 @@ const NonImgAssets = ({
       booleanValue: false,
       multiPickOptions: [],
     };
-
-    console.log(JSON.stringify(fullData));
-    console.log(JSON.stringify(newFullDataItem));
-    if (index) {
+    if (index >= 0) {
       return [
         ...fullData.slice(0, index),
         newFullDataItem,
@@ -110,8 +107,6 @@ const NonImgAssets = ({
       _setValue(selectedAsset);
     } else {
       const selectedAsset = assetData.find((asset) => asset.name === name);
-      console.log(selectedAsset);
-
       if (selectedAsset) {
         _setDesgValue(selectedAsset);
       }
@@ -145,11 +140,6 @@ const NonImgAssets = ({
                 </div>
               ))}
             </div>
-            {/* {_value && (
-              <div className="border-l-4 border-gray-400 pl-4 pt-12 h-5/6 space-y-4">
-                <div className="space-y-2">{_value.name}</div>
-              </div>
-            )} */}
             {_value && (
               <div className="border-l-4 border-gray-400 pl-4 pt-12 h-5/6 space-y-4">
                 <div className="space-y-2">
