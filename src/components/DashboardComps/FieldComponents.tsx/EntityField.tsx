@@ -26,7 +26,7 @@ const EntityField = ({ initialValue }: EntityFieldProps) => {
       const requestBody = encodeURIComponent(
         JSON.stringify({
           ...newBlog,
-          c_associatedBlogs: ["32311308"],
+          c_associatedBlogs: [import.meta.env.YEXT_PUBLIC_ENTITY_ID],
         })
       );
 

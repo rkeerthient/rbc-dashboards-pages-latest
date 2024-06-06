@@ -70,7 +70,7 @@ const Actions = ({
   };
 
   const getSuggestions = async () => {
-    const entityId = `32311308`;
+    const entityId = `${import.meta.env.YEXT_PUBLIC_ENTITY_ID}`;
     let suggestionStatusCount: any = {};
     try {
       const _res = await fetch(`/api/getSuggestions/${entityId}`);
@@ -106,7 +106,7 @@ const Actions = ({
       const requestBody = encodeURIComponent(JSON.stringify(saveBody));
       const _userRole = userStatus?.acl?.[0]?.roleId ?? "1";
       const response = await fetch(
-        `/api/putFields/${`32311308`}?body=${requestBody}${`&userRole=${_userRole}`}`
+        `/api/putFields/${import.meta.env.YEXT_PUBLIC_ENTITY_ID}?body=${requestBody}${`&userRole=${_userRole}`}`
       );
 
       const res = await response.json();

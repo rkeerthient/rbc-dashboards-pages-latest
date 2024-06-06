@@ -357,7 +357,7 @@ const TextBoxContainer = ({
       const _userRole = userStatus?.acl?.[0]?.roleId ?? "1";
 
       const response = await fetch(
-        `/api/putFields/${`32311308`}?body=${requestBody}${
+        `/api/putFields/${import.meta.env.YEXT_PUBLIC_ENTITY_ID}?body=${requestBody}${
           richFormat.length ? `&format=${richFormat}` : ""
         }&userRole=${_userRole}`
       );

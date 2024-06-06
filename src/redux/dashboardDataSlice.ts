@@ -17,7 +17,8 @@ interface MyContextData {
   mainPhone: string;
   c_role: string;
   hours: Hours;
-  c_contentCarousel: any[];
+  c_events: any[];
+  c_servicesOffered: any[];
   c_contentGrid: any[];
   c_insights: any[];
   c_hero: C_hero;
@@ -81,7 +82,8 @@ const initialState: MyState = {
     mainPhone: "",
     c_role: "",
     hours: {} as Hours,
-    c_contentCarousel: [],
+    c_events: [],
+    c_servicesOffered: [],
     c_contentGrid: [],
     c_insights: [],
     c_hero: {} as C_hero,

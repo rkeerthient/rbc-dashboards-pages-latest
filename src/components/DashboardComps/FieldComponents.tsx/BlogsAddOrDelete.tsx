@@ -44,7 +44,7 @@ const BlogsAddOrDelete = ({ initialValue, fieldId }: BlogsAddOrDeleteProps) => {
         })
       );
       const response = await fetch(
-        `/api/putFields/${`32311308`}?body=${requestBody}&userRole=${
+        `/api/putFields/${import.meta.env.YEXT_PUBLIC_ENTITY_ID}?body=${requestBody}&userRole=${
           userRole.acl[0].roleId
         }`
       );

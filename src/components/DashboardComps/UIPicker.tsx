@@ -86,9 +86,9 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
       "languages",
       "yearsOfExperience",
       "c_hero.email",
-      "c_contentCarousel.events",
+      "c_events.events",
       "c_advisorBio.headshot",
-      "c_contentCarousel.services",
+      "c_servicesOffered.servicesOptions",
       "c_advisorBio.email",
       "c_insights.blogs",
       "c_hero.backgroundImage",
@@ -147,19 +147,19 @@ const UIPicker = ({ fieldName, subItemField, initialValue }: UIPickerProps) => {
                     fieldId={"address"}
                   />
                 );
-              case "c_contentCarousel.services":
+              case "c_servicesOffered.servicesOptions":
                 return (
                   <LinkedEntities
                     initialValue={initialValue?.services || []}
-                    fieldId={"c_contentCarousel.services"}
+                    fieldId={"c_servicesOffered.servicesOptions"}
                     linkedEntityType={"ce_service"}
                   />
                 );
-              case "c_contentCarousel.events":
+              case "c_events.events":
                 return (
                   <LinkedEntities
                     initialValue={initialValue?.events || []}
-                    fieldId={"c_contentCarousel.events"}
+                    fieldId={"c_events.events"}
                     linkedEntityType={"event"}
                   />
                 );

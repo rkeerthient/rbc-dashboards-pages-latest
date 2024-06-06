@@ -38,12 +38,13 @@ const DBBanner = (props: DBBanner) => {
   const { name, children, headshot, slug } = props;
 
   useEffect(() => {
-    const entityId = `32311308`;
     let suggestionStatusCount: any = {};
     setIsLoaded(false);
     const getSuggestions = async () => {
       try {
-        const _res = await fetch(`/api/getSuggestions/${entityId}`);
+        const _res = await fetch(
+          `/api/getSuggestions/${import.meta.env.YEXT_PUBLIC_ENTITY_ID}`
+        );
         const mainJson: any = await _res.json();
         const suggestions: SuggestionsRoot[] =
           await mainJson.response.suggestions;
@@ -64,7 +65,7 @@ const DBBanner = (props: DBBanner) => {
         dispatch(dashboardNumbersReducer(currData));
       } catch (error) {
         console.error(
-          `Failed to fetch field configuration for ${entityId}:`,
+          `Failed to fetch field configuration for ${import.meta.env.YEXT_PUBLIC_ENTITY_ID}:`,
           error
         );
       } finally {

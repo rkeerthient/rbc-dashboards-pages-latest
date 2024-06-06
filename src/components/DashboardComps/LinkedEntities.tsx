@@ -62,7 +62,7 @@ const LinkedEntities = ({
       );
 
       const response = await fetch(
-        `/api/putFields/${`32311308`}?body=${requestBody}${`&userRole=${_userRole}`}`
+        `/api/putFields/${`import.meta.env.YEXT_PUBLIC_ENTITY_ID`}?body=${requestBody}${`&userRole=${_userRole}`}`
       );
       const res = await response.json();
       if (!res.meta.errors.length) {

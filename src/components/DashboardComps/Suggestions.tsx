@@ -74,7 +74,7 @@ const Suggestions = () => {
 
   const getFieldConfig = async (pageToken?: string) => {
     setIsLoading(true);
-    const entityId = `32311308`;
+    const entityId = `${import.meta.env.YEXT_PUBLIC_ENTITY_ID}`;
     try {
       const response = await fetch(
         `/api/getSuggestions/${entityId}${

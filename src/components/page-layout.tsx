@@ -83,7 +83,7 @@ const PageLayout = ({
         mainPhone,
         c_role,
         hours,
-        c_contentCarousel,
+        c_servicesOffered,
         c_contentGrid,
         c_insights,
         c_hero,
@@ -101,6 +101,7 @@ const PageLayout = ({
         c_designations,
         c_awards,
         emails,
+        c_events,
       } = document;
       const updatedData = {
         ...(name && { name }),
@@ -108,7 +109,8 @@ const PageLayout = ({
         ...(mainPhone && { mainPhone }),
         ...(c_role && { c_role }),
         ...(hours && { hours }),
-        ...(c_contentCarousel && { c_contentCarousel }),
+        ...(c_servicesOffered && { c_servicesOffered }),
+        ...(c_events && { c_events }),
         ...(c_contentGrid && { c_contentGrid }),
         ...(c_insights && { c_insights }),
         ...(c_hero && { c_hero }),

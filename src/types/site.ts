@@ -17,6 +17,11 @@ export interface C_testDashboards {
 	tasks?: Tasks[],
 }
 
+export interface EntityReference {
+	entityId: string,
+	name: string,
+}
+
 export default interface Ce_site {
 	name: string,
 	c_dashboardCompletionDescription?: string,
@@ -28,5 +33,6 @@ export default interface Ce_site {
 	c_productVisualConfiguration?: string,
 	c_taskGroups?: C_taskGroups[],
 	c_testDashboards?: C_testDashboards[],
+	c_visualLayouts?: EntityReference[],
 	id: string,
 }
