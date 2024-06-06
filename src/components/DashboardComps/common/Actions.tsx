@@ -101,6 +101,24 @@ const Actions = ({
       );
     }
   };
+
+  function extractKeyPaths(obj: any, path = "") {
+    let keyPaths = [];
+    for (let key in obj) {
+      const currentPath = path ? `${path}.${key}` : key; // Construct the full path for the current key
+      keyPaths.push(currentPath); // Add the current full path
+      if (
+        typeof obj[key] === "object" &&
+        obj[key] !== null &&
+        !Array.isArray(obj[key])
+      ) {
+        // Recursively find deeper keys, passing the new path
+        keyPaths = keyPaths.concat(extractKeyPaths(obj[key], currentPath));
+      }
+    }
+    return keyPaths;
+  }
+
   const handleSave = async () => {
     console.log(saveBody);
 
@@ -117,13 +135,13 @@ const Actions = ({
         res.operationType === "Update"
           ? dispatch(
               notificationsReducer({
-                fieldKey: `${Object.keys(saveBody)[0]}`,
+                fieldKey: `${extractKeyPaths(saveBody).pop()}`,
                 type: `Update`,
               })
             )
           : dispatch(
               notificationsReducer({
-                fieldKey: `${Object.keys(saveBody)[0]}`,
+                fieldKey: `${extractKeyPaths(saveBody).pop()}`,
                 type: `Suggestion`,
               })
             );
