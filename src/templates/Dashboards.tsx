@@ -76,7 +76,10 @@ export const config: TemplateConfig = {
       // entityIds: ["32311308"],
 
       entityTypes: ["financialProfessional"],
-      entityIds: ["32311308", "32311549", "32312981", "32312754"],
+      entityIds: ["aaron-kingston",
+        "a-harrison-peatriss",
+        "amanda-foster",
+        "aaron-weierbach"],
     },
     localization: {
       locales: ["en"],

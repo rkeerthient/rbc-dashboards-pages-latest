@@ -15,10 +15,10 @@ interface pickerProps {
 }
 
 const entityPicker: pickerProps[] = [
-  { name: "Aaron Kingston", entityId: "32311308" },
-  { name: "A. Harrison Peatriss, Jr.", entityId: "32311549" },
-  { name: "Amanda Foster", entityId: "32312981" },
-  { name: "Aaron H. Weierbach", entityId: "32312754" },
+  { name: "Aaron Kingston", entityId: "aaron-kingston" },
+  { name: "A. Harrison Peatriss, Jr.", entityId: "a-harrison-peatriss" },
+  { name: "Amanda Foster", entityId: "amanda-foster" },
+  { name: "Aaron H. Weierbach", entityId: "aaron-weierbach" },
 ];
 
 export default function EntityPicker() {

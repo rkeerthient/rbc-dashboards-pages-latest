@@ -107,20 +107,20 @@ const DBBanner = (props: DBBanner) => {
               </div> */}
               <div className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs">
                 <a
-                  href="https://tightly-rough-tuna.pgsdemo.com/advisor/32311308"
+                  href={`https://tightly-rough-tuna.pgsdemo.com/advisor/${tersrtnSelector}`}
                   target="_blank"
                 >
                   Preview page
                 </a>
               </div>
               <a
-                href="https://www.yext.com/s/4189325/yextsites/145670/editor#templateId=financialProfessional&layoutId=advisorPage&entityId=32311308&view=EDIT"
+                href={`https://www.yext.com/s/4189325/yextsites/145670/editor#templateId=financialProfessional&layoutId=advisorPage&entityId=${tersrtnSelector}&view=EDIT`}
                 className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs"
                 target="_blank"
               >
                 Edit Page
               </a>
-              {!slug.includes("32311308") && (
+              {!slug.includes("aaron-kingston") && (
                 <a
                   href="#"
                   className="bg-slate-200 px-4 py-2 rounded-md text-gray-800 font-semibold text-xs"
