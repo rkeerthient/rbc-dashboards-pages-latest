@@ -29,10 +29,16 @@ export interface RTFType {
   json: Record<string, any>;
 }
 
+export interface NavItem {
+  title?: string;
+  page?: string[];
+}
+
 export interface SiteEntity {
   name: string;
   meta: Meta;
   c_linkedFinancialProfessional: string[];
+  c_header: NavItem[];
 }
 
 export interface FinancialProfessionalEntity {

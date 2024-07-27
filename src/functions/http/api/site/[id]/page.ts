@@ -17,10 +17,11 @@ export default async function page(
   }
 
   const reqBody = JSON.parse(body);
-  const parentPageId = reqBody.parentPageId;
 
   switch (method) {
     case "POST":
+      const parentPageId = reqBody.parentPageId;
+      const navSection = reqBody.navSection;
       try {
         if (!siteEntityId) {
           return {
@@ -32,6 +33,13 @@ export default async function page(
         if (!parentPageId) {
           return {
             body: "Missing parent page id",
+            headers: {},
+            statusCode: 400,
+          };
+        }
+        if (!navSection) {
+          return {
+            body: "Missing nav section",
             headers: {},
             statusCode: 400,
           };
@@ -129,8 +137,19 @@ export default async function page(
 
         const response = await createEntity<PageEntity>("ce_page", pageRequest);
 
+        // 8. Update the Site Header
+        const updatedSiteHeader = buildUpdateSiteHeaderRequest(
+          site.response,
+          navSection,
+          response.response
+        );
+
+        console.log("Updated Site Header: ", updatedSiteHeader);
+
+        await updateEntity(siteEntityId, updatedSiteHeader);
+
         return {
-          body: JSON.stringify(response),
+          body: "Done",
           headers: {},
           statusCode: 201,
         };
@@ -138,7 +157,18 @@ export default async function page(
         console.error(error);
         return { body: "Internal Server Error", headers: {}, statusCode: 500 };
       }
-
+    case "PUT":
+      const headers = reqBody.headers;
+      const updatedSiteHeader = {
+        c_header: headers,
+      };
+      console.log("Updated Site Header: ", updatedSiteHeader);
+      await updateEntity(siteEntityId, updatedSiteHeader);
+      return {
+        body: JSON.stringify("done"),
+        headers: {},
+        statusCode: 200,
+      };
     default:
       return { body: "Method not allowed", headers: {}, statusCode: 405 };
   }
@@ -213,6 +243,33 @@ const buildNewPageRequest = (
   return newPage;
 };
 
+const buildUpdateSiteHeaderRequest = (
+  site: SiteEntity,
+  navSection: string,
+  newPage: PageEntity
+) => {
+  const existingNavSection = site.c_header.find(
+    (header) => header.title === navSection
+  );
+
+  if (existingNavSection) {
+    if (existingNavSection.page) {
+      existingNavSection.page.push(newPage.meta.id);
+    } else {
+      existingNavSection.page = [newPage.meta.id];
+    }
+  } else {
+    site.c_header.push({
+      title: navSection,
+      page: [newPage.meta.id],
+    });
+  }
+
+  return {
+    c_header: site.c_header,
+  };
+};
+
 const idify = (str: string) => {
   return str.replace(/\s/g, "_").toLowerCase();
 };
@@ -222,7 +279,7 @@ const slugify = (str: string) => {
 };
 
 // <------ API Utils ------>
-const getEntity = async <T>(
+export const getEntity = async <T>(
   entityId: string
 ): Promise<YextResponse<T> | null> => {
   const mgmtApiResp = await fetch(
@@ -238,26 +295,24 @@ const getEntity = async <T>(
   return resp;
 };
 
-// const updateEntity = async (
-//   entityId?: string,
-//   entityBody?: Record<string, any>
-// ): Promise<PagesHttpResponse> => {
-//   if (!entityId) {
-//     return { body: "Missing entity id", headers: {}, statusCode: 400 };
-//   } else if (!entityBody) {
-//     return { body: "Missing entity body", headers: {}, statusCode: 400 };
-//   }
+const updateEntity = async (
+  entityId?: string,
+  entityBody?: Record<string, any>
+): Promise<void> => {
+  const mgmtApiResp = await fetch(
+    `https://api.yextapis.com/v2/accounts/me/entities/${entityId}?api_key=${YEXT_PUBLIC_API_KEY}&v=20230901 `,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(entityBody),
+    }
+  );
 
-//   const mgmtApiResp = await fetch(` `, {
-//     method: "PUT",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(entityBody),
-//   });
-
-//   const resp = await mgmtApiResp.json();
-// };
+  const resp = await mgmtApiResp.json();
+  console.log("Update Entity Response: ", JSON.stringify(resp));
+};
 
 const createEntity = async <T>(
   entityType: string,
