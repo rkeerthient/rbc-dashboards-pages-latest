@@ -7,6 +7,16 @@ import { store } from "../redux/store";
 import EntityPicker from "../components/EntityPicker";
 import { useState } from "react";
 
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
 declare global {
   interface Window {
     YEXT_AUTH: { visitor: { externalId: string } };
@@ -30,12 +40,14 @@ const MainInternal = (props: MainProps) => {
   const { children } = props;
   return (
     <>
-      <EntityPicker />
-      <Provider store={store}>
-        <TemplateDataProvider value={props.data}>
-          {children}
-        </TemplateDataProvider>
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <EntityPicker />
+        <Provider store={store}>
+          <TemplateDataProvider value={props.data}>
+            {children}
+          </TemplateDataProvider>
+        </Provider>
+      </QueryClientProvider>
     </>
   );
 };

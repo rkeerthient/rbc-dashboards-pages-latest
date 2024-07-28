@@ -10,6 +10,7 @@ export interface PageEntity {
   savedFilters: string[];
   slug: string;
   name: string;
+  c_pageTitle: string;
   c_contentBlocks: string[];
   meta: Meta;
   richTextDescriptionV2: RTFType;
@@ -39,6 +40,15 @@ export interface SiteEntity {
   meta: Meta;
   c_linkedFinancialProfessional: string[];
   c_header: NavItem[];
+}
+
+export interface HeaderPage {
+  title: string;
+  page: PageEntity[];
+}
+
+export interface Site extends Omit<SiteEntity, "c_header"> {
+  c_header: HeaderPage[];
 }
 
 export interface FinancialProfessionalEntity {
