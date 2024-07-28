@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Site } from "../types/yext";
+import { Site } from "../../types/yext";
 
 const fetchSite = async (siteId?: string): Promise<Site> => {
   const response = await fetch(`/api/site/${siteId}`);

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Accordion } from "../accordion";
-import { useSite } from "../../hooks/useSite";
+import { useSite } from "../../hooks/queries/useSite";
 import PageAccordionItem from "./PageAccordionItem";
 
 interface SiteDashboardProps {
