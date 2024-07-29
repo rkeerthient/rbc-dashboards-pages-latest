@@ -12,6 +12,7 @@ interface PageAccordionItemProps {
 
 const PageAccordionItem = (props: PageAccordionItemProps) => {
   const { page } = props;
+
   return (
     <AccordionItem className="border-y" value={page.title}>
       <AccordionTrigger>

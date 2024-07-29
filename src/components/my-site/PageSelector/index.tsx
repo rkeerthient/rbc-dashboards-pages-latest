@@ -77,9 +77,7 @@ const PageSelector = ({ site, open, onOpenChange }: PageSelectorProps) => {
         variant={"secondary"}
         className="rounded-full border bg-purple-300"
       >
-        <DialogTrigger className="w-full h-full">
-          <Plus size={24} />
-        </DialogTrigger>
+        <DialogTrigger className="w-full h-full">Add Page</DialogTrigger>
       </Button>
       <DialogContent className="min-w-[1100px] overflow-hidden">
         <DialogHeader>
