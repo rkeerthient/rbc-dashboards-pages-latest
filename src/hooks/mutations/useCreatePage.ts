@@ -1,28 +1,50 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Site } from "../../types/yext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface ReqBody {
   navSection: string;
   parentPageId: string;
 }
 
-const createPage = async (siteId: string, req: ReqBody): Promise<Site> => {
-  const response = await fetch(`/api/site/${siteId}/page`, {
+interface CreatePageVariables {
+  siteId: string;
+  req: ReqBody;
+}
+
+const createPage = async ({
+  siteId,
+  req,
+}: CreatePageVariables): Promise<void> => {
+  await fetch(`/api/site/${siteId}/page`, {
     method: "POST",
     body: JSON.stringify(req),
     headers: {
       "Content-Type": "application/json",
     },
   });
-  const data = await response.json();
-  return data;
 };
 
-const useCreatePage = (siteId: string, req: ReqBody) => {
-  return useMutation({
+const useCreatePage = () => {
+  const queryClient = useQueryClient();
+
+  const createPageMutation = useMutation({
     mutationKey: ["createPage"],
-    mutationFn: () => createPage(siteId, req),
+    mutationFn: async (variables: CreatePageVariables) => {
+      await createPage(variables);
+      console.log("variables", variables);
+      return variables;
+    },
+    onSettled: async (data) => {
+      console.log("data", data);
+      await queryClient.invalidateQueries({
+        queryKey: ["site", data?.siteId],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["shared-pages", data?.siteId],
+      });
+    },
   });
+
+  return createPageMutation;
 };
 
 export { useCreatePage };

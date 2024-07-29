@@ -1,6 +1,10 @@
 import { PagesHttpRequest, PagesHttpResponse } from "@yext/pages/*";
 import { getEntity } from "./[id]/page";
-import { SiteEntity, YextResponse } from "../../../../types/yext";
+import {
+  SiteEntity,
+  YextListResponse,
+  YextResponse,
+} from "../../../../types/yext";
 
 export default async function site(
   request: PagesHttpRequest
@@ -29,10 +33,7 @@ export default async function site(
         entityId: { $in: pageIds },
       });
 
-      const pageEntitiesResponse = await getEntities<any>(
-        siteEntityId,
-        filterString
-      );
+      const pageEntitiesResponse = await getEntities<any>(filterString);
       const pageEntities = pageEntitiesResponse?.response?.entities || [];
 
       // Create a map of pageId to page entity
@@ -68,12 +69,18 @@ export default async function site(
 
 // <------ API Utils ------>
 export const getEntities = async <T>(
-  entityId: string,
-  filterString: string
-): Promise<YextResponse<T> | null> => {
-  const mgmtApiResp = await fetch(
-    `https://api.yextapis.com/v2/accounts/me/entities?api_key=${YEXT_PUBLIC_API_KEY}&v=20230901&filter=${filterString}`
-  );
+  filterString?: string,
+  entityType?: string
+): Promise<YextListResponse<T> | null> => {
+  let reqStr = `https://api.yextapis.com/v2/accounts/me/entities?api_key=${YEXT_PUBLIC_API_KEY}&v=20230901`;
+  if (filterString) {
+    reqStr += `&filter=${filterString}`;
+  }
+  if (entityType) {
+    reqStr += `&entityType=${entityType}`;
+  }
+
+  const mgmtApiResp = await fetch(reqStr);
 
   const resp = await mgmtApiResp.json();
 

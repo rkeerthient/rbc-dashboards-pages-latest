@@ -6,6 +6,16 @@ export interface YextResponse<T> {
   response: T;
 }
 
+export interface YextListResponse<T> {
+  meta: {
+    uuid: string;
+    errors: string[];
+  };
+  response: {
+    entities: T[];
+  };
+}
+
 export interface PageEntity {
   savedFilters: string[];
   slug: string;
@@ -15,6 +25,8 @@ export interface PageEntity {
   meta: Meta;
   richTextDescriptionV2: RTFType;
   c_pages_layouts?: string[];
+  c_parentPage?: string[];
+  c_childrenPages?: string[];
 }
 
 export interface LayoutEntity {

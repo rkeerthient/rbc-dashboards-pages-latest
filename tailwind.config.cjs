@@ -35,6 +35,8 @@ module.exports = {
         dropdownActiveBG: "#f0f2f4",
         headerBG: "#022169",
         linkColor: "#1463f9",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
       },
       borderRadius: {
         cta: "var(--cta-border-radius, 1rem)",

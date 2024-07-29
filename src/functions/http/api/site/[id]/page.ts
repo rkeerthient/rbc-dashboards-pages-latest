@@ -51,14 +51,7 @@ export default async function page(
           return { body: "Site not found", headers: {}, statusCode: 400 };
         }
 
-        // 2. Check if the page already exists
-        const exists = await checkIfPageExists(siteEntityId, parentPageId);
-
-        if (exists) {
-          return { body: "Page already exists", headers: {}, statusCode: 400 };
-        }
-
-        // 3. Fetch the parent page
+        // 2. Fetch the parent page
         const parentPage = await getEntity<PageEntity>(parentPageId);
 
         if (!parentPage) {
@@ -69,7 +62,7 @@ export default async function page(
           };
         }
 
-        // 4. Fetch the related Financial Professional entity
+        // 3. Fetch the related Financial Professional entity
         if (
           !site.response.c_linkedFinancialProfessional ||
           site.response.c_linkedFinancialProfessional.length === 0
@@ -92,59 +85,70 @@ export default async function page(
           };
         }
 
-        // Steps 5 & 6 are required because the current VE UI does not support
-        // setting the layout on the base entity at the moment but this will change in the future
+        // 4. Check if the page entity already exists
+        const pageId =
+          idify(financialProfessional.response.name) + "_" + parentPageId;
+        const exists = parentPage.response.c_childrenPages?.includes(pageId);
 
-        // 5. Fetch the Layout Entity for the Parent Page
-        if (
-          !parentPage.response.c_pages_layouts ||
-          parentPage.response.c_pages_layouts.length === 0
-        ) {
-          return {
-            body: "Parent page has no layout",
-            headers: {},
-            statusCode: 500,
-          };
+        // Skip steps 5-7 if the page already exists
+        if (!exists) {
+          // Steps 5 & 6 are required because the current VE UI does not support
+          // setting the layout on the base entity at the moment but this will change in the future
+
+          // 5. Fetch the Layout Entity for the Parent Page
+          if (
+            !parentPage.response.c_pages_layouts ||
+            parentPage.response.c_pages_layouts.length === 0
+          ) {
+            return {
+              body: "Parent page has no layout",
+              headers: {},
+              statusCode: 500,
+            };
+          }
+
+          const layout = await getEntity<LayoutEntity>(
+            parentPage.response.c_pages_layouts[0]
+          );
+          if (!layout) {
+            return { body: "Layout not found", headers: {}, statusCode: 500 };
+          }
+
+          // 6. Create a new Layout Entity
+          const layoutRequest = buildNewLayoutRequest(
+            site.response,
+            financialProfessional.response,
+            layout?.response
+          );
+          console.log("Layout Request: ", layoutRequest);
+
+          const { response: newLayout } = await createEntity<LayoutEntity>(
+            "ce_pagesLayout",
+            layoutRequest
+          );
+
+          // 7. Create a new Page Entity
+          const pageRequest = buildNewPageRequest(
+            site.response,
+            financialProfessional.response,
+            parentPage.response,
+            newLayout
+          );
+
+          const response = await createEntity<PageEntity>(
+            "ce_page",
+            pageRequest
+          );
+
+          console.log("New Page Response: ", response);
         }
-
-        const layout = await getEntity<LayoutEntity>(
-          parentPage.response.c_pages_layouts[0]
-        );
-        if (!layout) {
-          return { body: "Layout not found", headers: {}, statusCode: 500 };
-        }
-
-        // 6. Create a new Layout Entity
-        const layoutRequest = buildNewLayoutRequest(
-          site.response,
-          financialProfessional.response,
-          layout?.response
-        );
-        console.log("Layout Request: ", layoutRequest);
-
-        const { response: newLayout } = await createEntity<LayoutEntity>(
-          "ce_pagesLayout",
-          layoutRequest
-        );
-
-        // 7. Create a new Page Entity
-        const pageRequest = buildNewPageRequest(
-          site.response,
-          financialProfessional.response,
-          parentPage.response,
-          newLayout
-        );
-
-        const response = await createEntity<PageEntity>("ce_page", pageRequest);
 
         // 8. Update the Site Header
         const updatedSiteHeader = buildUpdateSiteHeaderRequest(
           site.response,
           navSection,
-          response.response
+          pageId
         );
-
-        console.log("Updated Site Header: ", updatedSiteHeader);
 
         await updateEntity(siteEntityId, updatedSiteHeader);
 
@@ -173,23 +177,6 @@ export default async function page(
       return { body: "Method not allowed", headers: {}, statusCode: 405 };
   }
 }
-
-// site page ids in the form {siteEntityId}_{pageId}
-const checkIfPageExists = async (
-  siteEntityId: string,
-  parentPageId: string
-) => {
-  const pageId = siteEntityId + "_" + parentPageId;
-
-  console.log("Checking if page exists with id: ", pageId);
-  const page = await getEntity<PageEntity>(pageId);
-
-  if (page) {
-    return true;
-  } else {
-    return false;
-  }
-};
 
 const buildNewLayoutRequest = (
   site: SiteEntity,
@@ -246,7 +233,7 @@ const buildNewPageRequest = (
 const buildUpdateSiteHeaderRequest = (
   site: SiteEntity,
   navSection: string,
-  newPage: PageEntity
+  newPageId: string
 ) => {
   const existingNavSection = site.c_header.find(
     (header) => header.title === navSection
@@ -254,14 +241,14 @@ const buildUpdateSiteHeaderRequest = (
 
   if (existingNavSection) {
     if (existingNavSection.page) {
-      existingNavSection.page.push(newPage.meta.id);
+      existingNavSection.page.push(newPageId);
     } else {
-      existingNavSection.page = [newPage.meta.id];
+      existingNavSection.page = [newPageId];
     }
   } else {
     site.c_header.push({
       title: navSection,
-      page: [newPage.meta.id],
+      page: [newPageId],
     });
   }
 

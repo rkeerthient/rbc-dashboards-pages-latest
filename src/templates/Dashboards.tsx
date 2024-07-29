@@ -217,9 +217,6 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
 
   const siteId = document.c_site?.[0]?.id;
 
-  console.log(document);
-  console.log(siteId);
-
   useEffect(() => {
     if (siteId) {
       setTabs((prev) => [...prev.slice(0, 2), "My Site", ...prev.slice(2)]);
