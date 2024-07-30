@@ -12,11 +12,14 @@ interface PageAccordionItemProps {
   page: HeaderPage;
   handleSectionNameChange: (oldName: string, newName: string) => void;
   handlePageDelete: (sectionName: string) => void;
+  siteDomain?: string;
 }
 
 const PageAccordionItem = ({
   page,
   handleSectionNameChange,
+  handlePageDelete,
+  siteDomain,
 }: PageAccordionItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(page.title);
@@ -119,7 +122,9 @@ const PageAccordionItem = ({
                 </div>
                 <div className="flex flex-none items-center gap-x-4">
                   <a
-                    href={page.slug}
+                    href={siteDomain + page.slug}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
                   >
                     Go To Page

@@ -140,6 +140,7 @@ const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
                       key={headerItem.title}
                       page={headerItem}
                       handleSectionNameChange={handleSectionNameChange}
+                      siteDomain={site.c_siteDomain}
                     />
                   ))}
                 </Accordion>
