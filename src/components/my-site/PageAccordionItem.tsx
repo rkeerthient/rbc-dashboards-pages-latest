@@ -1,23 +1,90 @@
 import * as React from "react";
+import { useState, useRef, useEffect } from "react";
 import { HeaderPage } from "../../types/yext";
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "../accordion";
+import { Pencil, Check, X } from "lucide-react";
 
 interface PageAccordionItemProps {
   page: HeaderPage;
+  handleSectionNameChange: (oldName: string, newName: string) => void;
 }
 
-const PageAccordionItem = (props: PageAccordionItemProps) => {
-  const { page } = props;
+const PageAccordionItem = ({
+  page,
+  handleSectionNameChange,
+}: PageAccordionItemProps) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [newName, setNewName] = useState(page.title);
+  const [isHovered, setIsHovered] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
+
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    handleSectionNameChange(page.title, newName);
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setNewName(page.title);
+    setIsEditing(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSave();
+    } else if (e.key === "Escape") {
+      handleCancel();
+    }
+  };
 
   return (
     <AccordionItem className="border-y" value={page.title}>
-      <AccordionTrigger>
-        <div className="px-4">{page.title}</div>
-      </AccordionTrigger>
+      {!isEditing ? (
+        <AccordionTrigger
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div className="px-4 flex items-center w-full">
+            <span>{page.title}</span>
+            {isHovered && (
+              <button onClick={handleEditClick} className="ml-2">
+                <Pencil size={16} />
+              </button>
+            )}
+          </div>
+        </AccordionTrigger>
+      ) : (
+        <div className="flex items-center p-4">
+          <input
+            ref={inputRef}
+            type="text"
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            onKeyDown={handleKeyDown}
+            className="mr-2 px-1 border rounded flex-grow"
+          />
+          <button onClick={handleSave} className="mr-1">
+            <Check size={16} />
+          </button>
+          <button onClick={handleCancel}>
+            <X size={16} />
+          </button>
+        </div>
+      )}
       <AccordionContent>
         <ul role="list" className="divide-y divide-gray-100">
           {page.page?.map((page) => (

@@ -7,6 +7,8 @@ import PageSelector from "./PageSelector";
 import { DndNavigation } from "./DndNavigation";
 import { HeaderPage } from "../../types/yext";
 import { useUpdateSite } from "../../hooks/mutations/useUpdateSite";
+import { Plus } from "lucide-react";
+import { Button } from "./PageSelector/button";
 
 interface SiteDashboardProps {
   siteId: string;
@@ -28,6 +30,42 @@ const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
 
   const handleOrderChange = (newItems: HeaderPage[]) => {
     setHeaderItems(newItems);
+  };
+
+  const handleSectionNameChange = (oldName: string, newName: string) => {
+    const headers = headerItems
+      .map((item) => {
+        if (item.title === oldName) {
+          return { ...item, title: newName };
+        }
+        return item;
+      })
+      .map((item) => ({
+        title: item.title,
+        page: item.page ? item.page?.map((page) => page.meta.id) : [],
+      }));
+
+    updateSiteMutation.mutate({
+      siteId,
+      req: { headers },
+    });
+  };
+
+  const handleAddSection = () => {
+    const newSection: HeaderPage = {
+      title: `New Section ${headerItems.length + 1}`,
+      page: [],
+    };
+    const headers = [...headerItems, newSection].map((item) => ({
+      title: item.title,
+      page: item.page ? item.page?.map((page) => page.meta.id) : [],
+    }));
+    updateSiteMutation.mutate({
+      siteId,
+      req: {
+        headers,
+      },
+    });
   };
 
   const handleSave = () => {
@@ -69,20 +107,38 @@ const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
           </div>
         </div>
         {site && (
-          <div className="py-5">
-            {isDndMode ? (
-              <DndNavigation
-                items={headerItems}
-                onOrderChange={handleOrderChange}
-              />
-            ) : (
-              <Accordion type="multiple" collapsible className="w-full">
-                {headerItems.map((headerItem) => (
-                  <PageAccordionItem key={headerItem.title} page={headerItem} />
-                ))}
-              </Accordion>
+          <>
+            <div className="py-5">
+              {isDndMode ? (
+                <DndNavigation
+                  items={headerItems}
+                  onOrderChange={handleOrderChange}
+                />
+              ) : (
+                <Accordion type="multiple" collapsible className="w-full">
+                  {headerItems.map((headerItem) => (
+                    <PageAccordionItem
+                      key={headerItem.title}
+                      page={headerItem}
+                      handleSectionNameChange={handleSectionNameChange}
+                    />
+                  ))}
+                </Accordion>
+              )}
+            </div>
+            {!isDndMode && (
+              <div className="px-4 mb-4">
+                <Button
+                  variant={"outline"}
+                  onClick={handleAddSection}
+                  className="flex items-center justify-center w-full py-2 px-4"
+                >
+                  <Plus size={20} className="mr-2" />
+                  Add New Section
+                </Button>
+              </div>
             )}
-          </div>
+          </>
         )}
       </div>
     </div>
