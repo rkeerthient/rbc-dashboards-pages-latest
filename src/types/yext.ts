@@ -53,6 +53,7 @@ export interface SiteEntity {
   c_linkedFinancialProfessional: string[];
   c_header: NavItem[];
   c_siteDomain?: string;
+  c_theme?: "1" | "2";
 }
 
 export interface HeaderPage {

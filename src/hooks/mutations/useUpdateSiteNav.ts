@@ -18,7 +18,7 @@ interface UpdateSiteVariables {
   toastMessage?: string;
 }
 
-const updateSite = async ({
+const updateSiteNav = async ({
   siteId,
   req,
 }: UpdateSiteVariables): Promise<Site> => {
@@ -36,13 +36,13 @@ const updateSite = async ({
   return data;
 };
 
-const useUpdateSite = () => {
+const useUpdateSiteNav = () => {
   const queryClient = useQueryClient();
 
   const updateSiteMutation = useMutation({
     mutationKey: ["updateSite"],
     mutationFn: async (variables: UpdateSiteVariables) => {
-      await updateSite(variables);
+      await updateSiteNav(variables);
       return variables;
     },
     onSuccess: (data) => {
@@ -97,4 +97,4 @@ const useUpdateSite = () => {
   return updateSiteMutation;
 };
 
-export { useUpdateSite };
+export { useUpdateSiteNav };
