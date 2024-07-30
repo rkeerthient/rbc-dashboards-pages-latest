@@ -23,7 +23,7 @@ siteStream:
     - c_dashboardCompletionDescription
     - c_dashboardHeroDescription
     - c_testDashboards
-authorization:
-  policyName: pages-auth-policy
-authentication:
-  policyName: pages-auth-policy
+# authorization:
+#   policyName: pages-auth-policy
+# authentication:
+#   policyName: pages-auth-policy
