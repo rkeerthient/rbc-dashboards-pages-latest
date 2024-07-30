@@ -55,7 +55,9 @@ export default async function site(
 
       return {
         body: JSON.stringify(updatedSiteResponse),
-        headers: {},
+        headers: {
+          "Cache-Control": "no-store",
+        },
         statusCode: 200,
       };
     case "PUT":

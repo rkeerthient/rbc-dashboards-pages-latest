@@ -73,7 +73,7 @@ const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
     console.log("New structure:", headerItems);
     const headers = headerItems.map((item) => ({
       title: item.title,
-      page: item.page.map((page) => page.meta.id),
+      page: item.page ? item.page?.map((page) => page.meta.id) : [],
     }));
     console.log("New headers:", headers);
     updateSiteMutation.mutate({
