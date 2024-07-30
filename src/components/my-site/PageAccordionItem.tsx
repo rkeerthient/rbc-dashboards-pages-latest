@@ -11,6 +11,7 @@ import { Pencil, Check, X } from "lucide-react";
 interface PageAccordionItemProps {
   page: HeaderPage;
   handleSectionNameChange: (oldName: string, newName: string) => void;
+  handlePageDelete: (sectionName: string) => void;
 }
 
 const PageAccordionItem = ({
@@ -52,7 +53,7 @@ const PageAccordionItem = ({
   };
 
   return (
-    <AccordionItem className="border-y" value={page.title}>
+    <AccordionItem className="" value={page.title}>
       {!isEditing ? (
         <AccordionTrigger
           onMouseEnter={() => setIsHovered(true)}

@@ -8,7 +8,7 @@ import { DndNavigation } from "./DndNavigation";
 import { HeaderPage } from "../../types/yext";
 import { useUpdateSite } from "../../hooks/mutations/useUpdateSite";
 import { Plus } from "lucide-react";
-import { Button } from "./PageSelector/button";
+import { Button } from "./ui/button";
 
 interface SiteDashboardProps {
   siteId: string;
@@ -85,7 +85,7 @@ const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
   return (
     <div className="grid grid-cols-2 bg-white p-8 min-h-[700px]">
       <div>Site Preview</div>
-      <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
+      <div className=" divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
         <div className="px-4 py-5 flex justify-between items-center sm:px-6">
           <h2 className="text-lg font-semibold leading-6 text-gray-900">
             Edit Website

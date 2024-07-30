@@ -11,6 +11,7 @@ import {
   FormProvider,
   useFormContext,
 } from "react-hook-form";
+import "./index.css";
 
 import { cn } from "../../../utils/cn";
 import { Label } from "./label";

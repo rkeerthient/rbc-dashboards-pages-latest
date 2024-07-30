@@ -7,9 +7,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./dialog";
-import { Button } from "./button";
-import { RadioGroup, RadioGroupItem } from "./radio";
+} from "./ui/dialog";
+import { Button } from "./ui/button";
+import { RadioGroup, RadioGroupItem } from "./ui/radio";
 import {
   Select,
   SelectContent,
@@ -17,7 +17,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./select";
+} from "./ui/select";
 import {
   Form,
   FormField,
@@ -25,12 +25,10 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "./form";
-import { useSharedPages } from "../../../hooks/queries/useSharedPages";
-import { useCreatePage } from "../../../hooks/mutations/useCreatePage";
-import { Site } from "../../../types/yext";
-import "./index.css";
-import { Plus } from "lucide-react";
+} from "./ui/form";
+import { useSharedPages } from "../../hooks/queries/useSharedPages";
+import { useCreatePage } from "../../hooks/mutations/useCreatePage";
+import { Site } from "../../types/yext";
 
 interface PageSelectorProps {
   site: Site;
