@@ -8,6 +8,7 @@ import { DndNavigation } from "./DndNavigation";
 import { HeaderPage } from "../../types/yext";
 import { useUpdateSite } from "../../hooks/mutations/useUpdateSite";
 import { Plus } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 
 interface SiteDashboardProps {
@@ -15,10 +16,15 @@ interface SiteDashboardProps {
 }
 
 const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
-  const { data: site, isLoading } = useSite(siteId);
+  const {
+    data: site,
+    isLoading: isSiteLoading,
+    isFetching: isSiteFetching,
+  } = useSite(siteId);
   const [pageSelectorOpen, setPageSelectorOpen] = useState(false);
   const [isDndMode, setIsDndMode] = useState(false);
   const [headerItems, setHeaderItems] = useState<HeaderPage[]>([]);
+  const [isMutating, setIsMutating] = useState(false);
 
   const updateSiteMutation = useUpdateSite();
 
@@ -32,7 +38,7 @@ const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
     setHeaderItems(newItems);
   };
 
-  const handleSectionNameChange = (oldName: string, newName: string) => {
+  const handleSectionNameChange = async (oldName: string, newName: string) => {
     const headers = headerItems
       .map((item) => {
         if (item.title === oldName) {
@@ -45,13 +51,18 @@ const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
         page: item.page ? item.page?.map((page) => page.meta.id) : [],
       }));
 
-    updateSiteMutation.mutate({
-      siteId,
-      req: { headers },
-    });
+    setIsMutating(true);
+    try {
+      await updateSiteMutation.mutateAsync({
+        siteId,
+        req: { headers },
+      });
+    } finally {
+      setIsMutating(false);
+    }
   };
 
-  const handleAddSection = () => {
+  const handleAddSection = async () => {
     const newSection: HeaderPage = {
       title: `New Section ${headerItems.length + 1}`,
       page: [],
@@ -60,32 +71,40 @@ const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
       title: item.title,
       page: item.page ? item.page?.map((page) => page.meta.id) : [],
     }));
-    updateSiteMutation.mutate({
-      siteId,
-      req: {
-        headers,
-      },
-    });
+
+    setIsMutating(true);
+    try {
+      await updateSiteMutation.mutateAsync({
+        siteId,
+        req: { headers },
+      });
+    } finally {
+      setIsMutating(false);
+    }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsDndMode(false);
-    console.log("New structure:", headerItems);
     const headers = headerItems.map((item) => ({
       title: item.title,
       page: item.page ? item.page?.map((page) => page.meta.id) : [],
     }));
-    console.log("New headers:", headers);
-    updateSiteMutation.mutate({
-      siteId,
-      req: { headers },
-    });
+
+    setIsMutating(true);
+    try {
+      await updateSiteMutation.mutateAsync({
+        siteId,
+        req: { headers },
+      });
+    } finally {
+      setIsMutating(false);
+    }
   };
 
   return (
-    <div className="grid grid-cols-2 bg-white p-8 min-h-[700px]">
+    <div className="grid grid-cols-2 bg-white p-8 min-h-[700px] relative">
       <div>Site Preview</div>
-      <div className=" divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
+      <div className="divide-gray-200 overflow-hidden rounded-lg bg-white shadow">
         <div className="px-4 py-5 flex justify-between items-center sm:px-6">
           <h2 className="text-lg font-semibold leading-6 text-gray-900">
             Edit Website
@@ -141,6 +160,11 @@ const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
           </>
         )}
       </div>
+      {(isMutating || isSiteLoading || isSiteFetching) && (
+        <div className="absolute inset-0 bg-white bg-opacity-50 flex items-center justify-center">
+          <Loader2 className="h-32 w-32 animate-spin text-blue-500" />
+        </div>
+      )}
     </div>
   );
 };

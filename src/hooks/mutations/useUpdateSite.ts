@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { NavItem, Site } from "../../types/yext";
+import { toast } from "../../components/my-site/ui/toast/use-toast";
 
 interface ReqBody {
   headers: NavItem[];
@@ -8,6 +9,13 @@ interface ReqBody {
 interface UpdateSiteVariables {
   siteId: string;
   req: ReqBody;
+  updateType?:
+    | "addPage"
+    | "removePage"
+    | "addSection"
+    | "removeSection"
+    | "reorderNav";
+  toastMessage?: string;
 }
 
 const updateSite = async ({
@@ -21,6 +29,9 @@ const updateSite = async ({
       "Content-Type": "application/json",
     },
   });
+  if (!response.ok) {
+    throw new Error("Failed to update site");
+  }
   const data = await response.json();
   return data;
 };
@@ -32,15 +43,54 @@ const useUpdateSite = () => {
     mutationKey: ["updateSite"],
     mutationFn: async (variables: UpdateSiteVariables) => {
       await updateSite(variables);
-      return variables.siteId;
+      return variables;
     },
-    onSettled: async (siteId) => {
-      await queryClient.invalidateQueries({
-        queryKey: ["site", siteId],
+    onSuccess: (data) => {
+      const { updateType, toastMessage } = data;
+      let message = toastMessage || "Site updated successfully";
+
+      if (!toastMessage) {
+        switch (updateType) {
+          case "addPage":
+            message = "Page added successfully";
+            break;
+          case "removePage":
+            message = "Page removed successfully";
+            break;
+          case "addSection":
+            message = "Section added successfully";
+            break;
+          case "removeSection":
+            message = "Section removed successfully";
+            break;
+          case "reorderNav":
+            message = "Navigation reordered successfully";
+            break;
+        }
+      }
+
+      toast({
+        title: "Success",
+        description: message,
+        variant: "default",
       });
-      await queryClient.invalidateQueries({
-        queryKey: ["shared-pages", siteId],
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: "Failed to update site. Please try again.",
+        variant: "destructive",
       });
+    },
+    onSettled: async (data) => {
+      if (data) {
+        await queryClient.invalidateQueries({
+          queryKey: ["site", data.siteId],
+        });
+        await queryClient.invalidateQueries({
+          queryKey: ["shared-pages", data.siteId],
+        });
+      }
     },
   });
 

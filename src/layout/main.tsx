@@ -5,15 +5,9 @@ import { MyContextProvider } from "../components/Context/MyContext";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
 import EntityPicker from "../components/EntityPicker";
-import { useState } from "react";
 
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "../components/my-site/ui/toast/toaster";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +42,7 @@ const MainInternal = (props: MainProps) => {
           </TemplateDataProvider>
         </Provider>
       </QueryClientProvider>
+      <Toaster />
     </>
   );
 };
