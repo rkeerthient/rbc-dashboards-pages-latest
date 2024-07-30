@@ -21,6 +21,7 @@ import PageLayout from "../components/page-layout";
 import "../index.css";
 import { Main } from "../layout/main";
 import { Tasks } from "../types/site";
+import SiteDashboard from "../components/my-site/SiteDashboard";
 
 export const config: TemplateConfig = {
   stream: {
@@ -71,15 +72,18 @@ export const config: TemplateConfig = {
       "emails",
       "c_pages_layouts.id",
       "c_pages_layouts.name",
+      "c_site.id",
     ],
     filter: {
       // entityIds: ["32311308"],
 
       entityTypes: ["financialProfessional"],
-      entityIds: ["aaron-kingston",
+      entityIds: [
+        "aaron-kingston",
         "a-harrison-peatriss",
         "amanda-foster",
-        "aaron-weierbach"],
+        "aaron-weierbach",
+      ],
     },
     localization: {
       locales: ["en"],
@@ -189,14 +193,16 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
       Position: 4.1,
     },
   ];
-  const tabs = [
+
+  const [styleSheetRef, setStyleSheetRef] = useState<string>("");
+  const [tabs, setTabs] = useState<string[]>([
     "About Me",
     "My Team",
     "Analytics",
     "Suggestions",
     "Learning & Support",
-  ];
-  const [styleSheetRef, setStyleSheetRef] = useState<string>("");
+  ]);
+
   const [currentTab, setCurrentTab] = useState<string>(tabs[0]);
 
   function classNames(...classes: any) {
@@ -208,6 +214,14 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
       ?.getAttribute("href");
     element && setStyleSheetRef(element);
   }, []);
+
+  const siteId = document.c_site?.[0]?.id;
+
+  useEffect(() => {
+    if (siteId) {
+      setTabs((prev) => [...prev.slice(0, 2), "My Site", ...prev.slice(2)]);
+    }
+  }, [siteId]);
 
   return (
     <Main>
@@ -446,6 +460,8 @@ const Dashboards: Template<TemplateRenderProps> = ({ document }) => {
                       </div>
                     </div>
                   </div>
+                ) : currentTab === "My Site" ? (
+                  <SiteDashboard siteId={siteId} />
                 ) : (
                   <div className="border m-4 p-4 bg-white space-y-4">
                     <div className="text-2xl font-bold text-[#003168]">

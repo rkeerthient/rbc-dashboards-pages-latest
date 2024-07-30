@@ -35,6 +35,8 @@ module.exports = {
         dropdownActiveBG: "#f0f2f4",
         headerBG: "#022169",
         linkColor: "#1463f9",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
       },
       borderRadius: {
         cta: "var(--cta-border-radius, 1rem)",
@@ -48,7 +50,22 @@ module.exports = {
           "50%": { transform: "rotate(45deg)", "stroke-dashoffset": 52 },
           "100%": { transform: "rotate(360deg)", "stroke-dashoffset": 204 },
         },
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
 };
+
+
