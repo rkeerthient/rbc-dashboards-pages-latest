@@ -1,7 +1,6 @@
 import { PagesHttpRequest, PagesHttpResponse } from "@yext/pages/*";
 import { getEntity, updateEntity } from "./[id]/page";
 import { SiteEntity, YextListResponse } from "../../../../types/yext";
-import { getRuntime } from "@yext/pages/util";
 
 export default async function site(
   request: PagesHttpRequest
@@ -11,15 +10,6 @@ export default async function site(
   if (!siteEntityId) {
     return { body: "Missing entity id", headers: {}, statusCode: 400 };
   }
-
-  // const runtime = getRuntime();
-
-  let reqBody = body;
-  // if (runtime.name === "node") {
-  //   reqBody = JSON.parse(body);
-  // } else {
-  //   reqBody = body;
-  // }
 
   switch (method) {
     case "GET":
@@ -69,6 +59,10 @@ export default async function site(
         statusCode: 200,
       };
     case "PUT":
+      if (!body) {
+        return { body: "Missing request body", headers: {}, statusCode: 400 };
+      }
+      const reqBody = JSON.parse(body);
       const headers = reqBody.headers;
       const updatedSiteHeader = {
         c_header: headers,

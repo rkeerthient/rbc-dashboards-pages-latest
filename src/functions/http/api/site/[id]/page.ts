@@ -16,8 +16,7 @@ export default async function page(
     return { body: "Missing entity id", headers: {}, statusCode: 400 };
   }
 
-  // const reqBody = JSON.parse(body);
-  const reqBody = body;
+  const reqBody = JSON.parse(body);
 
   switch (method) {
     case "POST":
