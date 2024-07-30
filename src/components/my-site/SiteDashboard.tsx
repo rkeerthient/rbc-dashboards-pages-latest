@@ -12,7 +12,6 @@ import { Loader2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useUpdateSiteTheme } from "../../hooks/mutations/useUpdateSiteTheme";
 import { cn } from "../../utils/cn";
-import { is } from "immutable";
 
 interface SiteDashboardProps {
   siteId: string;
@@ -155,7 +154,7 @@ const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
               onClick={() => handleThemeSelect("1")}
             >
               <img
-                src="src/assets/images/theme-1.png"
+                src="https://a.mktgcdn.com/p/1R0ZcUrEDn_k4wLbOz5JkV6IVVjS9niiIfwIurBEZHE/2558x2204.png"
                 alt="Theme 1"
                 className="w-64 h-30 object-cover"
               />
@@ -169,7 +168,7 @@ const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
               onClick={() => handleThemeSelect("2")}
             >
               <img
-                src="src/assets/images/theme-2.png"
+                src="https://a.mktgcdn.com/p/5LJpwvNzLsAv26yNEdXnGBuS8G7rmMQjSWrNAi5qnfs/2552x2088.png"
                 alt="Theme 2"
                 className="w-64 h-30 object-cover"
               />
