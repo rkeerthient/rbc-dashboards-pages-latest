@@ -1,11 +1,12 @@
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Accordion } from "../accordion";
 import { useSite } from "../../hooks/queries/useSite";
 import PageAccordionItem from "./PageAccordionItem";
 import PageSelector from "./PageSelector";
 import { DndNavigation } from "./DndNavigation";
 import { HeaderPage } from "../../types/yext";
+import { useUpdateSite } from "../../hooks/mutations/useUpdateSite";
 
 interface SiteDashboardProps {
   siteId: string;
@@ -17,7 +18,9 @@ const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
   const [isDndMode, setIsDndMode] = useState(false);
   const [headerItems, setHeaderItems] = useState<HeaderPage[]>([]);
 
-  React.useEffect(() => {
+  const updateSiteMutation = useUpdateSite();
+
+  useEffect(() => {
     if (site && site.c_header) {
       setHeaderItems(site.c_header);
     }
@@ -30,7 +33,15 @@ const SiteDashboard = ({ siteId }: SiteDashboardProps) => {
   const handleSave = () => {
     setIsDndMode(false);
     console.log("New structure:", headerItems);
-    // Here you would typically send the new structure to your backend
+    const headers = headerItems.map((item) => ({
+      title: item.title,
+      page: item.page.map((page) => page.meta.id),
+    }));
+    console.log("New headers:", headers);
+    updateSiteMutation.mutate({
+      siteId,
+      req: { headers },
+    });
   };
 
   return (

@@ -1,5 +1,5 @@
 import { PagesHttpRequest, PagesHttpResponse } from "@yext/pages/*";
-import { getEntity } from "./[id]/page";
+import { getEntity, updateEntity } from "./[id]/page";
 import {
   SiteEntity,
   YextListResponse,
@@ -9,11 +9,13 @@ import {
 export default async function site(
   request: PagesHttpRequest
 ): Promise<PagesHttpResponse> {
-  const { method, pathParams } = request;
+  const { method, pathParams, body } = request;
   const siteEntityId = pathParams.id;
   if (!siteEntityId) {
     return { body: "Missing entity id", headers: {}, statusCode: 400 };
   }
+
+  const reqBody = JSON.parse(body);
 
   switch (method) {
     case "GET":
@@ -59,6 +61,19 @@ export default async function site(
 
       return {
         body: JSON.stringify(updatedSiteResponse),
+        headers: {},
+        statusCode: 200,
+      };
+
+    case "PUT":
+      const headers = reqBody.headers;
+      const updatedSiteHeader = {
+        c_header: headers,
+      };
+      console.log("Updated Site Header: ", updatedSiteHeader);
+      await updateEntity(siteEntityId, updatedSiteHeader);
+      return {
+        body: JSON.stringify("done"),
         headers: {},
         statusCode: 200,
       };

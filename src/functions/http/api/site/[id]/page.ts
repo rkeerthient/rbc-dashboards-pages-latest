@@ -161,18 +161,7 @@ export default async function page(
         console.error(error);
         return { body: "Internal Server Error", headers: {}, statusCode: 500 };
       }
-    case "PUT":
-      const headers = reqBody.headers;
-      const updatedSiteHeader = {
-        c_header: headers,
-      };
-      console.log("Updated Site Header: ", updatedSiteHeader);
-      await updateEntity(siteEntityId, updatedSiteHeader);
-      return {
-        body: JSON.stringify("done"),
-        headers: {},
-        statusCode: 200,
-      };
+
     default:
       return { body: "Method not allowed", headers: {}, statusCode: 405 };
   }
@@ -282,7 +271,7 @@ export const getEntity = async <T>(
   return resp;
 };
 
-const updateEntity = async (
+export const updateEntity = async (
   entityId?: string,
   entityBody?: Record<string, any>
 ): Promise<void> => {

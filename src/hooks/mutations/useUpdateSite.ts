@@ -1,14 +1,20 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Site } from "../../types/yext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { NavItem, Site } from "../../types/yext";
 
 interface ReqBody {
-  navSection: string;
-  parentPageId: string;
+  headers: NavItem[];
 }
 
-// TODO: update serverless and client code to use the new API
-const updateSite = async (siteId: string, req: ReqBody): Promise<Site> => {
-  const response = await fetch(`/api/site/${siteId}/page`, {
+interface UpdateSiteVariables {
+  siteId: string;
+  req: ReqBody;
+}
+
+const updateSite = async ({
+  siteId,
+  req,
+}: UpdateSiteVariables): Promise<Site> => {
+  const response = await fetch(`/api/site/${siteId}`, {
     method: "PUT",
     body: JSON.stringify(req),
     headers: {
@@ -19,11 +25,26 @@ const updateSite = async (siteId: string, req: ReqBody): Promise<Site> => {
   return data;
 };
 
-const useUpdateSite = (siteId: string, req: ReqBody) => {
-  return useMutation({
+const useUpdateSite = () => {
+  const queryClient = useQueryClient();
+
+  const updateSiteMutation = useMutation({
     mutationKey: ["updateSite"],
-    mutationFn: () => updateSite(siteId, req),
+    mutationFn: async (variables: UpdateSiteVariables) => {
+      await updateSite(variables);
+      return variables.siteId;
+    },
+    onSettled: async (siteId) => {
+      await queryClient.invalidateQueries({
+        queryKey: ["site", siteId],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["shared-pages", siteId],
+      });
+    },
   });
+
+  return updateSiteMutation;
 };
 
 export { useUpdateSite };

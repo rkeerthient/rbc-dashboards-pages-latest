@@ -30,11 +30,9 @@ const useCreatePage = () => {
     mutationKey: ["createPage"],
     mutationFn: async (variables: CreatePageVariables) => {
       await createPage(variables);
-      console.log("variables", variables);
       return variables;
     },
     onSettled: async (data) => {
-      console.log("data", data);
       await queryClient.invalidateQueries({
         queryKey: ["site", data?.siteId],
       });
