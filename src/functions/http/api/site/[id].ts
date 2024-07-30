@@ -1,10 +1,7 @@
 import { PagesHttpRequest, PagesHttpResponse } from "@yext/pages/*";
 import { getEntity, updateEntity } from "./[id]/page";
-import {
-  SiteEntity,
-  YextListResponse,
-  YextResponse,
-} from "../../../../types/yext";
+import { SiteEntity, YextListResponse } from "../../../../types/yext";
+import { getRuntime } from "@yext/pages/util";
 
 export default async function site(
   request: PagesHttpRequest
@@ -15,7 +12,14 @@ export default async function site(
     return { body: "Missing entity id", headers: {}, statusCode: 400 };
   }
 
-  const reqBody = JSON.parse(body);
+  // const runtime = getRuntime();
+
+  let reqBody = body;
+  // if (runtime.name === "node") {
+  //   reqBody = JSON.parse(body);
+  // } else {
+  //   reqBody = body;
+  // }
 
   switch (method) {
     case "GET":
@@ -29,7 +33,7 @@ export default async function site(
 
       // 2. Get the page entities for the site header
       const pageIds: string[] = site.c_header
-        .flatMap((item: any) => (item.page ? item.page : []))
+        ?.flatMap((item: any) => (item.page ? item.page : []))
         .filter(Boolean);
       const filterString = JSON.stringify({
         entityId: { $in: pageIds },
@@ -64,7 +68,6 @@ export default async function site(
         headers: {},
         statusCode: 200,
       };
-
     case "PUT":
       const headers = reqBody.headers;
       const updatedSiteHeader = {
