@@ -69,13 +69,17 @@ export default async function sharedPages(
 
         return {
           body: JSON.stringify(eligiblePageEntities),
-          headers: {},
+          headers: {
+            "Cache-Control": "no-store",
+          },
           statusCode: 200,
         };
       } else {
         return {
           body: JSON.stringify(pageEntities),
-          headers: {},
+          headers: {
+            "Cache-Control": "no-store",
+          },
           statusCode: 200,
         };
       }
