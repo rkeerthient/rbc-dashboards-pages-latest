@@ -259,7 +259,7 @@ export const getEntity = async <T>(
   entityId: string
 ): Promise<YextResponse<T> | null> => {
   const mgmtApiResp = await fetch(
-    `https://api.yextapis.com/v2/accounts/me/entities/${entityId}?api_key=${YEXT_PUBLIC_API_KEY}&v=20230901`
+    `https://api.yextapis.com/v2/accounts/me/entities/${entityId}?api_key=${YEXT_PUBLIC_DEV_API_KEY}&v=20230901`
   );
 
   const resp = await mgmtApiResp.json();
@@ -276,7 +276,7 @@ export const updateEntity = async (
   entityBody?: Record<string, any>
 ): Promise<void> => {
   const mgmtApiResp = await fetch(
-    `https://api.yextapis.com/v2/accounts/me/entities/${entityId}?api_key=${YEXT_PUBLIC_API_KEY}&v=20230901 `,
+    `https://api.yextapis.com/v2/accounts/me/entities/${entityId}?api_key=${YEXT_PUBLIC_DEV_API_KEY}&v=20230901 `,
     {
       method: "PUT",
       headers: {
@@ -295,7 +295,7 @@ const createEntity = async <T>(
   entityBody: Record<string, any>
 ): Promise<YextResponse<T>> => {
   const mgmtApiResp = await fetch(
-    `https://api.yextapis.com/v2/accounts/me/entities?api_key=${YEXT_PUBLIC_API_KEY}&v=20230901&entityType=${entityType}`,
+    `https://api.yextapis.com/v2/accounts/me/entities?api_key=${YEXT_PUBLIC_DEV_API_KEY}&v=20230901&entityType=${entityType}`,
     {
       method: "POST",
       headers: {

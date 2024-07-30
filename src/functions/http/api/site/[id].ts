@@ -87,7 +87,7 @@ export const getEntities = async <T>(
   filterString?: string,
   entityType?: string
 ): Promise<YextListResponse<T> | null> => {
-  let reqStr = `https://api.yextapis.com/v2/accounts/me/entities?api_key=${YEXT_PUBLIC_API_KEY}&v=20230901`;
+  let reqStr = `https://api.yextapis.com/v2/accounts/me/entities?api_key=${YEXT_PUBLIC_DEV_API_KEY}&v=20230901`;
   if (filterString) {
     reqStr += `&filter=${filterString}`;
   }
